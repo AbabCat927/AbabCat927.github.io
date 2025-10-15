@@ -10,9 +10,7 @@ author: "李四"
 sourceLink: "https://github.com/lisi/react-hooks-guide"
 draft: false
 date: 2025-01-20
-image:
-  url: './react-hooks-cover.jpeg'
-  alt: 'React Hooks深度解析封面'
+image: './react-hooks-cover.jpeg'
 pubDate: 2025-01-20
 ---
 
