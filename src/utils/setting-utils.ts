@@ -1,8 +1,4 @@
-import {
-	DARK_MODE,
-	DEFAULT_THEME,
-	LIGHT_MODE,
-} from "@constants/constants";
+import { DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
 import { expressiveCodeConfig } from "@/config";
 import type { LIGHT_DARK_MODE } from "@/types/config";
 
@@ -76,16 +72,13 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 
 		// Set the theme for Expressive Code based on current mode
 		const expressiveTheme = targetIsDark ? "github-dark" : "github-light";
-		document.documentElement.setAttribute(
-			"data-theme",
-			expressiveTheme,
-		);
+		document.documentElement.setAttribute("data-theme", expressiveTheme);
 
 		// 强制重新渲染代码块 - 解决从首页进入文章页面时的渲染问题
 		if (needsCodeThemeUpdate) {
 			// 触发 expressice code 重新渲染
 			setTimeout(() => {
-				window.dispatchEvent(new CustomEvent('theme-change'));
+				window.dispatchEvent(new CustomEvent("theme-change"));
 			}, 0);
 		}
 
