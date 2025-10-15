@@ -166,14 +166,15 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:创建新数据库": false
+      "bases:创建新数据库": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
     "posts/my-test/react-hooks-cover.jpeg",
-    "posts/guide/index.md",
     "posts/my-test/index.md",
+    "posts/guide/index.md",
     "posts/guide/cover.jpeg",
     "2025-01-20.md",
     "posts/video.md",
