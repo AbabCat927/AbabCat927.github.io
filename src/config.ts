@@ -44,7 +44,7 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
-				"/assets/desktop-banner/d1.webp",
+				"/assets/desktop-banner/d9.webp",
 				//	"/assets/desktop-banner/d2.webp",
 				//	"/assets/desktop-banner/d3.webp",
 				//	"/assets/desktop-banner/d4.webp",
@@ -274,7 +274,7 @@ export const commentConfig: CommentConfig = {
 	enable: true, // 启用评论功能。当设置为 false 时，评论组件将不会显示在文章区域。
 	twikoo: {
 		envId: "https://ababcat927comments.vercel.app/",
-		lang: "zh_CN", // 设置 Twikoo 评论系统语言为英文
+		lang: "zh_CN", // 设置 Twikoo 评论系统语言为中文
 	},
 };
 
