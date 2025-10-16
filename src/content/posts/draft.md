@@ -26,3 +26,7 @@ draft: false
 
 
 npx astro dev --host 0.0.0.0
+
+
+
+mongodb+srv://ababcat_1:b5L9TbdfB8nPOLRt@ababcat.epjz50v.mongodb.net/?retryWrites=true&w=majority&appName=ababcat

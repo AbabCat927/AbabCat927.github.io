@@ -1,3 +1,5 @@
+# docker-compose.yml (已配置时区)
+
 version: '3.8'
 
 services:
@@ -6,4 +8,14 @@ services:
     volumes:
       - .:/workspace
       - /workspace/node_modules
+    
+    # 【关键补充】
+    # `environment` 用于为容器设置环境变量。
+    # 我们添加一个名为 `TZ` 的环境变量，并将其值设置为 "Asia/Shanghai"。
+    # `TZ` 是 Linux 系统中用于定义时区的标准变量。
+    # 这条配置会告诉容器内的操作系统，它的“生物钟”应该按照上海时间来走。
+    environment:
+      - TZ=Asia/Shanghai
+      
     command: sleep infinity
+

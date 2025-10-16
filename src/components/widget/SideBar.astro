@@ -1,10 +1,20 @@
 ---
+// -----------------------------------------------------------------
+// 这是侧边栏的“总指挥”文件。
+// -----------------------------------------------------------------
+
 import type { MarkdownHeading } from "astro";
+// 【关键修正 2】从类型定义文件中导入 WidgetComponentConfig，用于替换模糊的 'any' 类型
+import type { WidgetComponentConfig } from "../../types/config";
 import { widgetManager } from "../../utils/widget-manager";
 import Announcement from "./Announcement.astro";
 import Categories from "./Categories.astro";
 import MusicPlayer from "./MusicPlayer.svelte";
 import Profile from "./Profile.astro";
+// 【关键修正 1】
+// 修正了导入路径。因为 Sidebar.astro 和 Statistics.astro 都在同一个 widget 文件夹下，
+// 所以我们应该使用 "./" 来引用当前目录下的文件。
+import Statistics from "./Statistics.astro";
 import Tags from "./Tags.astro";
 import TOC from "./TOC.astro";
 
@@ -19,7 +29,7 @@ const { class: className, headings } = Astro.props;
 const topComponents = widgetManager.getComponentsByPosition("top");
 const stickyComponents = widgetManager.getComponentsByPosition("sticky");
 
-// 组件映射表
+// 组件的“地图”，建立了配置中的 type 名称与实际组件文件之间的对应关系。
 const componentMap = {
 	profile: Profile,
 	announcement: Announcement,
@@ -27,10 +37,17 @@ const componentMap = {
 	tags: Tags,
 	toc: TOC,
 	"music-player": MusicPlayer,
+	// 我们新添加的 "statistics" 组件已被正确登记
+	statistics: Statistics,
 };
 
 // 渲染组件的辅助函数
-function renderComponent(component: any, index: number, _components: any[]) {
+// 【关键修正 3】将 'any' 替换为更精确的 WidgetComponentConfig 类型，解决 Biome 警告
+function renderComponent(
+	component: WidgetComponentConfig,
+	index: number,
+	_components: WidgetComponentConfig[],
+) {
 	const ComponentToRender =
 		componentMap[component.type as keyof typeof componentMap];
 	if (!ComponentToRender) return null;
@@ -50,105 +67,110 @@ function renderComponent(component: any, index: number, _components: any[]) {
 }
 ---
 
+<!-- 
+    下面的 HTML 模板和脚本部分，完全保持您原有文件的样子，
+    它会自动根据我们更新后的 componentMap 来渲染正确的组件。
+-->
 <div id="sidebar" class:list={[className, "w-full"]}>
-	<!-- 顶部固定组件区域 -->
-	{topComponents.length > 0 && (
-		<div class="flex flex-col w-full gap-4 mb-4">
-			{topComponents.map((component, index) => {
-				const renderData = renderComponent(component, index, topComponents);
-				if (!renderData) return null;
-				
-				const { Component, props } = renderData;
-				return <Component {...props} />;
-			})}
-		</div>
-	)}
-	
-	<!-- 粘性组件区域 -->
-	{stickyComponents.length > 0 && (
-		<div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
-			{stickyComponents.map((component, index) => {
-				const renderData = renderComponent(component, index, stickyComponents);
-				if (!renderData) return null;
-				
-				const { Component, props } = renderData;
-				return <Component {...props} />;
-			})}
-		</div>
-	)}
+    <!-- 顶部固定组件区域 -->
+    {topComponents.length > 0 && (
+        <div class="flex flex-col w-full gap-4 mb-4">
+            {topComponents.map((component, index) => {
+                const renderData = renderComponent(component, index, topComponents);
+                if (!renderData) return null;
+                
+                const { Component, props } = renderData;
+                return <Component {...props} />;
+            })}
+        </div>
+    )}
+    
+    <!-- 粘性组件区域 -->
+    {stickyComponents.length > 0 && (
+        <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
+            {stickyComponents.map((component, index) => {
+                const renderData = renderComponent(component, index, stickyComponents);
+                if (!renderData) return null;
+                
+                const { Component, props } = renderData;
+                return <Component {...props} />;
+            })}
+        </div>
+    )}
 </div>
 
-<!-- 响应式样式和JavaScript -->
+<!-- 响应式样式和JavaScript (保持不变) -->
 <style>
-	/* 响应式断点样式 */
-	@media (max-width: 768px) {
-		#sidebar {
-			display: var(--sidebar-mobile-display, block);
-		}
-	}
-	
-	@media (min-width: 769px) and (max-width: 1024px) {
-		#sidebar {
-			display: var(--sidebar-tablet-display, block);
-		}
-	}
-	
-	@media (min-width: 1025px) {
-		#sidebar {
-			display: var(--sidebar-desktop-display, block);
-		}
-	}
+    /* 响应式断点样式 */
+    @media (max-width: 768px) {
+        #sidebar {
+            display: var(--sidebar-mobile-display, block);
+        }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+        #sidebar {
+            display: var(--sidebar-tablet-display, block);
+        }
+    }
+    
+    @media (min-width: 1025px) {
+        #sidebar {
+            display: var(--sidebar-desktop-display, block);
+        }
+    }
 </style>
 
 <script is:inline>
-	import { widgetManager } from "../../utils/widget-manager";
-	
-	// 响应式布局管理
-	class SidebarManager {
-		constructor() {
-			this.init();
-		}
-		
-		init() {
-			this.updateResponsiveDisplay();
-			window.addEventListener('resize', () => this.updateResponsiveDisplay());
-			
-			// 监听SWUP内容替换事件
-			if (typeof window !== 'undefined' && window.swup) {
-				window.swup.hooks.on('content:replace', () => {
-					// 延迟执行以确保DOM已更新
-					setTimeout(() => {
-						this.updateResponsiveDisplay();
-					}, 100);
-				});
-			}
-		}
-		
-		updateResponsiveDisplay() {
-			const breakpoints = widgetManager.getBreakpoints();
-			const width = window.innerWidth;
-			
-			let deviceType: 'mobile' | 'tablet' | 'desktop';
-			if (width < breakpoints.mobile) {
-				deviceType = 'mobile';
-			} else if (width < breakpoints.tablet) {
-				deviceType = 'tablet';
-			} else {
-				deviceType = 'desktop';
-			}
-			
-			const shouldShow = widgetManager.shouldShowSidebar(deviceType);
-			const sidebar = document.getElementById('sidebar');
-			
-			if (sidebar) {
-				sidebar.style.setProperty(
-					`--sidebar-${deviceType}-display`, 
-					shouldShow ? 'block' : 'none'
-				);
-			}
-		}
-	}
-	
-	// 初始化侧边栏管理器
-	new SidebarManager();
+    // @ts-nocheck
+    import { widgetManager } from "../../utils/widget-manager";
+    
+    // 响应式布局管理
+    class SidebarManager {
+        constructor() {
+            this.init();
+        }
+        
+        init() {
+            this.updateResponsiveDisplay();
+            window.addEventListener('resize', () => this.updateResponsiveDisplay());
+            
+            // 监听SWUP内容替换事件
+            if (typeof window !== 'undefined' && window.swup) {
+                window.swup.hooks.on('content:replace', () => {
+                    // 延迟执行以确保DOM已更新
+                    setTimeout(() => {
+                        this.updateResponsiveDisplay();
+                    }, 100);
+                });
+            }
+        }
+        
+        updateResponsiveDisplay() {
+            const breakpoints = widgetManager.getBreakpoints();
+            const width = window.innerWidth;
+            
+            let deviceType;
+            if (width < breakpoints.mobile) {
+                deviceType = 'mobile';
+            } else if (width < breakpoints.tablet) {
+                deviceType = 'tablet';
+            } else {
+                deviceType = 'desktop';
+            }
+            
+            const shouldShow = widgetManager.shouldShowSidebar(deviceType);
+            const sidebar = document.getElementById('sidebar');
+            
+            if (sidebar) {
+                sidebar.style.setProperty(
+                    `--sidebar-${deviceType}-display`, 
+                    shouldShow ? 'block' : 'none'
+                );
+            }
+        }
+    }
+    
+    // 初始化侧边栏管理器
+    new SidebarManager();
 </script>

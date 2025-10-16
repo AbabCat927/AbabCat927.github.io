@@ -204,6 +204,7 @@ export type WidgetComponentType =
 	| "toc"
 	| "music-player"
 	| "pio" // 添加 pio 组件类型
+	| "statistics" // 【关键修正】在这里添加我们新的 "statistics" 组件类型，完成“户籍登记”
 	| "custom";
 
 export type WidgetComponentConfig = {
@@ -228,7 +229,7 @@ export type SidebarLayoutConfig = {
 	defaultAnimation: {
 		enable: boolean; // 是否启用默认动画
 		baseDelay: number; // 基础延迟时间（毫秒）
-		increment: number; // 每个组件递增的延迟时间（毫秒）
+		increment: number; // 每个组件递增的延迟时间（毫愈秒）
 	};
 	responsive: {
 		breakpoints: {
