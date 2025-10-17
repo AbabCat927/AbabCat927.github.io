@@ -26,7 +26,7 @@ export const siteConfig: SiteConfig = {
 	lang: SITE_LANG,
 
 	themeColor: {
-		hue: 250, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 300, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
@@ -44,7 +44,7 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
-				"/assets/desktop-banner/d9.webp",
+				"/assets/desktop-banner/banner.webp",
 				//	"/assets/desktop-banner/d2.webp",
 				//	"/assets/desktop-banner/d3.webp",
 				//	"/assets/desktop-banner/d4.webp",
@@ -188,6 +188,12 @@ export const navBarConfig: NavBarConfig = {
 					external: true,
 					icon: "fa6-brands:bilibili",
 				},
+				{
+					name: "Zhihu",
+					url: "https://www.zhihu.com/people/crush-34-57-18",
+					external: true,
+					icon: "fa6-brands:zhihu",
+				},
 			],
 		},
 		/*	{
@@ -250,6 +256,12 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:github",
 			url: "https://github.com/AbabCat927",
 		},
+		{
+			name: "Zhihu",
+			icon: "fa6-brands:zhihu",
+			url: "https://www.zhihu.com/people/crush-34-57-18",
+		},
+
 		/*	{
 			name: "Discord",
 			icon: "fa6-brands:discord",
@@ -485,8 +497,8 @@ export const widgetConfigs = {
 export const umamiConfig = {
 	enabled: false, // 是否显示Umami统计
 	apiKey: "api_XXXXXXXXXX", // 你的API密钥
-	baseUrl: "https://api.umami.is", // Umami Cloud API地址
+	baseUrl: "https://us.umami.is/share/4TBNrx68YLrk7dJQ/ababcat927.github.io", // Umami Cloud API地址
 	scripts: `
-<script defer src="XXXX.XXX" data-website-id="ABCD1234"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="382831f1-9a10-4055-bdb0-cb5901e3594d"></script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
 } as const;
