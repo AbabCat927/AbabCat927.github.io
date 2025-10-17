@@ -15,7 +15,7 @@
               "state": {
                 "file": "posts/markdown-extended/index.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "index"
@@ -174,9 +174,9 @@
   "lastOpenFiles": [
     "posts/my-test/index.md",
     "posts/my-test/react-hooks-cover.jpeg",
+    "posts/markdown-extended/index.md",
     "posts/encrypted-post.md",
     "posts/markdown-extended.md",
-    "posts/markdown-extended/index.md",
     "posts/markdown-extended/react-hooks-cover.jpeg",
     "posts/markdown-extended",
     "posts/draft.md",

@@ -3,7 +3,6 @@ title: Markdown拓展用法
 published: 2025-10-17
 updated: 2025-10-17
 description: 这个主题中Markdown的一些拓展用法
-image: ""
 tags:
   - Markdown
 category: 教程
@@ -99,10 +98,10 @@ series: 教程
 
 这里可以向文本中添加隐藏内容。该文本也同样支持 **Markdown** 语法。
 
-你能看到后面一句吗，[被隐藏了 **ayyy**]!
+你能看到后面一句吗，:spoiler[被隐藏了 **ayyy**]!
 
 Markdown
 
 ```markdown
-你能看到后面一句吗[被隐藏了 **ayyy**]!
+你能看到后面一句吗，:spoiler[被隐藏了 **ayyy**]!
 ```
