@@ -13,9 +13,9 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/my-test/index.md",
+                "file": "posts/markdown-extended/index.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "index"
@@ -172,11 +172,11 @@
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
-    "posts/my-test/react-hooks-cover.jpeg",
-    "posts/markdown-extended/react-hooks-cover.jpeg",
     "posts/my-test/index.md",
+    "posts/markdown-extended/react-hooks-cover.jpeg",
     "posts/markdown-extended/index.md",
     "posts/markdown-extended.md",
+    "posts/my-test/react-hooks-cover.jpeg",
     "posts/markdown-extended",
     "posts/draft.md",
     "2024-05-01.md",
