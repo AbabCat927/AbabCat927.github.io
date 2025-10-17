@@ -102,10 +102,10 @@ series: Mizuki
 
 这里可以向文本中添加隐藏内容。该文本也同样支持 **Markdown** 语法。
 
-你能看到后面一句吗，[被隐藏了 **ayyy**]!
+你能看到后面一句吗，:spoiler[被隐藏了 **ayyy**]!
 
 Markdown
 
 ```markdown
-你能看到后面一句吗[被隐藏了 **ayyy**]!
+你能看到后面一句吗，:spoiler[被隐藏了 **ayyy**]!
 ```
