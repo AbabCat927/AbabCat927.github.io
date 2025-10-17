@@ -518,7 +518,6 @@ export const umamiConfig = {
 	src: "https://cloud.umami.is/script.js",
 	websiteId: "382831f1-9a10-4055-bdb0-cb5901e3594d",
 
-	// 【在这里添加下面这一行】
-	// 把你之前放在 baseUrl 里的那个公开分享链接填到这里
-	shareUrl: "https://us.umami.is/share/4TBNrx68YLrk7dJQ/ababcat927.github.io",
+	// 【修正】使用你从 Umami 仪表盘获取的、不包含网站名的正确分享链接
+	shareUrl: "https://us.umami.is/share/4TBNrx68YLrk7dJQ",
 };
