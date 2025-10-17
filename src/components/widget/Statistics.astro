@@ -1,41 +1,58 @@
 ---
-// -----------------------------------------------------------------
-// 这是一个最终重构版的组件。
-// 它现在使用 WidgetLayout.astro 来确保样式与主题完全统一。
-// -----------------------------------------------------------------
-
-// 导入 Astro 的 getCollection 方法
-import { type CollectionEntry, getCollection } from "astro:content";
-// 导入 dayjs 库及其插件
+import { getCollection } from "astro:content";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import WidgetLayout from "./WidgetLayout.astro";
 
 dayjs.extend(duration);
 
-// 【关键修正 1】
-// 导入所有 Widget 组件都在使用的“统一画框”——WidgetLayout.astro。
-// 我们假设它与 Statistics.astro 在同一个 widget 文件夹下。
-import WidgetLayout from "./WidgetLayout.astro";
-
-// --- 数据计算部分 (保持不变) ---
+// --- 数据计算部分 ---
 const posts = await getCollection("posts", ({ data }) => {
 	return data.draft !== true;
 });
 
 const totalPosts = posts.length;
-const totalWords = posts.reduce((sum, post) => sum + post.body.length, 0);
+
+// 定义一个健壮的字数统计函数
+function calculateWordCount(text: string): number {
+	if (!text) {
+		return 0;
+	}
+
+	// 【关键修正：修复了正则表达式的语法错误】
+	// 之前的 /[#*`->[\]_~|]/g 是错误的。
+	// 正确的写法应该将特殊字符 '-' 进行转义，写作 '\-'。
+	const plainText = text
+		.replace(/```[\s\S]*?```/g, "") // 移除代码块
+		.replace(/<[^>]*>/g, "") // 移除 HTML 标签
+		.replace(/[#*`>[\]_~|-]/g, ""); // 移除 Markdown 符号
+
+	// 分别计算中文字符和英文单词
+	const chineseChars = plainText.match(/[\u4e00-\u9fa5]/g) || [];
+	const englishWords = plainText.match(/\b[a-zA-Z0-9]+\b/g) || [];
+
+	// 返回总和
+	return chineseChars.length + englishWords.length;
+}
+
+// 使用我们自己的函数来累加总字数
+const totalWords = posts.reduce(
+	(sum, post) => sum + calculateWordCount(post.body),
+	0,
+);
 
 const formattedTotalWords = (num: number) => {
 	if (num < 1000) return num.toString();
 	return `${(num / 1000).toFixed(1)}k`;
 };
 
+// ... 以下其他计算逻辑保持完全不变 ...
 let runningTime = { years: 0, months: 0, days: 0 };
 if (posts.length > 0) {
-	const sortedPostsAsc = posts.sort(
-		(a, _b) =>
+	const sortedPostsAsc = [...posts].sort(
+		(a, b) =>
 			new Date(a.data.published).getTime() -
-			new Date(a.data.published).getTime(),
+			new Date(b.data.published).getTime(),
 	);
 	const firstPostDate = dayjs(sortedPostsAsc[0].data.published);
 	const today = dayjs();
@@ -49,7 +66,7 @@ if (posts.length > 0) {
 
 let lastUpdated = "N/A";
 if (posts.length > 0) {
-	const sortedPostsDesc = posts.sort(
+	const sortedPostsDesc = [...posts].sort(
 		(a, b) =>
 			new Date(b.data.published).getTime() -
 			new Date(a.data.published).getTime(),
@@ -58,30 +75,18 @@ if (posts.length > 0) {
 }
 ---
 
-<!-- 
-  【关键修正 2】
-  我们不再手动编写 card-base 和 h3 标题，
-  而是将所有内容都包裹在 <WidgetLayout> 组件中。
--->
 <WidgetLayout name="站点信息" id="statistics">
-    <!-- 
-      <WidgetLayout> 会自动为我们生成带有竖杠的标题和卡片背景。
-      我们只需要将“内容”部分放在这里即可。
-    -->
     <div class="grid grid-cols-2 gap-x-4 gap-y-5 text-center">
-        <!-- 文章总数 -->
         <div>
             <div class="text-sm text-gray-500 dark:text-gray-400">文章总数</div>
             <div class="text-xl font-bold">{totalPosts} <span class="text-xs">篇</span></div>
         </div>
         
-        <!-- 总字数 -->
         <div>
             <div class="text-sm text-gray-500 dark:text-gray-400">总字数</div>
             <div class="text-xl font-bold">{formattedTotalWords(totalWords)}</div>
         </div>
 
-        <!-- 运营时间 -->
         <div>
             <div class="text-sm text-gray-500 dark:text-gray-400">运营时间</div>
             <div class="text-xl font-bold">
@@ -91,11 +96,9 @@ if (posts.length > 0) {
             </div>
         </div>
 
-        <!-- 最后更新 -->
         <div>
             <div class="text-sm text-gray-500 dark:text-gray-400">最后更新</div>
             <div class="text-xl font-bold">{lastUpdated}</div>
         </div>
     </div>
 </WidgetLayout>
-

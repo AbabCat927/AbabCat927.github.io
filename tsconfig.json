@@ -9,6 +9,7 @@
 		"strictNullChecks": true,
 		"allowJs": false,
 		"declaration": true,
+		"allowSyntheticDefaultImports": true, // <--- 添加了这一行
 		"plugins": [
 			{
 				"name": "@astrojs/ts-plugin"

@@ -1,7 +1,7 @@
 ---
 title: Markdown拓展用法
-published: 2024-05-01
-updated: 2024-11-29
+published: 2025-10-17
+updated: 2025-10-17
 description: Read more about Markdown features in Mizuki
 image: ""
 tags:
