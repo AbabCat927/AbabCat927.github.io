@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/markdown-extended.md",
+                "file": "posts/my-test/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "markdown-extended"
+              "title": "index"
             }
           }
         ]
@@ -172,13 +172,16 @@
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
-    "2024-05-01.md",
+    "posts/my-test/react-hooks-cover.jpeg",
+    "posts/markdown-extended/react-hooks-cover.jpeg",
+    "posts/my-test/index.md",
+    "posts/markdown-extended/index.md",
     "posts/markdown-extended.md",
+    "posts/markdown-extended",
+    "posts/draft.md",
+    "2024-05-01.md",
     "posts/encrypted-post.md",
     "posts/markdown-mermaid.md",
-    "posts/my-test/index.md",
-    "posts/my-test/react-hooks-cover.jpeg",
-    "posts/draft.md",
     "posts/markdown-tutorial.md",
     "posts/video.md",
     "spec/friends.md",
