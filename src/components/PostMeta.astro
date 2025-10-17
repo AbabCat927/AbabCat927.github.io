@@ -115,23 +115,3 @@ const {
         </div>
     )}
 </div>
-
-<!-- --- 3. 客户端脚本 (`<script>` 块) --- -->
-<!-- 只有在满足所有条件时，这个脚本块才会被加载到页面中，以优化性能。 -->
-{!isHome && umamiEnabled && slug && (
-    <script>
-        // 【最终修正】修正了这里的导入路径。
-        // 因为 PostMeta.astro 位于 src/components/，所以只需要一个 ../ 就可以回到 src/ 目录。
-        import { initializePageViews } from '../utils/umami-client.ts';
-
-        // 在页面首次加载时，直接调用初始化函数。
-        // 这个函数会去读取 <span> 元素上的 data-slug，然后获取并显示数据。
-        initializePageViews();
-
-        // 为了与 Swup 完美兼容，我们监听它的 'content:replace' 事件。
-        // 每当 Swup 通过平滑过渡加载完新页面内容后，这个事件就会被触发。
-        // 我们需要重新调用一次初始化函数，以确保新页面上的访问量也能被正确加载和显示。
-        document.addEventListener('swup:content:replace', initializePageViews);
-    </script>
-)}
-

@@ -63,23 +63,4 @@ const umamiEnabled = umamiConfig.enabled || false;
     </div>
 </div>
 
-<!-- --- 3. 客户端脚本 (`<script>` 块) --- -->
-<!-- 只有在启用了 Umami 的情况下，这个脚本块才会被加载到页面中。 -->
-{umamiEnabled && (
-    <script>
-        // 【核心修正】从我们新创建的外部模块中导入用于初始化【总访问量】的函数。
-        // Astro 会自动将这段代码处理成 <script type="module">，从而解决所有兼容性问题。
-        import { initializeTotalStats } from '../../utils/umami-client.ts';
-
-        // 在页面首次加载时，直接调用初始化函数。
-        // 这个函数会去获取并显示整个网站的总访问量和总访客数。
-        initializeTotalStats();
-
-        // 为了与 Swup 完美兼容，我们同样监听它的 'content:replace' 事件。
-        // 因为个人信息卡片（包含总访问量）可能会在每个页面都显示，
-        // 所以当 Swup 通过平滑过渡加载完新页面内容后，我们需要重新运行一次初始化函数，
-        // 以确保统计数据能够在新页面上正确加载和显示。
-        document.addEventListener('swup:content:replace', initializeTotalStats);
-    </script>
-)}
 

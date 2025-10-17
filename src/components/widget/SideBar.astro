@@ -1,75 +1,87 @@
 ---
 // -----------------------------------------------------------------
 // 这是侧边栏的“总指挥”文件。
+// 它的工作方式是：读取 config.ts 中的侧边栏配置，
+// 然后根据配置中的 type 名称，在这个文件的 "componentMap" 中找到对应的组件并渲染它。
 // -----------------------------------------------------------------
 
 import type { MarkdownHeading } from "astro";
-// 【关键修正 2】从类型定义文件中导入 WidgetComponentConfig，用于替换模糊的 'any' 类型
 import type { WidgetComponentConfig } from "../../types/config";
 import { widgetManager } from "../../utils/widget-manager";
+
+// 导入所有可能在侧边栏中使用的小部件组件
 import Announcement from "./Announcement.astro";
 import Categories from "./Categories.astro";
 import MusicPlayer from "./MusicPlayer.svelte";
 import Profile from "./Profile.astro";
-// 【关键修正 1】
-// 修正了导入路径。因为 Sidebar.astro 和 Statistics.astro 都在同一个 widget 文件夹下，
-// 所以我们应该使用 "./" 来引用当前目录下的文件。
 import Statistics from "./Statistics.astro";
 import Tags from "./Tags.astro";
 import TOC from "./TOC.astro";
+// 导入我们之前创建的 VisitCounter 组件
+import VisitCounter from './VisitCounter.astro'; 
 
 interface Props {
-	class?: string;
-	headings?: MarkdownHeading[];
+    class?: string;
+    headings?: MarkdownHeading[];
 }
 
 const { class: className, headings } = Astro.props;
 
-// 获取配置的组件列表
+// 从 widgetManager 获取已配置好的、需要显示在不同位置的组件列表
 const topComponents = widgetManager.getComponentsByPosition("top");
 const stickyComponents = widgetManager.getComponentsByPosition("sticky");
 
-// 组件的“地图”，建立了配置中的 type 名称与实际组件文件之间的对应关系。
+// -----------------------------------------------------------------
+// 【核心】组件的“地图”，它建立了配置中的 type 名称与实际组件文件之间的对应关系。
+// -----------------------------------------------------------------
 const componentMap = {
-	profile: Profile,
-	announcement: Announcement,
-	categories: Categories,
-	tags: Tags,
-	toc: TOC,
-	"music-player": MusicPlayer,
-	// 我们新添加的 "statistics" 组件已被正确登记
-	statistics: Statistics,
+    profile: Profile,
+    announcement: Announcement,
+    categories: Categories,
+    tags: Tags,
+    toc: TOC,
+    "music-player": MusicPlayer,
+    statistics: Statistics,
+    // --- 【关键修正】在这里添加下面这一行 ---
+    // 我们将 config.ts 中定义的 "visit-counter" 类型
+    // 与我们实际创建的 VisitCounter.astro 组件文件关联起来。
+    "visit-counter": VisitCounter,
 };
 
-// 渲染组件的辅助函数
-// 【关键修正 3】将 'any' 替换为更精确的 WidgetComponentConfig 类型，解决 Biome 警告
+// 渲染组件的辅助函数，它会根据传入的配置在 componentMap 中查找并准备渲染
 function renderComponent(
-	component: WidgetComponentConfig,
-	index: number,
-	_components: WidgetComponentConfig[],
+    component: WidgetComponentConfig,
+    index: number,
+    _components: WidgetComponentConfig[],
 ) {
-	const ComponentToRender =
-		componentMap[component.type as keyof typeof componentMap];
-	if (!ComponentToRender) return null;
+    // 在地图中查找组件
+    const ComponentToRender =
+        componentMap[component.type as keyof typeof componentMap];
+    
+    // 如果在地图中找不到对应的组件，则不渲染任何东西
+    if (!ComponentToRender) return null;
 
-	const componentClass = widgetManager.getComponentClass(component, index);
-	const componentStyle = widgetManager.getComponentStyle(component, index);
+    // 获取组件的 CSS 类名和样式
+    const componentClass = widgetManager.getComponentClass(component, index);
+    const componentStyle = widgetManager.getComponentStyle(component, index);
 
-	return {
-		Component: ComponentToRender,
-		props: {
-			class: componentClass,
-			style: componentStyle,
-			headings: component.type === "toc" ? headings : undefined,
-			...component.customProps,
-		},
-	};
+    // 返回要渲染的组件及其所有需要的属性 (props)
+    return {
+        Component: ComponentToRender,
+        props: {
+            class: componentClass,
+            style: componentStyle,
+            // 特殊处理：如果组件是 TOC，则传递 headings 属性
+            headings: component.type === "toc" ? headings : undefined,
+            ...component.customProps,
+        },
+    };
 }
 ---
 
 <!-- 
-    下面的 HTML 模板和脚本部分，完全保持您原有文件的样子，
-    它会自动根据我们更新后的 componentMap 来渲染正确的组件。
+    下面的 HTML 模板和脚本部分完全保持您原有文件的样子。
+    它现在可以自动根据我们更新后的 componentMap 来正确渲染 "visit-counter" 组件了。
 -->
 <div id="sidebar" class:list={[className, "w-full"]}>
     <!-- 顶部固定组件区域 -->
@@ -85,7 +97,7 @@ function renderComponent(
         </div>
     )}
     
-    <!-- 粘性组件区域 -->
+    <!-- 粘性 (可随页面滚动固定的) 组件区域 -->
     {stickyComponents.length > 0 && (
         <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
             {stickyComponents.map((component, index) => {
@@ -174,3 +186,4 @@ function renderComponent(
     // 初始化侧边栏管理器
     new SidebarManager();
 </script>
+

@@ -1,0 +1,65 @@
+{/* ---
+文件路径: src/components/ThemeToggle.astro
+功能: 这个组件负责创建一个可以切换亮色/暗色主题的按钮。
+--- */}
+
+{/* 按钮的 HTML 结构，包含一个太阳和一个月亮的 SVG 图标 */}
+<button id="theme-toggle" class="theme-toggle" title="切换亮/暗模式" aria-label="切换亮/暗模式">
+  {/* 太阳图标 (亮色模式) */}
+  <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  {/* 月亮图标 (暗色模式) */}
+  <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+
+{/* 客户端脚本，is:inline 确保它在页面渲染前执行，防止主题闪烁 */}
+<script is:inline>
+  // 获取主题切换按钮元素
+  const themeToggle = document.getElementById('theme-toggle');
+  // 获取根元素 <html>
+  const R = document.documentElement;
+  
+  // 检查本地存储中是否有已保存的主题偏好，
+  // 如果没有，则根据操作系统的偏好来设置初始主题
+  const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  
+  // 根据计算出的当前主题，为 <html> 标签添加或移除 'dark' 类
+  R.classList.toggle('dark', currentTheme === 'dark');
+  
+  // 为按钮添加点击事件监听器
+  themeToggle.addEventListener('click', () => {
+    // 切换 <html> 标签的 'dark' 类，并返回切换后是否存在 'dark' 类 (isDark)
+    const isDark = R.classList.toggle('dark');
+    // 将新的主题偏好保存到本地存储中，以便下次访问时记住
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script>
+
+{/* 组件的局部 CSS 样式 */}
+<style>
+  /* 切换按钮的基础样式 */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 9999px; /* 圆形按钮 */
+    color: var(--navbar-text-color, black); /* 使用导航栏定义的文本颜色变量 */
+    transition: background-color 0.2s ease;
+  }
+  /* 鼠标悬停时的背景色 */
+  .theme-toggle:hover {
+    background-color: var(--navbar-hover-bg, rgba(0,0,0,0.1)); /* 使用导航栏定义的悬停背景色变量 */
+  }
+  /* 图标的尺寸 */
+  .sun-icon, .moon-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  /* 在亮色模式下 (html 标签没有 .dark 类)，隐藏月亮图标 */
+  :root:not(.dark) .moon-icon { display: none; }
+  /* 在暗色模式下 (html 标签有 .dark 类)，隐藏太阳图标 */
+  :root.dark .sun-icon { display: none; }
+</style>
