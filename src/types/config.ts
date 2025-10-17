@@ -195,7 +195,11 @@ export type FooterConfig = {
 	customHtml?: string; // 自定义HTML内容，用于添加备案号等信息
 };
 
-// 组件配置类型定义
+// -----------------------------------------------------------------
+// 【核心修正点】
+// 这是所有合法的侧边栏组件类型的“白名单”。
+// 之前的错误就是因为这里没有登记 "visit-counter"。
+// -----------------------------------------------------------------
 export type WidgetComponentType =
 	| "profile"
 	| "announcement"
@@ -204,8 +208,9 @@ export type WidgetComponentType =
 	| "toc"
 	| "music-player"
 	| "pio" // 添加 pio 组件类型
-	| "statistics" // 【关键修正】在这里添加我们新的 "statistics" 组件类型，完成“户籍登记”
-	| "custom";
+	| "statistics"
+	| "custom"
+	| "visit-counter"; // 【本次修正】添加 "visit-counter" 组件类型，以解决类型不匹配的错误
 
 export type WidgetComponentConfig = {
 	type: WidgetComponentType; // 组件类型

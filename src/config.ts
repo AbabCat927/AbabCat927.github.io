@@ -401,6 +401,14 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 				collapseThreshold: 20,
 			},
 		},
+		{
+			type: "visit-counter",
+			enable: true,
+			order: 4,
+			position: "sticky",
+			class: "onload-animation",
+			animationDelay: 250,
+		},
 	],
 
 	// 默认动画配置
