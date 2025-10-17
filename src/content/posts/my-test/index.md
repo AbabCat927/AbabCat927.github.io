@@ -1,10 +1,11 @@
 ---
-title:
-published:
+title: 测试文章
+published: 2025-10-17
 pinned: true
-description:
+description: A simple example of a Markdown blog post with Mermaid.
 tags:
-category:
+  - Blogging
+category: Examples
 licenseName: MIT
 draft: true
 date: 2025-10-16
