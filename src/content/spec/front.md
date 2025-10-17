@@ -1,10 +1,14 @@
 ---
-title: 
-published: 
-updated: 
-description: 
+title:
+published:
+pinned: false
+updated:
+description:
 image: ""
 tags:
-category: 
+password:
+category:
+licenseName:
+sourceLink:
 draft: true
 ---
