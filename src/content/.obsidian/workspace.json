@@ -15,7 +15,7 @@
               "state": {
                 "file": "posts/markdown-extended/index.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "index"
@@ -173,14 +173,14 @@
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
     "posts/my-test/index.md",
-    "posts/markdown-extended/react-hooks-cover.jpeg",
-    "posts/markdown-extended/index.md",
-    "posts/markdown-extended.md",
     "posts/my-test/react-hooks-cover.jpeg",
+    "posts/encrypted-post.md",
+    "posts/markdown-extended.md",
+    "posts/markdown-extended/index.md",
+    "posts/markdown-extended/react-hooks-cover.jpeg",
     "posts/markdown-extended",
     "posts/draft.md",
     "2024-05-01.md",
-    "posts/encrypted-post.md",
     "posts/markdown-mermaid.md",
     "posts/markdown-tutorial.md",
     "posts/video.md",

@@ -2,16 +2,13 @@
 title: Markdown拓展用法
 published: 2025-10-17
 updated: 2025-10-17
-description: Read more about Markdown features in Mizuki
+description: 这个主题中Markdown的一些拓展用法
 image: ""
 tags:
-  - Demo
-  - Example
   - Markdown
-  - mizuki
-category: Examples
+category: 教程
 draft: false
-series: Mizuki
+series: 教程
 ---
 
 ## GitHub 仓库卡片
