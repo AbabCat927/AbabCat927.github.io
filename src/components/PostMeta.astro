@@ -1,43 +1,42 @@
 ---
+// ==================================================================
 // 文件路径: src/components/PostMeta.astro
-// 功能: 显示文章的元数据，如日期、分类、标签，并集成了获取并显示单篇访问量的功能。
-// 版本: v3.0 - 基于您的原始文件结构，升级了客户端 Umami 脚本。
+// 功能描述: 这是一个用于显示文章元数据（如日期、分类、标签）的组件。
+//           我们已将其升级，使其能够通过我们自建的 API 代理来安全地获取并显示单篇文章的访问量。
+// 当前版本: v4.0 - 使用本地 API 代理以绕过浏览器的 CORS 跨域限制。
+// ==================================================================
 
-// 1. 导入部分：完全保留您原始文件的导入
+// --- 1. 服务器端脚本 (`---` 块内) ---
+// 这部分代码只会在服务器构建网站时运行一次。
+
+// 从 Astro 的图标库导入 Icon 组件，用于显示小图标。
 import { Icon } from "astro-icon/components";
-import { profileConfig, umamiConfig } from "../config";
+// 从项目的主配置文件中导入 umamiConfig，其中包含了所有 Umami 相关的设置。
+import { umamiConfig } from "../config";
+// 从国际化 (i18n) 配置文件中导入翻译相关的工具。
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
+// 导入一些实用工具函数，用于格式化日期和生成链接。
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getCategoryUrl, getTagUrl } from "../utils/url-utils";
 
-// 2. 【核心修正】服务器端 Umami 配置解析
-// 我们将在这里解析出新版 API 所需的所有信息
+// 从 Umami 配置中解析出“是否启用”的状态，如果未定义则默认为 false。
 const umamiEnabled = umamiConfig.enabled || false;
-// 从完整的分享链接（现在存储在 baseUrl 中）中提取 region 和 shareId
-const fullShareUrl = umamiConfig.baseUrl || "";
-const shareUrlParts = fullShareUrl.match(
-	/https:\/\/([a-z]{2})\.umami\.is\/share\/([a-zA-Z0-9]+)/,
-);
-const region = shareUrlParts?.[1] || ""; // "us" 或 "eu"
-const shareId = shareUrlParts?.[2] || ""; // 中间那串随机码
-// 从跟踪脚本中提取 websiteId
-const websiteId =
-	umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
 
-// 3. Props 定义和解构：完全保留您原始文件的定义
+// 定义这个组件可以接收哪些属性 (Props)。这就像是组件的“说明书”。
 export interface Props {
-	published: Date;
-	updated?: Date;
-	category?: string;
-	tags?: string[];
-	hideUpdateDate?: boolean;
-	hideTagsForMobile?: boolean;
-	isHome?: boolean;
-	className?: string;
-	slug?: string;
+	published: Date; // 文章的发布日期 (必需)
+	updated?: Date; // 文章的更新日期 (可选)
+	category?: string; // 文章所属的分类 (可选)
+	tags?: string[]; // 文章的标签列表 (可选)
+	hideUpdateDate?: boolean; // 是否隐藏更新日期 (可选)
+	hideTagsForMobile?: boolean; // 是否在移动端隐藏标签 (可选)
+	isHome?: boolean; // 当前页面是否为首页 (可选)
+	className?: string; // 允许外部传入自定义的 CSS 类名 (可选)
+	slug?: string; // 文章的唯一标识符 (slug)，对于获取访问量至关重要 (可选)
 }
 
+// 从 Astro.props 中解构出所有传入的属性，并为 className 设置一个默认空字符串。
 const {
 	published,
 	updated,
@@ -51,10 +50,12 @@ const {
 } = Astro.props;
 ---
 
+<!-- --- 2. HTML 模板部分 --- -->
+<!-- 这部分定义了组件的结构，它会根据传入的属性动态显示内容。 -->
 
-<!-- 4. HTML 模板部分：完全保留您原始文件的结构 -->
+<!-- 组件的根元素，使用 flex 布局来排列元数据项。 -->
 <div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
-    <!-- publish date -->
+    <!-- 发布日期 -->
     <div class="flex items-center">
         <div class="meta-icon">
             <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
@@ -62,7 +63,7 @@ const {
         <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
     </div>
 
-    <!-- update date -->
+    <!-- 更新日期 (仅当提供了 updated 日期且与发布日期不同时显示) -->
     {!hideUpdateDate && updated && updated.getTime() !== published.getTime() && (
         <div class="flex items-center">
             <div class="meta-icon">
@@ -72,7 +73,7 @@ const {
         </div>
     )}
 
-    <!-- categories -->
+    <!-- 分类 -->
     <div class="flex items-center">
         <div class="meta-icon">
             <Icon name="material-symbols:book-2-outline-rounded" class="text-xl"></Icon>
@@ -86,7 +87,7 @@ const {
         </div>
     </div>
 
-    <!-- tags -->
+    <!-- 标签 (支持在移动端隐藏) -->
     <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
         <div class="meta-icon">
             <Icon name="material-symbols:tag-rounded" class="text-xl"></Icon>
@@ -104,88 +105,85 @@ const {
         </div>
     </div>
     
-    <!-- 访问量显示占位符：这里的 ID 'page-views-display' 很关键，我们的新脚本会用到它 -->
+    <!-- 访问量显示区域 (只有在非首页、启用了 Umami 且文章 slug 存在时才会渲染) -->
     {!isHome && umamiEnabled && slug && (
         <div class="flex items-center">
             <div class="meta-icon">
                 <Icon name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
             </div>
+            <!-- 这是访问量的占位符，初始显示“加载中”，ID 至关重要，下面的脚本会通过它来更新内容 -->
             <span class="text-50 text-sm font-medium" id="page-views-display">统计加载中...</span>
         </div>
     )}
 </div>
 
-<!-- 5. 【核心修正】我们用全新的、健壮的客户端脚本替换掉原来的脚本 -->
+<!-- --- 3. 客户端脚本 (`<script>` 块) --- -->
+<!-- 这部分代码只会在用户的浏览器中运行，负责获取并更新访问量。 -->
+<!-- 只有在满足所有条件时，这个脚本块才会被加载到页面中，以优化性能。 -->
 {!isHome && umamiEnabled && slug && (
-    <script define:vars={{ region, shareId, websiteId, slug }}>
-        // 这个脚本只会在用户的浏览器中运行
-
-        // 5.1. 定义一个异步函数，专门负责获取【单篇文章】的统计数据
+    <script define:vars={{ slug }}>
+        // 定义一个异步函数，专门负责获取【单篇文章】的访问量数据。
         async function fetchPageViews() {
-            // 首先，验证所有必需的配置信息是否都已从服务器端成功传递过来
-            if (!region || !shareId || !websiteId || !slug) {
-                console.error("[PostMeta.astro Script] Umami 配置不完整，无法获取统计。");
-                return null;
-            }
-            
             try {
-                // --- 采用两步验证法，安全地获取数据 ---
-
-                // 第一步: 获取临时的访问令牌 (token)
-                const tokenResponse = await fetch(`https://${region}.umami.is/api/share/${shareId}`);
-                if (!tokenResponse.ok) throw new Error(`获取 Umami Token 失败: ${tokenResponse.status}`);
-                const { token } = await tokenResponse.json();
-                if (!token) throw new Error("Umami API 返回的数据中不包含 Token。");
-
-                // 第二步: 使用 token 去请求【特定页面】的统计数据 (pageviews)
-                // 根据您原始脚本的逻辑，构造文章页面的 URL 路径
+                // 根据传入的文章 slug，构造出这篇文章在网站上的标准 URL 路径。
                 const pageUrl = `/posts/${slug}/`;
-                const pageviewsApiUrl = new URL(`https://${region}.umami.is/api/websites/${websiteId}/pageviews`);
-                pageviewsApiUrl.searchParams.append('url', pageUrl); 
-
-                const statsResponse = await fetch(pageviewsApiUrl.toString(), {
-                    method: 'GET',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
-                if (!statsResponse.ok) throw new Error(`获取 Umami 页面统计数据失败: ${statsResponse.status}`);
+                // 【核心修正】请求我们自己在 src/pages/api/ 下创建的 umami-pageviews.ts 代理。
+                // 我们通过 URL 查询参数 (?url=...) 告诉代理我们想查询哪篇文章的数据。
+                // encodeURIComponent 用于确保 URL 路径中的特殊字符（虽然 slug 通常没有）被正确编码。
+                const response = await fetch(`/api/umami-pageviews?url=${encodeURIComponent(pageUrl)}`);
                 
-                return await statsResponse.json();
-
+                // 检查代理服务器的响应是否成功 (HTTP 状态码为 2xx)。
+                if (!response.ok) {
+                    // 如果代理返回错误，尝试解析错误信息并抛出，以便在 catch 块中捕获。
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `服务器代理响应失败: ${response.status}`);
+                }
+                // 如果响应成功，将返回的 JSON 数据解析出来。
+                return await response.json();
             } catch (error) {
-                // 如果出错，在控制台清晰地打印错误信息
-                console.error(`[PostMeta.astro Script] 获取页面 (${`/posts/${slug}/`}) 访问量时发生错误:`, error);
+                // 如果在 fetch 过程中发生任何网络错误或我们主动抛出的错误，都在这里捕获。
+                // 在浏览器的开发者控制台打印详细的错误信息，方便我们调试。
+                console.error(`[PostMeta.astro Script] 通过代理获取页面 (${slug}) 访问量时出错:`, error);
+                // 返回 null 表示获取失败。
                 return null;
             }
         }
 
-        // 5.2. 定义一个函数，用于更新页面上的显示内容
+        // 定义一个函数，专门负责将获取到的数据更新到页面的显示元素上。
         function updateDisplay(data) {
-            // 找到 ID为 'page-views-display' 的元素
+            // 通过 ID 找到页面上那个用于显示访问量的 <span> 元素。
             const displayElement = document.getElementById('page-views-display');
+            // 如果找不到元素（以防万一），就直接退出。
             if (!displayElement) return;
 
-            // 检查 API 返回的数据是否有效
+            // 检查从 API 获取的数据是否有效，并且包含了 pageviews 这个数组。
             if (data && data.pageviews) {
-                // API 返回的是一个按天统计的数组，我们需要将所有天数的访问量加起来得到总数
+                // Umami 返回的 pageviews 是一个包含每天访问量对象的数组，形如 [{x: "日期", y: 访问量}, ...]。
+                // 我们使用 reduce 方法将数组中所有对象的 y 值（即每天的访问量）累加起来，得到总访问量。
                 const totalViews = data.pageviews.reduce((acc, cur) => acc + cur.y, 0);
-                // 更新显示内容
+                // 更新页面上的文本内容。
                 displayElement.textContent = `浏览量 ${totalViews}`;
             } else {
-                // 如果获取失败，显示“不可用”
+                // 如果数据无效或获取失败，就显示“不可用”。
                 displayElement.textContent = '统计不可用';
             }
         }
-        
-        // 5.3. 页面加载完成后，执行获取和更新操作
+
+        // 定义一个初始化函数，将获取和更新的流程串联起来。
         async function initializePageViews() {
+            // 首先调用 fetch 函数去获取数据。
             const data = await fetchPageViews();
+            // 然后用获取到的数据去更新页面显示。
             updateDisplay(data);
         }
 
-        // 这是最佳实践，确保在 DOM 完全加载后再执行脚本
+        // 这是前端开发的最佳实践：确保在页面的 HTML 结构（DOM）完全加载完毕后再执行我们的脚本。
+        // 这样可以避免脚本运行时找不到 #page-views-display 元素而报错。
         if (document.readyState === 'loading') {
+            // 如果页面还在加载中，就添加一个事件监听器，等待 DOM 加载完成。
             document.addEventListener('DOMContentLoaded', initializePageViews);
         } else {
+            // 如果页面已经加载完成，就直接执行初始化函数。
             initializePageViews();
         }
     </script>
