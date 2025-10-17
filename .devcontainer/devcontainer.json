@@ -1,15 +1,26 @@
 {
-  "name": "Astro Mizuki Dev Container",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspace",
-  "forwardPorts": [4321],
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "astro-build.astro-vscode",
-        "dbaeumer.vscode-eslint"
-      ]
-    }
-  }
+	"name": "Astro Mizuki Dev Container",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	"forwardPorts": [4321],
+	"customizations": {
+		"vscode": {
+			"extensions": ["astro-build.astro-vscode", "dbaeumer.vscode-eslint"]
+		}
+	},
+
+	"containerEnv": {
+		"HTTP_PROXY": "http://10.181.24.211:7897",
+		"HTTPS_PROXY": "http://10.181.24.211:7897",
+
+		// --- 我只修改了下面这一行 ---
+		"UMAMI_URL": "https://cloud.umami.is",
+
+		"UMAMI_USERNAME": "2172314079@qq.com",
+		"UMAMI_PASSWORD": "umami666",
+		"UMAMI_WEBSITE_ID": "382831f1-a10-4055-bdb0-cb5901e3594d"
+	},
+
+	"postCreateCommand": "apt-get update && apt-get install -y curl"
 }

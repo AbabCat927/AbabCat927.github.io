@@ -401,14 +401,6 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 				collapseThreshold: 20,
 			},
 		},
-		{
-			type: "visit-counter",
-			enable: true,
-			order: 4,
-			position: "sticky",
-			class: "onload-animation",
-			animationDelay: 250,
-		},
 	],
 
 	// 默认动画配置
@@ -502,17 +494,20 @@ export const widgetConfigs = {
 	pio: pioConfig, // 添加 pio 配置
 } as const;
 
-/*export const umamiConfig = {
-	enabled: true, // 是否显示Umami统计
-	//	apiKey: "api_XXXXXXXXXX", // 你的API密钥
-	baseUrl: "https://us.umami.is/share/4TBNrx68YLrk7dJQ/ababcat927.github.io", // Umami Cloud API地址
+export const umamiConfig = {
+	// enabled 保持 true，代表启用
+	enabled: true,
+
+	// 【已修正】键名必须是 shareURL，并且 URL 格式是 API 地址
+	shareURL: "https://us.umami.is/api/share/4TBNrx68YLrk7dJQ",
+
+	// 【正确】你的 scripts 部分是完全正确的，保持不变
 	scripts: `
 <script defer src="https://cloud.umami.is/script.js" data-website-id="382831f1-9a10-4055-bdb0-cb5901e3594d"></script>
-  `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
+  `.trim(),
 } as const;
-*/
 // 文件路径: src/config.ts
-
+/*
 export const umamiConfig = {
 	enabled: true,
 	src: "https://cloud.umami.is/script.js",
@@ -521,3 +516,4 @@ export const umamiConfig = {
 	// 【修正】使用你从 Umami 仪表盘获取的、不包含网站名的正确分享链接
 	shareUrl: "https://us.umami.is/share/4TBNrx68YLrk7dJQ",
 };
+*/

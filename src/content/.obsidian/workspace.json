@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/markdown-extended/index.md",
+                "file": "posts/draft.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "draft"
             }
           }
         ]
@@ -172,11 +172,11 @@
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
+    "posts/markdown-extended/index.md",
     "posts/markdown-tutorial.md",
     "posts/encrypted-post.md",
     "posts/markdown-mermaid.md",
     "posts/markdown-extended.md",
-    "posts/markdown-extended/index.md",
     "spec/front.md",
     "2025-01-20.md",
     "posts/markdown-extended",
