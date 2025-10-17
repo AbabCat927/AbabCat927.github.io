@@ -1,19 +1,15 @@
 ---
-title: Markdown拓展用法
+title: Markdown拓展教程
 published: 2025-10-17
 updated: 2025-10-17
-description: Read more about Markdown features in Mizuki
+description: 一个基于本主题的md拓展用法
 image: ""
 tags:
-  - Demo
-  - Example
   - Markdown
-  - mizuki
+  - Test
 category: Examples
 draft: false
-series: Mizuki
 ---
-
 ## GitHub 仓库卡片
 
 这里可以添加链接到 GitHub 仓库的动态卡片，在页面加载时，仓库信息会从 GitHub API 中拉取。
