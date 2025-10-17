@@ -511,15 +511,14 @@ export const widgetConfigs = {
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
 } as const;
 */
+// 文件路径: src/config.ts
+
 export const umamiConfig = {
-	// 设置为 true 来启用 Umami
 	enabled: true,
-
-	// 【修正】使用 src 字段来存放脚本的 URL
-	// 我们从你之前的 scripts 字符串中提取出正确的 URL
 	src: "https://cloud.umami.is/script.js",
-
-	// 【修正】使用 websiteId 字段来存放你的网站 ID
-	// 我们从你之前的 scripts 字符串中提取出正确的 ID
 	websiteId: "382831f1-9a10-4055-bdb0-cb5901e3594d",
+
+	// 【在这里添加下面这一行】
+	// 把你之前放在 baseUrl 里的那个公开分享链接填到这里
+	shareUrl: "https://us.umami.is/share/4TBNrx68YLrk7dJQ/ababcat927.github.io",
 };
