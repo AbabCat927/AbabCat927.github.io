@@ -3,33 +3,40 @@
 // 文件路径: src/components/PostMeta.astro
 // 功能描述: 这是一个用于显示文章元数据（如日期、分类、标签）的组件。
 //           我们已将其升级，使其能够通过我们自建的 API 代理来安全地获取并显示单篇文章的访问量。
-// 当前版本: v5.0 - 修复了与 Swup.js 的兼容性问题，通过 data-* 属性传递变量。
+// 当前版本: v6.0 - 脚本逻辑已分离到外部模块，以实现与 Swup.js 的完全兼容。
 // ==================================================================
 
 // --- 1. 服务器端脚本 (`---` 块内) ---
-// 这部分代码保持不变，它的逻辑是完全正确的。
+// 这部分代码只会在服务器构建网站时运行一次，它的逻辑是完全正确的，我们保持不变。
 
+// 从 Astro 的图标库导入 Icon 组件，用于显示小图标。
 import { Icon } from "astro-icon/components";
+// 从项目的主配置文件中导入 umamiConfig，其中包含了所有 Umami 相关的设置。
 import { umamiConfig } from "../config";
+// 从国际化 (i18n) 配置文件中导入翻译相关的工具。
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
+// 导入一些实用工具函数，用于格式化日期和生成链接。
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getCategoryUrl, getTagUrl } from "../utils/url-utils";
 
+// 从 Umami 配置中解析出“是否启用”的状态，如果未定义则默认为 false。
 const umamiEnabled = umamiConfig.enabled || false;
 
+// 定义这个组件可以接收哪些属性 (Props)。这就像是组件的“说明书”。
 export interface Props {
-	published: Date;
-	updated?: Date;
-	category?: string;
-	tags?: string[];
-	hideUpdateDate?: boolean;
-	hideTagsForMobile?: boolean;
-	isHome?: boolean;
-	className?: string;
-	slug?: string;
+	published: Date; // 文章的发布日期 (必需)
+	updated?: Date; // 文章的更新日期 (可选)
+	category?: string; // 文章所属的分类 (可选)
+	tags?: string[]; // 文章的标签列表 (可选)
+	hideUpdateDate?: boolean; // 是否隐藏更新日期 (可选)
+	hideTagsForMobile?: boolean; // 是否在移动端隐藏标签 (可选)
+	isHome?: boolean; // 当前页面是否为首页 (可选)
+	className?: string; // 允许外部传入自定义的 CSS 类名 (可选)
+	slug?: string; // 文章的唯一标识符 (slug)，对于获取访问量至关重要 (可选)
 }
 
+// 从 Astro.props 中解构出所有传入的属性，并为 className 设置一个默认空字符串。
 const {
 	published,
 	updated,
@@ -45,6 +52,7 @@ const {
 
 <!-- --- 2. HTML 模板部分 --- -->
 <!-- 这部分定义了组件的结构，它会根据传入的属性动态显示内容。 -->
+<!-- 这部分也保持不变，因为 data-slug 的传递方式是正确的。 -->
 
 <div class:list={["flex flex-wrap text-neutral-500 dark-text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
     <!-- 发布日期 -->
@@ -103,86 +111,27 @@ const {
             <div class="meta-icon">
                 <Icon name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
             </div>
-            {/* 【核心修正 1/2】在这里，我们将 slug 作为一个 data-slug 属性附加到 span 元素上。 */}
-            {/* 这样做的好处是，客户端脚本可以通过标准 DOM API 来获取 slug，从而避免与 Swup 冲突。 */}
             <span class="text-50 text-sm font-medium" id="page-views-display" data-slug={slug}>统计加载中...</span>
         </div>
     )}
 </div>
 
 <!-- --- 3. 客户端脚本 (`<script>` 块) --- -->
+<!-- 只有在满足所有条件时，这个脚本块才会被加载到页面中，以优化性能。 -->
 {!isHome && umamiEnabled && slug && (
-    // 【核心修正 2/2】我们移除了 <script> 标签中的 define:vars={{ slug }}。
-    // 现在，脚本将从 DOM 元素中直接读取 slug。
     <script>
-        // 定义一个异步函数，专门负责获取【单篇文章】的访问量数据。
-        async function fetchPageViews(slug) { // 函数现在接收 slug 作为参数
-            try {
-                // 根据传入的文章 slug，构造出这篇文章在网站上的标准 URL 路径。
-                const pageUrl = `/posts/${slug}/`;
-                // 请求我们自建的 API 代理，并通过查询参数传递文章路径。
-                const response = await fetch(`/api/umami-pageviews?url=${encodeURIComponent(pageUrl)}`);
-                
-                // 检查代理服务器的响应是否成功。
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `服务器代理响应失败: ${response.status}`);
-                }
-                // 如果成功，返回解析后的 JSON 数据。
-                return await response.json();
-            } catch (error) {
-                // 如果出错，在控制台打印详细错误，并返回 null。
-                console.error(`[PostMeta.astro Script] 通过代理获取页面 (${slug}) 访问量时出错:`, error);
-                return null;
-            }
-        }
+        // 【核心修正】从我们新创建的外部模块中导入初始化函数。
+        // Astro 会自动将这段代码处理成 <script type="module">，从而解决所有兼容性问题。
+        import { initializePageViews } from '../../utils/umami-client.ts';
 
-        // 定义一个函数，负责将获取到的数据更新到页面上。
-        function updateDisplay(data) {
-            // 通过 ID 找到用于显示访问量的 <span> 元素。
-            const displayElement = document.getElementById('page-views-display');
-            if (!displayElement) return; // 如果找不到元素，直接退出
+        // 在页面首次加载时，直接调用初始化函数。
+        // 这个函数会去读取 <span> 元素上的 data-slug，然后获取并显示数据。
+        initializePageViews();
 
-            // 检查数据是否有效且包含 pageviews 数组。
-            if (data && data.pageviews) {
-                // 使用 reduce 方法累加每天的访问量，得到总数。
-                const totalViews = data.pageviews.reduce((acc, cur) => acc + cur.y, 0);
-                // 更新页面文本。
-                displayElement.textContent = `浏览量 ${totalViews}`;
-            } else {
-                // 如果数据无效，显示“不可用”。
-                displayElement.textContent = '统计不可用';
-            }
-        }
-
-        // 定义初始化函数。
-        async function initializePageViews() {
-            // 首先，找到我们的显示元素。
-            const displayElement = document.getElementById('page-views-display');
-            // 如果找不到，或者元素上没有我们附加的 data-slug 属性，就直接退出，不做任何事。
-            if (!displayElement || !displayElement.dataset.slug) return;
-            
-            // 从元素的 dataset 中安全地读取 slug。
-            const slug = displayElement.dataset.slug;
-            
-            // 使用读取到的 slug 去获取数据。
-            const data = await fetchPageViews(slug);
-            // 用获取到的数据更新显示。
-            updateDisplay(data);
-        }
-
-        // 确保在 DOM 加载完成后再执行我们的脚本。
-        // 这是一个非常重要的健壮性保证。
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializePageViews);
-        } else {
-            initializePageViews();
-        }
-
-        // 【Swup 兼容性修正】为了应对 Swup 的页面转换，我们监听 Swup 的 'content:replace' 事件。
-        // 当 Swup 加载新页面内容后，这个事件会被触发，我们就可以重新运行我们的初始化函数。
+        // 为了与 Swup 完美兼容，我们监听它的 'content:replace' 事件。
+        // 每当 Swup 通过平滑过渡加载完新页面内容后，这个事件就会被触发。
+        // 我们需要重新调用一次初始化函数，以确保新页面上的访问量也能被正确加载和显示。
         document.addEventListener('swup:content:replace', initializePageViews);
-
     </script>
 )}
 
