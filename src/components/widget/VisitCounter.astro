@@ -1,26 +1,102 @@
 ---
-// src/components/widget/VisitCounter.astro
+// 文件路径: src/components/widget/VisitCounter.astro
+// 功能: 这是一个专门用于从 Umami API 获取并显示网站访问量的组件。
+// 版本: v2.1 - 修正了代码风格问题，遵循 Biome linter 建议。
+
 import { umamiConfig } from "../../config";
 
-// 从配置中提取 shareURL 和网站 ID
-const shareUrl = umamiConfig.shareURL;
-const websiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1];
+// --- 步骤 1: 从您的配置中解析出所有需要的信息 ---
 
-// 获取访问量数据的函数
+const fullShareUrl = umamiConfig.baseUrl;
+const websiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1];
+const shareUrlParts = fullShareUrl.match(
+	/https:\/\/([a-z]{2})\.umami\.is\/share\/([a-zA-Z0-9]+)/,
+);
+const region = shareUrlParts?.[1];
+const shareId = shareUrlParts?.[2];
+
+// --- 步骤 2: 定义一个异步函数来获取访问量数据 ---
+
 async function getVisitCount() {
-	if (!shareUrl || !websiteId) return 0;
+	if (!websiteId || !region || !shareId) {
+		console.error(
+			"Umami 配置解析失败：无法从 config.ts 中提取 websiteId, region, 或 shareId。请检查 baseUrl 和 scripts 配置是否正确。",
+		);
+		return 0;
+	}
 
 	try {
-		// 这里需要根据实际的 Umami API 调整
-		const response = await fetch(`${shareUrl}`);
-		const data = await response.json();
-		// 根据实际返回的数据结构提取访问量
+		// 第一步: 获取临时的访问令牌 (token)
+		// 【代码风格修正】使用模板字符串替代字符串拼接，让代码更清晰。
+		const tokenResponse = await fetch(
+			`https://${region}.umami.is/api/share/${shareId}`,
+		);
+
+		if (!tokenResponse.ok) {
+			throw new Error(`获取 Umami Token 失败，状态码: ${tokenResponse.status}`);
+		}
+		const { token } = await tokenResponse.json();
+		if (!token) {
+			throw new Error("Umami API 返回的数据中不包含 Token。");
+		}
+
+		// 第二步: 使用获取到的 token 去请求真实的统计数据
+		// 【代码风格修正】同样，这里也使用模板字符串来构建 URL。
+		const statsResponse = await fetch(
+			`https://${region}.umami.is/api/websites/${websiteId}/stats`,
+			{
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		if (!statsResponse.ok) {
+			throw new Error(
+				`获取 Umami 统计数据失败，状态码: ${statsResponse.status}`,
+			);
+		}
+		const data = await statsResponse.json();
+
 		return data?.pageviews?.value || 0;
 	} catch (error) {
-		console.error("获取访问量数据失败:", error);
+		console.error("获取 Umami 访问量数据时发生严重错误:", error);
 		return 0;
 	}
 }
 
 const visitCount = await getVisitCount();
 ---
+
+<!-- HTML 和 Style 部分保持不变 -->
+<div class="visit-counter-widget">
+    <span class="icon">👁️</span>
+    <span class="label">总访问量:</span>
+    <span class="count">{visitCount > 0 ? visitCount : "不可用"}</span>
+</div>
+
+<style>
+.visit-counter-widget {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  font-size: 0.9em;
+  color: var(--text-color);
+  border: 1px solid var(--card-border-color);
+}
+.icon {
+  font-size: 1.2em;
+}
+.label {
+  color: var(--text-color-light);
+}
+.count {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+</style>
+

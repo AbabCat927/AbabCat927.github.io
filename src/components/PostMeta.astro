@@ -1,20 +1,31 @@
 ---
+// 文件路径: src/components/PostMeta.astro
+// 功能: 显示文章的元数据，如日期、分类、标签，并集成了获取并显示单篇访问量的功能。
+// 版本: v3.0 - 基于您的原始文件结构，升级了客户端 Umami 脚本。
+
+// 1. 导入部分：完全保留您原始文件的导入
 import { Icon } from "astro-icon/components";
-import { profileConfig } from "../config";
+import { profileConfig, umamiConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getCategoryUrl, getTagUrl } from "../utils/url-utils";
 
-import { umamiConfig } from "../config";
-
-// 解析 umami
+// 2. 【核心修正】服务器端 Umami 配置解析
+// 我们将在这里解析出新版 API 所需的所有信息
 const umamiEnabled = umamiConfig.enabled || false;
-const umamiWebsiteId =
+// 从完整的分享链接（现在存储在 baseUrl 中）中提取 region 和 shareId
+const fullShareUrl = umamiConfig.baseUrl || "";
+const shareUrlParts = fullShareUrl.match(
+	/https:\/\/([a-z]{2})\.umami\.is\/share\/([a-zA-Z0-9]+)/,
+);
+const region = shareUrlParts?.[1] || ""; // "us" 或 "eu"
+const shareId = shareUrlParts?.[2] || ""; // 中间那串随机码
+// 从跟踪脚本中提取 websiteId
+const websiteId =
 	umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
-const umamiApiKey = umamiConfig.apiKey || "";
-const umamiBaseUrl = umamiConfig.baseUrl || "";
 
+// 3. Props 定义和解构：完全保留您原始文件的定义
 export interface Props {
 	published: Date;
 	updated?: Date;
@@ -41,11 +52,11 @@ const {
 ---
 
 
+<!-- 4. HTML 模板部分：完全保留您原始文件的结构 -->
 <div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
     <!-- publish date -->
     <div class="flex items-center">
-        <div class="meta-icon"
-        >
+        <div class="meta-icon">
             <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
         </div>
         <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
@@ -54,8 +65,7 @@ const {
     <!-- update date -->
     {!hideUpdateDate && updated && updated.getTime() !== published.getTime() && (
         <div class="flex items-center">
-            <div class="meta-icon"
-            >
+            <div class="meta-icon">
                 <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
             </div>
             <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
@@ -64,8 +74,7 @@ const {
 
     <!-- categories -->
     <div class="flex items-center">
-        <div class="meta-icon"
-        >
+        <div class="meta-icon">
             <Icon name="material-symbols:book-2-outline-rounded" class="text-xl"></Icon>
         </div>
         <div class="flex flex-row flex-nowrap items-center">
@@ -79,8 +88,7 @@ const {
 
     <!-- tags -->
     <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
-        <div class="meta-icon"
-        >
+        <div class="meta-icon">
             <Icon name="material-symbols:tag-rounded" class="text-xl"></Icon>
         </div>
         <div class="flex flex-row flex-nowrap items-center">
@@ -96,7 +104,7 @@ const {
         </div>
     </div>
     
-    <!-- 访问量（首页不显示，且umami.enabled为true时显示） -->
+    <!-- 访问量显示占位符：这里的 ID 'page-views-display' 很关键，我们的新脚本会用到它 -->
     {!isHome && umamiEnabled && slug && (
         <div class="flex items-center">
             <div class="meta-icon">
@@ -107,49 +115,79 @@ const {
     )}
 </div>
 
-<!-- 只有在非首页且启用umami且有slug时才加载脚本 -->
+<!-- 5. 【核心修正】我们用全新的、健壮的客户端脚本替换掉原来的脚本 -->
 {!isHome && umamiEnabled && slug && (
-    <script define:vars={{ slug, umamiBaseUrl, umamiApiKey, umamiWebsiteId, umamiConfig }}>
-        // 客户端统计文案生成函数
-        function generateStatsText(pageViews, visitors) {
-            return `浏览量 ${pageViews} · 访客 ${visitors}`;
-        }
-        
-        // 获取访问量统计
-        async function fetchPageViews(isRetry = false) {
-            if (!umamiConfig.enabled) {
-                return;
+    <script define:vars={{ region, shareId, websiteId, slug }}>
+        // 这个脚本只会在用户的浏览器中运行
+
+        // 5.1. 定义一个异步函数，专门负责获取【单篇文章】的统计数据
+        async function fetchPageViews() {
+            // 首先，验证所有必需的配置信息是否都已从服务器端成功传递过来
+            if (!region || !shareId || !websiteId || !slug) {
+                console.error("[PostMeta.astro Script] Umami 配置不完整，无法获取统计。");
+                return null;
             }
             
             try {
-                // 构造文章页面的URL路径
+                // --- 采用两步验证法，安全地获取数据 ---
+
+                // 第一步: 获取临时的访问令牌 (token)
+                const tokenResponse = await fetch(`https://${region}.umami.is/api/share/${shareId}`);
+                if (!tokenResponse.ok) throw new Error(`获取 Umami Token 失败: ${tokenResponse.status}`);
+                const { token } = await tokenResponse.json();
+                if (!token) throw new Error("Umami API 返回的数据中不包含 Token。");
+
+                // 第二步: 使用 token 去请求【特定页面】的统计数据 (pageviews)
+                // 根据您原始脚本的逻辑，构造文章页面的 URL 路径
                 const pageUrl = `/posts/${slug}/`;
+                const pageviewsApiUrl = new URL(`https://${region}.umami.is/api/websites/${websiteId}/pageviews`);
+                pageviewsApiUrl.searchParams.append('url', pageUrl); 
+
+                const statsResponse = await fetch(pageviewsApiUrl.toString(), {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+                if (!statsResponse.ok) throw new Error(`获取 Umami 页面统计数据失败: ${statsResponse.status}`);
                 
-                // 调用全局工具获取特定页面的 Umami 统计数据
-                const stats = await getUmamiPageStats(umamiBaseUrl, umamiApiKey, umamiWebsiteId, pageUrl);
-                
-                // 从返回的数据中提取页面浏览量和访客数
-                const pageViews = stats.pageviews || 0;
-                const visitors = stats.visitors || 0;
-                
-                const displayElement = document.getElementById('page-views-display');
-                if (displayElement) {
-                    displayElement.textContent = generateStatsText(pageViews, visitors);
-                }
+                return await statsResponse.json();
+
             } catch (error) {
-                console.error('Error fetching page views:', error);
-                const displayElement = document.getElementById('page-views-display');
-                if (displayElement) {
-                    displayElement.textContent = '统计不可用';
-                }
+                // 如果出错，在控制台清晰地打印错误信息
+                console.error(`[PostMeta.astro Script] 获取页面 (${`/posts/${slug}/`}) 访问量时发生错误:`, error);
+                return null;
             }
         }
 
-        // 页面加载完成后获取统计数据
+        // 5.2. 定义一个函数，用于更新页面上的显示内容
+        function updateDisplay(data) {
+            // 找到 ID为 'page-views-display' 的元素
+            const displayElement = document.getElementById('page-views-display');
+            if (!displayElement) return;
+
+            // 检查 API 返回的数据是否有效
+            if (data && data.pageviews) {
+                // API 返回的是一个按天统计的数组，我们需要将所有天数的访问量加起来得到总数
+                const totalViews = data.pageviews.reduce((acc, cur) => acc + cur.y, 0);
+                // 更新显示内容
+                displayElement.textContent = `浏览量 ${totalViews}`;
+            } else {
+                // 如果获取失败，显示“不可用”
+                displayElement.textContent = '统计不可用';
+            }
+        }
+        
+        // 5.3. 页面加载完成后，执行获取和更新操作
+        async function initializePageViews() {
+            const data = await fetchPageViews();
+            updateDisplay(data);
+        }
+
+        // 这是最佳实践，确保在 DOM 完全加载后再执行脚本
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fetchPageViews);
+            document.addEventListener('DOMContentLoaded', initializePageViews);
         } else {
-            fetchPageViews();
+            initializePageViews();
         }
     </script>
 )}
+
