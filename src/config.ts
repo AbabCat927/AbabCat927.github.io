@@ -130,7 +130,7 @@ export const siteConfig: SiteConfig = {
 			enable: false, // 启用 Hanalei 字体作为全局字体，适合中文去使用
 		},
 	},
-	showLastModified: false, // 控制“上次编辑”卡片显示的开关
+	showLastModified: true, // 控制“上次编辑”卡片显示的开关
 };
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	enable: false, // 启用全屏壁纸功能,非Banner模式下生效
@@ -496,7 +496,7 @@ export const widgetConfigs = {
 
 export const umamiConfig = {
 	// enabled 保持 true，代表启用
-	enabled: true,
+	enabled: false,
 
 	// 【已修正】键名必须是 shareURL，并且 URL 格式是 API 地址
 	shareURL: "https://us.umami.is/api/share/4TBNrx68YLrk7dJQ",
