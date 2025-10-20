@@ -12,44 +12,29 @@ function calculateWordCount(body: string): number {
 		return 0;
 	}
 
-	// 【关键修改】：不再移除整个代码块，而是只移除外部的 Markdown 标记。
-	// 注意：这将导致代码块内部的变量名、数字和中文注释都被计入字数。
-
 	let cleanedText = body;
-
-	// 1. 移除 HTML 标签 (如 iframe)
 	cleanedText = cleanedText.replace(/<[^>]*>/g, "");
-
-	// 2. 移除常见的 Markdown 格式标记和分隔符，但不移除英文单词和数字。
-	// 这包括 #, *, `, ~, [, ], (, ), -, |, >, =, <, +, ! 等符号
 	cleanedText = cleanedText
-		.replace(/[#*`~[\]()\-|>=<+!]/g, " ") // 将标记替换为空格
-		.replace(/\s+/g, " ") // 替换多个空格/换行符为一个空格
-		.trim(); // 移除前后空白
+		.replace(/[#*`~[\]()\-|>=<+!]/g, " ")
+		.replace(/\s+/g, " ")
+		.trim();
 
 	if (!cleanedText) {
 		return 0;
 	}
 
-	// 3. 统计中文字符和英文单词，返回总和作为字数估算
 	const chineseChars = cleanedText.match(/[\u4e00-\u9fa5]/g) || [];
-	// 统计英文单词、数字和中文
 	const englishWords = cleanedText.match(/\b[a-zA-Z0-9]+\b/g) || [];
-
-	// 统计逻辑：中文字符数 + 英文单词数
 	return chineseChars.length + englishWords.length;
 }
 
 // --- 数据计算部分 ---
 const posts = await getCollection("posts", ({ data }) => {
-	// 确保只统计已发布的文章 (draft: true 的文章不统计)
 	return data.draft !== true;
 });
 
 const totalPosts = posts.length;
 
-// 【最终修正】：由于插件注入的数据被 Astro Content Collection 过滤，
-// 我们必须使用健壮的函数手动计算 post.body 的字数。
 const totalWords = posts.reduce(
 	(sum, post) => sum + calculateWordCount(post.body),
 	0,
@@ -57,22 +42,25 @@ const totalWords = posts.reduce(
 
 const formattedTotalWords = (num: number) => {
 	if (num < 1000) return num.toString();
-	// 将总字数格式化为 k (例如 123.4k)
 	return `${(num / 1000).toFixed(1)}k`;
 };
 
 // --- 运营时间计算 ---
+// 【关键修改 1】：增加一个变量 `firstPostDateStr`，用于将网站的起始日期安全地传递给客户端脚本。
+let firstPostDateStr = ""; // 新增：用于存储起始日期的字符串版本
 let runningTime = { years: 0, months: 0, days: 0 };
 if (posts.length > 0) {
-	// 找出第一篇文章的发布日期 (升序排序)
 	const sortedPostsAsc = [...posts].sort(
 		(a, b) =>
 			new Date(a.data.published).getTime() -
 			new Date(b.data.published).getTime(),
 	);
 	const firstPostDate = dayjs(sortedPostsAsc[0].data.published);
+
+	// 新增：将 dayjs 对象转换为 ISO 格式的字符串，这是最标准、最不容易出错的日期传递方式。
+	firstPostDateStr = firstPostDate.toISOString();
+
 	const today = dayjs();
-	// 计算运营时间差值
 	const diff = dayjs.duration(today.diff(firstPostDate));
 	runningTime = {
 		years: diff.years(),
@@ -84,7 +72,6 @@ if (posts.length > 0) {
 // --- 最后更新时间计算 ---
 let lastUpdated = "N/A";
 if (posts.length > 0) {
-	// 找出最近更新的文章日期 (降序排序)
 	const sortedPostsDesc = [...posts].sort(
 		(a, b) =>
 			new Date(b.data.published).getTime() -
@@ -108,7 +95,9 @@ if (posts.length > 0) {
 
         <div>
             <div class="text-sm text-gray-500 dark:text-gray-400">运营时间</div>
-            <div class="text-xl font-bold">
+            {/* 【关键修改 2】：为显示时间的元素添加一个唯一的 `id`，方便我们的脚本能精确地找到它并更新内容。 */}
+            <div id="running-time-display" class="text-xl font-bold">
+                {/* 这里的初始值是构建时计算的，页面加载后会被客户端脚本动态替换。 */}
                 {runningTime.years > 0 && `${runningTime.years} 年 `}
                 {runningTime.months > 0 && `${runningTime.months} 月 `}
                 {runningTime.days} <span class="text-xs">天</span>
@@ -121,3 +110,61 @@ if (posts.length > 0) {
         </div>
     </div>
 </WidgetLayout>
+
+{/* 【关键修改 3】：在文件末尾添加这段客户端脚本。它会在用户的浏览器中运行，实现时间的动态更新。 */}
+<script define:vars={{ firstPostDateStr }}>
+    // 这个函数负责计算并更新页面上显示的运营时间。
+    function updateRunningTime() {
+        // 检查从服务器传来的起始日期字符串是否存在，如果不存在，则不执行任何操作。
+        if (!firstPostDateStr) {
+            return;
+        }
+
+        // 将服务器传递过来的 ISO 日期字符串转换为一个 JavaScript 的 Date 对象。
+        const startDate = new Date(firstPostDateStr);
+        // 获取访问者当前电脑的日期和时间。
+        const currentDate = new Date();
+
+        // --- 开始精确计算年、月、日的差值 ---
+        let years = currentDate.getFullYear() - startDate.getFullYear();
+        let months = currentDate.getMonth() - startDate.getMonth();
+        let days = currentDate.getDate() - startDate.getDate();
+
+        // 为了保证计算的准确性，我们需要处理“借位”的情况。
+        // 例如，如果今天是 5月10日，开始日期是 4月20日，直接相减天数会是负数。
+        if (days < 0) {
+            months--; // 月份减一，相当于从上个月借天数。
+            // 获取上一个月的最后一天是几号，从而知道借了多少天。
+            const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+            days += prevMonthLastDay;
+        }
+        if (months < 0) {
+            years--; // 年份减一，从上一年借月份。
+            months += 12;
+        }
+        
+        // 构造最终要显示在页面上的 HTML 字符串。
+        let html = '';
+        if (years > 0) {
+            html += `${years} 年 `;
+        }
+        if (months > 0) {
+            html += `${months} 月 `;
+        }
+        html += `${days} <span class="text-xs">天</span>`;
+
+        // 通过我们之前设置的 `id`，找到页面上那个用于显示时间的 `div` 元素。
+        const displayElement = document.getElementById('running-time-display');
+        // 如果成功找到了这个元素，就用我们新计算出的 HTML 内容来更新它。
+        if (displayElement) {
+            displayElement.innerHTML = html;
+        }
+    }
+
+    // 当页面的基本 HTML 结构加载完成后，立即执行一次更新函数，显示最新的时间。
+    document.addEventListener('DOMContentLoaded', updateRunningTime);
+
+    // 考虑到你的网站使用了 Swup.js (页面切换动画)，我们还需要监听它的 'contentReplaced' 事件。
+    // 这能确保在用户通过链接从一个页面跳转到另一个页面后，时间也能被重新计算和更新。
+    document.addEventListener('swup:contentReplaced', updateRunningTime);
+</script>
