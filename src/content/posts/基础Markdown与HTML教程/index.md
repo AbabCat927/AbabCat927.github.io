@@ -399,7 +399,7 @@ Bilibili 的嵌入代码格式略有不同，但原理相似：
 <iframe 
     width="100%" 
     height="468" 
-    src="//player.bilibili.com/player.html?bvid=BV1JThqzwEGq&p=1&autoplay=0" 
+    src="https://player.bilibili.com/player.html?bvid=BV1JThqzwEGq&p=1&autoplay=0" 
     scrolling="no" 
     border="0" 
     frameborder="no" 
