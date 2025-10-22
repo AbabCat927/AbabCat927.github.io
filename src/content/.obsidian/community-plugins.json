@@ -1,5 +1,8 @@
 [
   "obsidian-git",
   "buttons",
-  "obsidian-shellcommands"
+  "obsidian-shellcommands",
+  "convert-katex-to-mathjax",
+  "obsidian-latex-suite",
+  "smart-composer"
 ]

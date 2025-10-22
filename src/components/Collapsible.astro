@@ -1,0 +1,55 @@
+---
+// 文件: src/components/Collapsible.astro
+// 功能: 一个可复用的、带样式的折叠内容组件
+
+// 定义组件接收的属性 (Props)
+interface Props {
+	title: string; // 折叠项的标题，将显示在 <summary> 中
+	isOpen?: boolean; // 可选属性，控制是否默认展开，默认为 false (折叠)
+}
+
+// 从 Astro.props 获取属性，并为 isOpen 设置默认值
+const { title, isOpen = false } = Astro.props;
+---
+
+{/* 使用 <details> 元素作为根容器。
+  - 'group' 类用于配合 Tailwind 的 group-open 伪类来控制箭头旋转。
+  - 添加了圆角、边框、外边距等基础样式。
+  - `data-open={isOpen}` 不是标准属性，但可以用于调试或特定JS交互。
+  - `open={isOpen}` 属性直接控制 <details> 的初始状态（是否展开）。
+*/}
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden mb-4" open={isOpen} data-open={isOpen}>
+    
+    {/* <summary> 元素作为可点击的标题区域。
+      - 'list-none' 移除了浏览器默认的展开/折叠标记（通常是个小三角）。
+      - 使用 flex 布局实现标题和箭头的左右排列。
+      - 添加了内边距、背景色、鼠标指针样式和 hover 效果。
+    */}
+    <summary class="flex cursor-pointer items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition list-none">
+        
+        {/* 显示传入的标题 */}
+        <span class="font-medium text-gray-900 dark:text-white">{title}</span>
+        
+        {/* 自定义的 SVG 箭头图标。
+          - 'shrink-0' 防止图标在空间不足时被压缩。
+          - 'transition duration-300' 添加平滑的旋转过渡效果。
+          - 'group-open:rotate-180' 利用 Tailwind 的 group-open 伪类，在 <details> 展开时将箭头旋转 180 度。
+        */}
+        <svg class="h-5 w-5 shrink-0 transition duration-300 group-open:rotate-180 text-gray-500 dark:text-gray-400"
+             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+    </summary>
+
+    {/* 用于包裹折叠内容的 div 容器。
+      - 添加了上边框、内边距和背景色，与 <summary> 区域区分开。
+    */}
+    <div class="border-t border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">
+        
+        {/* <slot /> 是 Astro 的核心特性，它允许你在使用这个组件时，
+          将任何内容（HTML, Markdown, 其他 Astro 组件等）插入到这个位置。
+          这些插入的内容就是会被折叠起来的部分。
+        */}
+        <slot />
+    </div>
+</details>
