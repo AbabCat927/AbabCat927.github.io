@@ -13,7 +13,7 @@ password: ""
 category: 技术
 licenseName: MIT
 sourceLink: ""
-draft: true
+draft: false
 ---
 obsidian 作为一个强大的双链笔记和知识管理工具，其真正的魅力在于其高度的可扩展性。丰富的插件社区为我们提供了无限的可能性，让我们可以根据自己的需求，将 obsidian 打造成独一无二的称手利器。
 
