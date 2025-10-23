@@ -194,8 +194,4 @@ obsidian 作为一个强大的双链笔记和知识管理工具，其真正的�
 :::
 
 
-<p style="text-align: center;">
-  <img src="test.png" alt="图片描述" width="400" />
-</p>
 
-![[test.png]]
