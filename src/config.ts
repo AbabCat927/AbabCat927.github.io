@@ -292,7 +292,7 @@ export const commentConfig: CommentConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "公告", // 公告标题
-	content: "加密文章的密码为本人姓名首字母缩写+本人学校缩写（全部小写）", // 公告内容
+	content: "加密文章的密码为本人姓名首字母+本人学校缩写（全部小写）", // 公告内容
 	closable: false, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接

@@ -148,6 +148,8 @@ tXv
 tYod
 test
 top
+theme
+toc
 published
 player
 picture
@@ -451,6 +453,7 @@ ceTH
 czM
 cursor
 color
+cxzsjtu
 draft
 dev
 description
@@ -595,6 +598,7 @@ dyf
 details
 ddd
 div
+data
 npx
 note
 no
@@ -1305,6 +1309,10 @@ MIO
 MQj
 MJdf
 Media
+Manifest
+Microsoft
+Mac
+Manager
 HTML
 HDx
 Hbx
@@ -1590,6 +1598,7 @@ uhs
 ueYku
 uma
 uIB
+uBlock
 image
 io
 important
@@ -2202,6 +2211,7 @@ mqk
 mVS
 mpA
 margin
+many
 youtube
 ytt
 yM
@@ -2633,6 +2643,8 @@ GJP
 GXBq
 GrL
 GbH
+Groups
+Google
 API
 AbabCat
 AI
@@ -2781,6 +2793,15 @@ AYN
 AHD
 AIF
 AVi
+App
+ACG
+AVAILABLE
+APP
+Anna
+Archive
+Adobe
+Autodesk
+AutoCAD
 repo
 rv
 ry
@@ -2912,6 +2933,7 @@ rtK
 ryN
 rkJ
 radius
+references
 warning
 width
 write
@@ -3207,6 +3229,7 @@ sIE
 sjk
 solid
 summary
+sky
 Inline
 ID
 IHDR
@@ -3339,6 +3362,7 @@ IDATD
 IZNF
 IgtM
 IqS
+IDM
 Frame
 Fg
 Fj
@@ -3487,6 +3511,9 @@ FZu
 FRNM
 FCo
 FZs
+Firefox
+FAQ
+Fanbox
 YouTube
 Youtube
 YRU
@@ -3876,6 +3903,9 @@ SJM
 Seh
 SxJ
 SFz
+Steam
+Scene
+Spotify
 video
 vZ
 vx
@@ -4586,6 +4616,8 @@ OiK
 ONN
 Oes
 OYm
+Origin
+Office
 Vault
 VUU
 Vu
@@ -4710,6 +4742,7 @@ VJa
 VL
 VNm
 VbT
+VPN
 LaTeX
 LLM
 LP
@@ -4861,6 +4894,8 @@ Lhn
 LKj
 Lsc
 LZA
+Lite
+Lib
 Copilot
 Cf
 CT
@@ -4992,6 +5027,7 @@ CUO
 ClP
 Cnk
 CFr
+Chrome
 RAG
 RUUUU
 RB
@@ -5134,6 +5170,7 @@ RdTx
 RY
 RrK
 RlG
+ROOT
 Excalidraw
 Ed
 EQ
@@ -5279,6 +5316,7 @@ Eai
 Evt
 ERo
 Extended
+Edge
 Taskbone
 Te
 Tw
@@ -5420,6 +5458,8 @@ Tge
 TXh
 Tfb
 TTO
+TorrentGalaxy
+Tidal
 Publish
 PNG
 Pt
@@ -5551,6 +5591,12 @@ POv
 POO
 PhQ
 PPG
+Peer
+PowerShell
+Patcher
+Premium
+Patreon
+Pixiv
 Word
 We
 WEYe
@@ -5686,6 +5732,7 @@ WOw
 WAA
 WlP
 WZb
+Windows
 katex
 kF
 kz
@@ -6769,6 +6816,9 @@ DpW
 DXo
 DvTFf
 DDu
+Deezer
+DODI
+Defender
 jWU
 jZ
 jh
@@ -7177,6 +7227,8 @@ NKSm
 NEW
 Nbui
 NJpb
+NOT
+Narrenschiff
 zg
 zk
 zS
