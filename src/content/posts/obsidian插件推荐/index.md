@@ -2,7 +2,7 @@
 title: 利其器（一）：obsidian插件推荐
 published: 2025-10-22
 pinned: false
-updated: 2025-10-22
+updated: 2025-10-23
 description: 纯主观介绍几个能提升体验和效率的obsidian插件
 image: ""
 tags:
@@ -192,3 +192,10 @@ obsidian 作为一个强大的双链笔记和知识管理工具，其真正的�
 [Obsidian 中文论坛](https://forum-zh.obsidian.md/top)
 
 :::
+
+
+<p style="text-align: center;">
+  <img src="test.png" alt="图片描述" width="400" />
+</p>
+
+![[test.png]]
