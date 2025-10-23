@@ -8,6 +8,7 @@ image: ""
 tags:
   - 教程
   - 网络
+encrypted: true
 password: 'cxzsjtu'
 category: 资源
 licenseName: MIT

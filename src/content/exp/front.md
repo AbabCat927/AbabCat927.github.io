@@ -6,7 +6,8 @@ updated:
 description:
 image: ""
 tags:
-password: ""
+password: ''
+encrypted: true
 category:
 licenseName:
 sourceLink: ""
