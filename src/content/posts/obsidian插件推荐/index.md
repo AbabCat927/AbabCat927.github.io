@@ -42,6 +42,8 @@ obsidian 作为一个强大的双链笔记和知识管理工具，其真正的�
 
 * [KaTeX to MathJax](#katex-to-mathjax)
 
+* [Media Extended]( #media-extended )
+
 ---
 
 > ### [Latex Suite](https://github.com/artisticat1/obsidian-latex-suite)
@@ -182,6 +184,10 @@ obsidian 作为一个强大的双链笔记和知识管理工具，其真正的�
 > **描述：** 方便粘贴AI生成的公式，粘贴时自动把  KaTeX 转换为 MathJax。
 
 ---
+
+> ### [Media Extended](https://github.com/aidenlx/media-extended)
+>
+> **描述：** 方便给视频做笔记，支持 YouTube 和 Bilibili 的视频。
 
 :::note
 

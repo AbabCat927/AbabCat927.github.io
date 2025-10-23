@@ -147,6 +147,7 @@ tLq
 tXv
 tYod
 test
+top
 published
 player
 picture
@@ -294,6 +295,8 @@ pYr
 pua
 pdb
 pciH
+padding
+pointer
 category
 caution
 clipboard
@@ -446,6 +449,8 @@ cUVJ
 cPw
 ceTH
 czM
+cursor
+color
 draft
 dev
 description
@@ -587,6 +592,9 @@ dYS
 dLJ
 dht
 dyf
+details
+ddd
+div
 npx
 note
 no
@@ -1296,6 +1304,7 @@ MrK
 MIO
 MQj
 MJdf
+Media
 HTML
 HDx
 Hbx
@@ -1899,6 +1908,7 @@ fMW
 fVL
 fMXE
 fNbs
+font
 github
 gyroscope
 gW
@@ -2191,6 +2201,7 @@ mbPK
 mqk
 mVS
 mpA
+margin
 youtube
 ytt
 yM
@@ -2483,6 +2494,8 @@ bMw
 bNK
 buG
 btF
+bottom
+bold
 GitHub
 GX
 GPP
@@ -2898,6 +2911,7 @@ rHM
 rtK
 ryN
 rkJ
+radius
 warning
 width
 write
@@ -3037,6 +3051,7 @@ wlL
 wkHU
 wDNp
 wll
+weight
 spoiler
 src
 share
@@ -3190,6 +3205,8 @@ sCN
 sqM
 sIE
 sjk
+solid
+summary
 Inline
 ID
 IHDR
@@ -4155,6 +4172,7 @@ ejLLt
 exv
 eNpQb
 ecj
+extended
 Bilibili
 BF
 BM
@@ -5260,6 +5278,7 @@ ETL
 Eai
 Evt
 ERo
+Extended
 Taskbone
 Te
 Tw

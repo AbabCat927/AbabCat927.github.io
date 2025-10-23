@@ -1,0 +1,13 @@
+{
+  "editor:open-link-in-new-leaf": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Enter"
+    }
+  ],
+  "file-explorer:new-file-in-new-pane": [],
+  "editor:toggle-comments": [],
+  "easy-typing-obsidian:easy-typing-goto-new-line-after-cur-line": []
+}

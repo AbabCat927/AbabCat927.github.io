@@ -292,8 +292,8 @@ export const commentConfig: CommentConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "公告", // 公告标题
-	content: "Welcome to my blog", // 公告内容
-	closable: true, // 允许用户关闭公告
+	content: "加密文章的密码为本人姓名首字母缩写+本人学校缩写（全部小写）", // 公告内容
+	closable: false, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接
 		text: "Learn More", // 链接文本
@@ -339,7 +339,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 动画延迟时间（毫秒），用于错开动画效果
 			animationDelay: 0,
 		},
-		/*	{
+		{
 			// 组件类型：公告组件
 			type: "announcement",
 			// 是否启用该组件（现在通过统一配置控制）
@@ -352,12 +352,12 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			class: "onload-animation",
 			// 动画延迟时间
 			animationDelay: 50,
-			}, */
+		},
 
 		{
 			type: "statistics", // <--- 修改这里
 			enable: true,
-			order: 2,
+			order: 3,
 			position: "top",
 			class: "onload-animation",
 			animationDelay: 50,
@@ -369,7 +369,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 是否启用该组件
 			enable: true,
 			// 组件显示顺序
-			order: 3,
+			order: 4,
 			// 组件位置："sticky" 表示粘性定位，可滚动
 			position: "sticky",
 			// CSS 类名

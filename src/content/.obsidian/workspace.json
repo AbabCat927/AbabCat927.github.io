@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 241.5
   },
   "right": {
     "id": "538c88f9d03bb11e",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "posts/video.md",
+                "file": "posts/obsidian插件推荐/index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "video 的反向链接列表"
+              "title": "index 的反向链接列表"
             }
           },
           {
@@ -142,16 +142,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "posts/video.md",
+                "file": "posts/obsidian插件推荐/index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "video 的大纲"
+              "title": "index 的大纲"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -169,21 +170,25 @@
       "bases:创建新数据库": false,
       "obsidian-git:Open Git source control": false,
       "obsidian-shellcommands:Shell commands: Custom variables": false,
-      "smart-composer:Open smart composer": false
+      "smart-composer:Open smart composer": false,
+      "media-extended:Open external media": false,
+      "markdown-importer:打开 Markdown 格式转换器": false
     }
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
-    "posts/obsidian插件推荐/index.md",
-    "posts/obsidian插件推荐/test.png",
-    "posts/obsidian插件推荐/不学了.png",
-    "posts/draft.md",
-    "posts/基础Markdown与HTML教程/index.md",
-    "posts/obsidian插件推荐/index.png",
-    "posts/obsidian插件推荐/8a57636e20e8ead8c5a7d2bb9f423ae7 1.png",
     "exp/front.md",
+    "posts/转载-海盗指南/index.md",
+    "posts/obsidian插件推荐/index.md",
+    "posts/转载-海盗指南",
+    "posts/基础Markdown与HTML教程/index.md",
     "exp/折叠.md",
     "exp/折叠-基础.md",
+    "posts/draft.md",
+    "posts/obsidian插件推荐/index.png",
+    "posts/obsidian插件推荐/test.png",
+    "posts/obsidian插件推荐/不学了.png",
+    "posts/obsidian插件推荐/8a57636e20e8ead8c5a7d2bb9f423ae7 1.png",
     "spec/front.md",
     "exp",
     "spec/friends.md",

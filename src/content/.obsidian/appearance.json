@@ -1,1 +1,6 @@
-{}
+{
+  "accentColor": "#96c0d8",
+  "cssTheme": "Light & Bright",
+  "theme": "moonstone",
+  "nativeMenus": true
+}
