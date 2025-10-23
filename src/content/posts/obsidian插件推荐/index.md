@@ -1,14 +1,14 @@
 ---
-title: 利其器（一）：obisidian插件推荐
+title: 利其器（一）：obsidian插件推荐
 published: 2025-10-22
 pinned: false
 updated: 2025-10-22
-description: 纯主观介绍几个能提升体验和效率的obisidian插件
+description: 纯主观介绍几个能提升体验和效率的obsidian插件
 image: ""
 tags:
   - 教程
-  - obisidian
   - 插件
+  - obsidian
 password: ""
 category: 技术
 licenseName: MIT
