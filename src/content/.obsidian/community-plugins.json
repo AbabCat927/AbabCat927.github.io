@@ -4,5 +4,10 @@
   "obsidian-shellcommands",
   "convert-katex-to-mathjax",
   "obsidian-latex-suite",
-  "smart-composer"
+  "smart-composer",
+  "cm-typewriter-scroll-obsidian",
+  "editing-toolbar",
+  "easy-typing-obsidian",
+  "obsidian-linter",
+  "obsidian-completr"
 ]
