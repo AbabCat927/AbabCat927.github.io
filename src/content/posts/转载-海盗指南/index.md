@@ -16,13 +16,12 @@ sourceLink: ""
 draft: false
 ---
 
-:::note
-声明：**本文为转载，原文链接: [海盗指南——如何优雅地获取和使用盗版资源](https://shuiyuan.sjtu.edu.cn/t/topic/285527)**
-:::
+
+
+> 声明：**本文为转载，原文链接: [海盗指南——如何优雅地获取和使用盗版资源](https://shuiyuan.sjtu.edu.cn/t/topic/285527)**
 
 
 
-<div data-theme-toc="true"> </div>
 
 ## 前言
 
@@ -66,12 +65,11 @@ draft: false
 
 **强烈**建议安装[uBlock Origin](https://github.com/gorhill/uBlock)插件，该插件可以屏蔽上网冲浪时遇到的99.99%广告，更重要的是，还能有效拦截各大文件托管站烦人的页面跳转。
 
-:::note
+
 > 2024年10月更新：上线[Manifest V3](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3?hl=zh-cn)后，Chrome浏览器现已不支持uBlock Origin插件。为了解决该问题，你可以：
 >
 > 1. 换用Firefox或者Edge浏览器（Firefox已明确表示将继续支持Manifest V2，因此**uBlock Origin此后将一直支持Firefox**；Edge曾表示将跟进谷歌推行Manifest V3，但目前还未明确日期，存在未来无法使用的可能性）。
-> 2. 若你希望继续使用Chrome浏览器，请换用[AdGuard](https://adguard.com/zh_cn/adguard-browser-extension/chrome/overview.html)（推荐）或[uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh)。
-:::
+> 2. 若你希望继续使用Chrome浏览器，请换用 [AdGuard](https://adguard.com/zh_cn/adguard-browser-extension/chrome/overview.html)（推荐）或 [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh)
 
 
 ### 防范病毒和恶意软件
@@ -99,9 +97,11 @@ draft: false
 **最全的欧美影视资源**种子站，且更新很快，以碟片资源为主，但也会发布枪版。你可以在这里找到未经压缩的、大至数百GB的蓝光原盘，也可以找到便于快速下载观看的1080P资源。请注意列表右侧`S/L`一栏，该栏下的数字越大，表明该资源越热门，下载速度越快。存在老资源死种的情况，但不多。
 
 
-:::note
-从2025年2月开始，TorrentGalaxy处于极不稳定状态，随时可能跑路。若链接无法打开请使用[1337x](https://1337x.to/)作为替代。
-:::
+
+
+> 从2025年2月开始，TorrentGalaxy处于极不稳定状态，随时可能跑路。若链接无法打开请使用 [1337x](https://1337x.to/) 作为替代。
+
+
 
 #### [硬核指南](https://yinghezhinan.com/) - 在线播放
 
