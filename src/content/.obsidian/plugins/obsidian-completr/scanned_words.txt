@@ -150,6 +150,12 @@ test
 top
 theme
 toc
+the
+three
+two
+they
+their
+tree
 published
 player
 picture
@@ -299,6 +305,7 @@ pdb
 pciH
 padding
 pointer
+properties
 category
 caution
 clipboard
@@ -454,6 +461,11 @@ czM
 cursor
 color
 cxzsjtu
+complete
+comparing
+corrupted
+corresponds
+contradicts
 draft
 dev
 description
@@ -599,6 +611,10 @@ details
 ddd
 div
 data
+directed
+degree
+derived
+direction
 npx
 note
 no
@@ -746,6 +762,10 @@ nby
 nvg
 ncnZ
 nvf
+nodes
+next
+null
+node
 astro
 allow
 accelerometer
@@ -897,6 +917,12 @@ aFo
 aBr
 anD
 aGB
+and
+asks
+asking
+appears
+arrow
+accompanying
 host
 height
 hdU
@@ -1167,6 +1193,7 @@ oxC
 oGK
 oIR
 oAf
+other
 Markdown
 Mermaid
 MIT
@@ -1313,6 +1340,7 @@ Manifest
 Microsoft
 Mac
 Manager
+Matrix
 HTML
 HDx
 Hbx
@@ -1444,6 +1472,7 @@ Hmli
 HaF
 HcUTg
 HQl
+Huffman
 updated
 uMb
 ufo
@@ -1599,6 +1628,7 @@ ueYku
 uma
 uIB
 uBlock
+undirected
 image
 io
 important
@@ -1755,6 +1785,9 @@ itw
 iJH
 iXA
 iTH
+induced
+iff
+isomorphic
 false
 frameborder
 framespacing
@@ -1918,6 +1951,7 @@ fVL
 fMXE
 fNbs
 font
+from
 github
 gyroscope
 gW
@@ -2065,6 +2099,8 @@ gno
 glK
 gKA
 grO
+graph
+graphs
 mermaid
 media
 mathjax
@@ -2212,6 +2248,10 @@ mVS
 mpA
 margin
 many
+multigraph
+multiple
+multigraphs
+matrix
 youtube
 ytt
 yM
@@ -2506,6 +2546,9 @@ buG
 btF
 bottom
 bold
+bipartite
+both
+based
 GitHub
 GX
 GPP
@@ -2645,6 +2688,7 @@ GrL
 GbH
 Groups
 Google
+Graph
 API
 AbabCat
 AI
@@ -2802,6 +2846,9 @@ Archive
 Adobe
 Autodesk
 AutoCAD
+Are
+Adjacency
+AND
 repo
 rv
 ry
@@ -2934,6 +2981,8 @@ ryN
 rkJ
 radius
 references
+results
+representations
 warning
 width
 write
@@ -3074,6 +3123,10 @@ wkHU
 wDNp
 wll
 weight
+with
+weighted
+wheel
+which
 spoiler
 src
 share
@@ -3230,6 +3283,13 @@ sjk
 solid
 summary
 sky
+simple
+subgraph
+spanning
+showing
+subgraphs
+source
+sources
 Inline
 ID
 IHDR
@@ -3363,6 +3423,11 @@ IZNF
 IgtM
 IqS
 IDM
+Image
+Images
+Induced
+Isomorphic
+Incidence
 Frame
 Fg
 Fj
@@ -3514,6 +3579,8 @@ FZs
 Firefox
 FAQ
 Fanbox
+Fleury
+FOR
 YouTube
 Youtube
 YRU
@@ -3906,6 +3973,8 @@ SFz
 Steam
 Scene
 Spotify
+SJTU
+Spanning
 video
 vZ
 vx
@@ -4053,6 +4122,8 @@ vuN
 vLoa
 vWX
 vLP
+vertex
+various
 encrypted
 embedding
 excalidraw
@@ -4203,6 +4274,11 @@ exv
 eNpQb
 ecj
 extended
+edge
+edges
+empty
+each
+exist
 Bilibili
 BF
 BM
@@ -4348,6 +4424,8 @@ BXF
 BPy
 BXh
 BeFx
+Based
+BEGIN
 licenseName
 latex
 linter
@@ -4484,6 +4562,10 @@ lUP
 lpM
 lhkG
 lkp
+loop
+labeled
+like
+leaf
 Obsidian
 OCR
 Oj
@@ -5028,6 +5110,7 @@ ClP
 Cnk
 CFr
 Chrome
+Caption
 RAG
 RUUUU
 RB
@@ -5317,6 +5400,8 @@ Evt
 ERo
 Extended
 Edge
+END
+ELSE
 Taskbone
 Te
 Tw
@@ -5460,6 +5545,9 @@ Tfb
 TTO
 TorrentGalaxy
 Tidal
+Text
+This
+THEN
 Publish
 PNG
 Pt
@@ -5597,6 +5685,9 @@ Patcher
 Premium
 Patreon
 Pixiv
+Petersen
+Prim
+PPT
 Word
 We
 WEYe
@@ -5733,6 +5824,9 @@ WAA
 WlP
 WZb
 Windows
+What
+WPL
+WHILE
 katex
 kF
 kz
@@ -6012,6 +6106,7 @@ Kitf
 Kyx
 Kwb
 Kun
+Kruskal
 Xra
 Xn
 Xb
@@ -6819,6 +6914,7 @@ DDu
 Deezer
 DODI
 Defender
+Dijkstra
 jWU
 jZ
 jh
@@ -6955,6 +7051,7 @@ jvZwW
 jzx
 jjr
 jOt
+judgment
 qC
 qHLg
 qV
@@ -7229,6 +7326,7 @@ Nbui
 NJpb
 NOT
 Narrenschiff
+Note
 zg
 zk
 zS

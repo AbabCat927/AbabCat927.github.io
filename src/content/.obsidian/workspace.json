@@ -177,10 +177,17 @@
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
-    "exp/front.md",
-    "posts/转载-海盗指南/index.md",
+    "posts/图论笔记一/index.md",
+    "posts/图论笔记三/index.md",
+    "posts/图论笔记二/index.md",
     "posts/基础Markdown与HTML教程/index.md",
+    "exp/front.md",
+    "posts/图论笔记三",
+    "posts/图论笔记二",
     "posts/draft.md",
+    "未命名.md",
+    "posts/图论笔记一",
+    "posts/转载-海盗指南/index.md",
     "posts/obsidian插件推荐/index.md",
     "posts/转载-海盗指南",
     "exp/折叠.md",
@@ -211,7 +218,6 @@
     "2024-05-01.md",
     "posts/guide/index.md",
     "posts/guide/cover.jpeg",
-    "posts/my-test",
-    "posts/guide"
+    "posts/my-test"
   ]
 }
