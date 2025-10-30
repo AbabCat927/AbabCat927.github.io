@@ -177,12 +177,16 @@
   },
   "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
+    "posts/摄影笔记一/index.md",
+    "posts/基础Markdown与HTML教程/index.md",
+    "posts/draft.md",
+    "spec/friends.md",
+    "spec/about.md",
+    "posts/摄影笔记一",
     "posts/图论笔记三/index.md",
     "posts/图论笔记二/index.md",
     "posts/图论笔记一/index.md",
-    "posts/draft.md",
     "posts/图论笔记一/正向表示例图.png",
-    "posts/基础Markdown与HTML教程/index.md",
     "exp/front.md",
     "posts/图论笔记三",
     "posts/图论笔记二",
@@ -199,8 +203,6 @@
     "posts/obsidian插件推荐/8a57636e20e8ead8c5a7d2bb9f423ae7 1.png",
     "spec/front.md",
     "exp",
-    "spec/friends.md",
-    "spec/about.md",
     "posts/obsidian插件推荐",
     "posts/未命名.md",
     "posts/markdown-tutorial.md",
@@ -218,7 +220,6 @@
     "posts/基础Markdown与HTML教程",
     "2024-05-01.md",
     "posts/guide/index.md",
-    "posts/guide/cover.jpeg",
-    "posts/my-test"
+    "posts/guide/cover.jpeg"
   ]
 }
