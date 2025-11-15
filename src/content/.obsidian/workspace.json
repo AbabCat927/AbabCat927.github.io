@@ -13,6 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "posts/读书笔记/上海交通大学学生生存手册/index.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "index"
+            }
+          },
+          {
+            "id": "0bb56a075d752e4f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "posts/draft.md",
                 "mode": "source",
                 "source": false
@@ -21,7 +35,8 @@
               "title": "draft"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -175,26 +190,35 @@
       "markdown-importer:打开 Markdown 格式转换器": false
     }
   },
-  "active": "2b38895b4df4c0a7",
+  "active": "0bb56a075d752e4f",
   "lastOpenFiles": [
-    "posts/摄影笔记一/index.md",
+    "posts/币圈/笔记一/index.md",
+    "posts/读书笔记/上海交通大学学生生存手册/index.md",
+    "posts/币圈/笔记一",
+    "posts/币圈",
     "posts/基础Markdown与HTML教程/index.md",
+    "posts/数理逻辑笔记/笔记一/index.md",
+    "posts/读书笔记/上海交通大学学生生存手册",
+    "posts/读书笔记",
+    "posts/知乎文章收藏夹",
     "posts/draft.md",
+    "posts/图论笔记",
+    "posts/复习忏悔录/index.md",
+    "posts/数理逻辑笔记/笔记一",
+    "posts/数理逻辑笔记",
+    "posts/摄影笔记一/index.md",
+    "posts/复习忏悔录",
     "spec/friends.md",
     "spec/about.md",
     "posts/摄影笔记一",
-    "posts/图论笔记三/index.md",
-    "posts/图论笔记二/index.md",
-    "posts/图论笔记一/index.md",
-    "posts/图论笔记一/正向表示例图.png",
+    "posts/图论笔记/图论笔记三/index.md",
+    "posts/图论笔记/图论笔记二/index.md",
+    "posts/图论笔记/图论笔记一/index.md",
+    "posts/图论笔记/图论笔记一/正向表示例图.png",
     "exp/front.md",
-    "posts/图论笔记三",
-    "posts/图论笔记二",
     "未命名.md",
-    "posts/图论笔记一",
     "posts/转载-海盗指南/index.md",
     "posts/obsidian插件推荐/index.md",
-    "posts/转载-海盗指南",
     "exp/折叠.md",
     "exp/折叠-基础.md",
     "posts/obsidian插件推荐/index.png",
@@ -202,24 +226,15 @@
     "posts/obsidian插件推荐/不学了.png",
     "posts/obsidian插件推荐/8a57636e20e8ead8c5a7d2bb9f423ae7 1.png",
     "spec/front.md",
-    "exp",
-    "posts/obsidian插件推荐",
     "posts/未命名.md",
     "posts/markdown-tutorial.md",
     "posts/markdown-tutorial/index.md",
-    "posts/markdown-tutorial",
     "posts/video.md",
     "posts/encrypted-post.md",
     "posts/markdown-mermaid.md",
     "posts/markdown-extended.md",
-    "2025-01-20.md",
-    "posts/基础Markdown与HTML教程",
-    "posts/my-test/index.md",
     "posts/my-test/react-hooks-cover.jpeg",
     "posts/markdown-extended/react-hooks-cover.jpeg",
-    "posts/基础Markdown与HTML教程",
-    "2024-05-01.md",
-    "posts/guide/index.md",
     "posts/guide/cover.jpeg"
   ]
 }

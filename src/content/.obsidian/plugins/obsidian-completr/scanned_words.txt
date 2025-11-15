@@ -158,6 +158,11 @@ their
 tree
 toI
 tag
+triangle
+tone
+tools
+techniques
+truth
 published
 player
 picture
@@ -310,6 +315,11 @@ pointer
 properties
 phanhongha
 press
+perspective
+photography
+post
+processing
+proposition
 category
 caution
 clipboard
@@ -475,6 +485,10 @@ class
 container
 card
 child
+composition
+cameras
+canvas
+consequent
 draft
 dev
 description
@@ -628,6 +642,8 @@ dHX
 dvH
 dhT
 display
+depth
+dof
 npx
 note
 no
@@ -945,6 +961,10 @@ about
 aÜ
 aUA
 angle
+art
+accessories
+antecedent
+adequate
 host
 height
 hdU
@@ -1219,6 +1239,7 @@ oIR
 oAf
 other
 out
+optics
 Markdown
 Mermaid
 MIT
@@ -1378,6 +1399,10 @@ Mirrorless
 Medium
 Mirror
 Mark
+Modus
+Morgan
+Minterm
+Maxterm
 HTML
 HDx
 Hbx
@@ -1521,6 +1546,7 @@ Hot
 Half
 Hue
 HSS
+Hypothetical
 updated
 uMb
 ufo
@@ -1842,6 +1868,7 @@ iKr
 items
 item
 icon
+implication
 false
 frameborder
 framespacing
@@ -2008,6 +2035,10 @@ font
 from
 fff
 flex
+focusing
+field
+flash
+formed
 github
 gyroscope
 gW
@@ -2314,6 +2345,9 @@ matrix
 meta
 mZJC
 matsuzaka
+modes
+metering
+material
 youtube
 ytt
 yM
@@ -2941,6 +2975,7 @@ Autofocus
 AWB
 Accessories
 ACR
+Assignment
 repo
 rv
 ry
@@ -3226,6 +3261,7 @@ wheel
 which
 wVT
 wrap
+wff
 spoiler
 src
 share
@@ -3399,6 +3435,9 @@ steam
 shadow
 size
 shrink
+shooting
+sensors
+styles
 Inline
 ID
 IHDR
@@ -3541,6 +3580,8 @@ INFP
 ISO
 Internal
 IBIS
+Implication
+Interpretation
 Frame
 Fg
 Fj
@@ -3712,6 +3753,8 @@ Focus
 Fluorescent
 Flash
 FEC
+Formula
+Form
 YouTube
 Youtube
 YRU
@@ -4148,6 +4191,8 @@ Sharpness
 Sync
 Styles
 Snapseed
+Satisfiable
+Syllogism
 video
 vZ
 vx
@@ -4461,6 +4506,7 @@ ecx
 example
 examples
 eee
+exposure
 Bilibili
 BF
 BM
@@ -4623,6 +4669,7 @@ Bokeh
 Balance
 Brightness
 Bounce
+Biconditional
 licenseName
 latex
 linter
@@ -4765,6 +4812,8 @@ like
 leaf
 label
 last
+light
+lenses
 Obsidian
 OCR
 Oj
@@ -5202,6 +5251,8 @@ Lenses
 Length
 LED
 Lightroom
+Logical
+Laws
 Copilot
 Cf
 CT
@@ -5355,6 +5406,9 @@ Cloudy
 Custom
 CFexpress
 CMYK
+Conjunction
+Contradiction
+CNF
 RAG
 RUUUU
 RB
@@ -5507,6 +5561,7 @@ Ratio
 Reflex
 RAW
 RGB
+Resolution
 Excalidraw
 Ed
 EQ
@@ -5657,6 +5712,7 @@ END
 ELSE
 Exposure
 Evaluative
+Equivalence
 Taskbone
 Te
 Tw
@@ -5819,6 +5875,9 @@ Tools
 TTL
 Through
 Techniques
+Tautology
+Tautological
+Tollens
 Publish
 PNG
 Pt
@@ -5977,6 +6036,10 @@ Photography
 Post
 Processing
 Photoshop
+PDF
+Ponens
+PDNF
+PCNF
 Word
 We
 WEYe
@@ -6120,6 +6183,7 @@ WeChat
 Whites
 White
 Wide
+Well
 katex
 kF
 kz
@@ -7234,6 +7298,9 @@ Digital
 Depth
 DoF
 Deep
+Disjunction
+DNF
+Disjunctive
 jWU
 jZ
 jh
@@ -7512,6 +7579,7 @@ qZu
 qWqq
 qZv
 qAFr
+quality
 NGGG
 NT
 No
@@ -7650,6 +7718,10 @@ Note
 Number
 Nikon
 Noise
+Negation
+NAND
+NOR
+Normal
 zg
 zk
 zS
