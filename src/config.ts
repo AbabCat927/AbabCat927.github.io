@@ -86,7 +86,7 @@ export const siteConfig: SiteConfig = {
 			enable: true, // 在主页显示自定义文本
 			title: "AbabCatのblog", // 主页横幅主标题
 
-			subtitle: ["Welcome To My Blog", "Find Your Inspiration Here"],
+			subtitle: ["Welcome To My Blog"],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
 

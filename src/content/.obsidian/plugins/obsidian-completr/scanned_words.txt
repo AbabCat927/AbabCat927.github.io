@@ -4048,6 +4048,7 @@ USM
 UHS
 Uniswap
 USDT
+USTD
 SEO
 SVG
 Sk
