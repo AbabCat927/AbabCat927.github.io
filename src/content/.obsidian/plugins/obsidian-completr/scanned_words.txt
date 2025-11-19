@@ -163,6 +163,7 @@ tone
 tools
 techniques
 truth
+tradingview
 published
 player
 picture
@@ -320,6 +321,7 @@ photography
 post
 processing
 proposition
+pandas
 category
 caution
 clipboard
@@ -489,6 +491,7 @@ composition
 cameras
 canvas
 consequent
+coins
 draft
 dev
 description
@@ -1099,6 +1102,7 @@ hfS
 hLi
 hVv
 header
+honeypot
 open
 obsidian
 onn
@@ -1403,6 +1407,12 @@ Modus
 Morgan
 Minterm
 Maxterm
+Mint
+MetaMask
+Mnemonic
+Market
+MATIC
+MACD
 HTML
 HDx
 Hbx
@@ -1547,6 +1557,8 @@ Half
 Hue
 HSS
 Hypothetical
+HODL
+Honeypot
 updated
 uMb
 ufo
@@ -2495,6 +2507,7 @@ yzP
 yNu
 yip
 yuki
+your
 bilibili
 border
 bA
@@ -2651,6 +2664,7 @@ bmT
 bqS
 background
 box
+backtrader
 GitHub
 GX
 GPP
@@ -2799,6 +2813,8 @@ Group
 Ghosting
 GPS
 GND
+GameFi
+Gas
 API
 AbabCat
 AI
@@ -3582,6 +3598,8 @@ Internal
 IBIS
 Implication
 Interpretation
+Impermanent
+IPO
 Frame
 Fg
 Fj
@@ -3755,6 +3773,10 @@ Flash
 FEC
 Formula
 Form
+FTX
+FOMO
+Flexible
+FDUSD
 YouTube
 Youtube
 YRU
@@ -4024,6 +4046,8 @@ UserComment
 Uplighting
 USM
 UHS
+Uniswap
+USDT
 SEO
 SVG
 Sk
@@ -4193,6 +4217,13 @@ Styles
 Snapseed
 Satisfiable
 Syllogism
+Staking
+Solana
+Smart
+Screener
+Sniffer
+Simple
+Stop
 video
 vZ
 vx
@@ -4670,6 +4701,15 @@ Balance
 Brightness
 Bounce
 Biconditional
+Binance
+BTC
+Base
+BNB
+BSC
+Burner
+Bots
+BUG
+Backtesting
 licenseName
 latex
 linter
@@ -4814,6 +4854,7 @@ label
 last
 light
 lenses
+loss
 Obsidian
 OCR
 Oj
@@ -4959,6 +5000,7 @@ One
 Out
 Off
 OCF
+OKX
 Vault
 VUU
 Vu
@@ -5253,6 +5295,10 @@ LED
 Lightroom
 Logical
 Laws
+Loss
+Ledger
+Locked
+Launchpool
 Copilot
 Cf
 CT
@@ -5409,6 +5455,9 @@ CMYK
 Conjunction
 Contradiction
 CNF
+CEX
+Cold
+Chain
 RAG
 RUUUU
 RB
@@ -5562,6 +5611,8 @@ Reflex
 RAW
 RGB
 Resolution
+Rug
+RSI
 Excalidraw
 Ed
 EQ
@@ -5713,6 +5764,8 @@ ELSE
 Exposure
 Evaluative
 Equivalence
+ETH
+Earn
 Taskbone
 Te
 Tw
@@ -5878,6 +5931,14 @@ Techniques
 Tautology
 Tautological
 Tollens
+Trading
+Trust
+Trezor
+Token
+Take
+Tokenomics
+TradingView
+Testnet
 Publish
 PNG
 Pt
@@ -6040,6 +6101,18 @@ PDF
 Ponens
 PDNF
 PCNF
+PoS
+Play
+PancakeSwap
+Private
+Phrase
+Primary
+Polygon
+Pump
+Pull
+Principal
+Python
+Paper
 Word
 We
 WEYe
@@ -6184,6 +6257,7 @@ Whites
 White
 Wide
 Well
+Wallet
 katex
 kF
 kz
@@ -6319,6 +6393,7 @@ kDR
 kvT
 kiO
 kXe
+keys
 KaTeX
 KH
 KW
@@ -6465,6 +6540,8 @@ Kwb
 Kun
 Kruskal
 Key
+KYC
+KOL
 Xra
 Xn
 Xb
@@ -7026,6 +7103,7 @@ Zks
 ZXL
 Zone
 Zoom
+Zero
 JG
 JQ
 Jp
@@ -7301,6 +7379,9 @@ Deep
 Disjunction
 DNF
 Disjunctive
+DeFi
+DEX
+Dump
 jWU
 jZ
 jh
@@ -7722,6 +7803,8 @@ Negation
 NAND
 NOR
 Normal
+NFT
+Not
 zg
 zk
 zS
