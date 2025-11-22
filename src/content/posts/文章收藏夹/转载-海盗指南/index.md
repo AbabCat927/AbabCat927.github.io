@@ -8,8 +8,9 @@ image: ""
 tags:
   - 教程
   - 网络
+  - 转载
 encrypted: true
-password: 'cxzsjtu'
+password: cxzsjtu
 category: 资源
 licenseName: MIT
 sourceLink: ""

@@ -164,6 +164,7 @@ tools
 techniques
 truth
 tradingview
+tui
 published
 player
 picture
@@ -647,6 +648,8 @@ dhT
 display
 depth
 dof
+duangduang
+der
 npx
 note
 no
@@ -1103,6 +1106,7 @@ hLi
 hVv
 header
 honeypot
+heart
 open
 obsidian
 onn
@@ -1244,6 +1248,7 @@ oAf
 other
 out
 optics
+offer
 Markdown
 Mermaid
 MIT
@@ -1413,6 +1418,7 @@ Mnemonic
 Market
 MATIC
 MACD
+Mao
 HTML
 HDx
 Hbx
@@ -1559,6 +1565,8 @@ HSS
 Hypothetical
 HODL
 Honeypot
+HCG
+House
 updated
 uMb
 ufo
@@ -2203,6 +2211,7 @@ graphs
 gmail
 gap
 grow
+girl
 mermaid
 media
 mathjax
@@ -2360,6 +2369,8 @@ matsuzaka
 modes
 metering
 material
+money
+moneymoneymoney
 youtube
 ytt
 yM
@@ -2665,6 +2676,7 @@ bqS
 background
 box
 backtrader
+bbs
 GitHub
 GX
 GPP
@@ -2815,6 +2827,7 @@ GPS
 GND
 GameFi
 Gas
+God
 API
 AbabCat
 AI
@@ -3278,6 +3291,7 @@ which
 wVT
 wrap
 wff
+war
 spoiler
 src
 share
@@ -3454,6 +3468,8 @@ shrink
 shooting
 sensors
 styles
+sweat
+smile
 Inline
 ID
 IHDR
@@ -3777,6 +3793,7 @@ FTX
 FOMO
 Flexible
 FDUSD
+Facebook
 YouTube
 Youtube
 YRU
@@ -4711,6 +4728,7 @@ Burner
 Bots
 BUG
 Backtesting
+BBS
 licenseName
 latex
 linter
@@ -5130,6 +5148,8 @@ VPN
 VNXQaK
 VdX
 View
+VCD
+Viagra
 LaTeX
 LLM
 LP
@@ -5300,6 +5320,9 @@ Loss
 Ledger
 Locked
 Launchpool
+Live
+Livehouse
+LOL
 Copilot
 Cf
 CT
@@ -5459,6 +5482,7 @@ CNF
 CEX
 Cold
 Chain
+Cue
 RAG
 RUUUU
 RB
@@ -7383,6 +7407,7 @@ Disjunctive
 DeFi
 DEX
 Dump
+Demo
 jWU
 jZ
 jh
@@ -7806,6 +7831,7 @@ NOR
 Normal
 NFT
 Not
+NBA
 zg
 zk
 zS
