@@ -1,4 +1,3 @@
-import { PreviewComponent } from "./src/plugins/rehype-component-preview.mjs"; 
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
@@ -22,6 +21,7 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
+import { PreviewComponent } from "./src/plugins/rehype-component-preview.mjs";
 import { rehypeMermaid } from "./src/plugins/rehype-mermaid.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
@@ -34,7 +34,6 @@ export default defineConfig({
 	base: "/",
 	trailingSlash: "always",
 	integrations: [
-		mdx(),
 		tailwind({
 			nesting: true,
 		}),
@@ -113,6 +112,7 @@ export default defineConfig({
 				showCopyToClipboardButton: false,
 			},
 		}),
+		mdx(),
 		svelte(),
 		sitemap(),
 	],
