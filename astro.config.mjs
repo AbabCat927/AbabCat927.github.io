@@ -1,3 +1,5 @@
+import { PreviewComponent } from "./src/plugins/rehype-component-preview.mjs"; 
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
@@ -32,6 +34,7 @@ export default defineConfig({
 	base: "/",
 	trailingSlash: "always",
 	integrations: [
+		mdx(),
 		tailwind({
 			nesting: true,
 		}),
@@ -138,6 +141,7 @@ export default defineConfig({
 						important: (x, y) => AdmonitionComponent(x, y, "important"),
 						caution: (x, y) => AdmonitionComponent(x, y, "caution"),
 						warning: (x, y) => AdmonitionComponent(x, y, "warning"),
+						preview: PreviewComponent,
 					},
 				},
 			],

@@ -805,6 +805,7 @@ nCJ
 nvQ
 none
 normal
+name
 astro
 allow
 accelerometer
@@ -5964,6 +5965,7 @@ Take
 Tokenomics
 TradingView
 Testnet
+TestButton
 Publish
 PNG
 Pt
@@ -6138,6 +6140,7 @@ Pull
 Principal
 Python
 Paper
+Preview
 Word
 We
 WEYe

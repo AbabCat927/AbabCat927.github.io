@@ -4,6 +4,7 @@ import Comment from "@components/comment/index.astro";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import PasswordProtection from "@components/PasswordProtection.astro";
+import Preview from "@components/Preview.astro"; // ← 新增
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -19,6 +20,7 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
 	return blogEntries.map((entry) => ({
@@ -38,8 +40,8 @@ let passwordHash = "";
 let isEncrypted = entry.data.encrypted && entry.data.password;
 
 if (isEncrypted) {
-	// 对于加密文章，我们将使用内容进行加密
-	// 在客户端解密后，会通过JavaScript重新渲染
+	// 对于加密文章,我们将使用内容进行加密
+	// 在客户端解密后,会通过JavaScript重新渲染
 	const contentToEncrypt = entry.body;
 
 	// 使用AES加密内容
@@ -197,7 +199,8 @@ const jsonLd = {
                 ) : (
                     <>
                         <Markdown class="mb-6 markdown-content onload-animation">
-                            <Content />
+                            {/* ← 关键修改：注入 Preview 组件 */}
+                            <Content components={{ Preview }} />
                         </Markdown>
                         {licenseConfig.enable && (
                             <License

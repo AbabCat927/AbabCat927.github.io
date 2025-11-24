@@ -1,0 +1,95 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  name: string;
+  height?: string; // 可选：预览区域高度
+}
+
+const { name, height = "auto" } = Astro.props;
+
+// 动态导入所有演示组件（支持 .astro / .svelte）
+const allComponents = import.meta.glob('/src/demos/**/*.{astro,svelte}', { eager: true });
+const allRawCodes = import.meta.glob('/src/demos/**/*.{astro,svelte}', { query: '?raw', eager: true, import: 'default' });
+
+// 查找匹配的组件
+let Component: any = null;
+let rawCode = '';
+let fileExt = '';
+let actualPath = '';
+
+for (const path in allComponents) {
+  const fileName = path.split('/').pop()?.replace(/\.(astro|svelte)$/, '');
+  if (fileName === name) {
+    Component = (allComponents[path] as any).default;
+    rawCode = allRawCodes[path] as string;
+    fileExt = path.endsWith('.svelte') ? 'svelte' : 'astro';
+    actualPath = path.replace('/src/', '');
+    break;
+  }
+}
+
+if (!Component) {
+  throw new Error(`❌ 找不到组件: ${name}\n请确保文件存在于 src/demos/ 目录下`);
+}
+---
+
+<div class="preview-wrapper not-prose my-8">
+  <!-- 预览区域 -->
+  <div 
+    class="preview-container rounded-t-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-8 flex items-center justify-center"
+    style={`min-height: ${height};`}
+  >
+    <Component />
+  </div>
+
+  <!-- 代码折叠区 -->
+  <details class="code-details group border-x border-b border-gray-200 dark:border-gray-700 rounded-b-xl overflow-hidden">
+    <summary class="px-4 py-3 bg-gray-50 dark:bg-gray-800 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-750 transition-colors flex items-center justify-between select-none">
+      <span class="text-sm font-mono text-gray-600 dark:text-gray-400">
+        📄 {actualPath}
+      </span>
+      <span class="text-gray-400 group-open:rotate-180 transition-transform duration-200">
+        ▼
+      </span>
+    </summary>
+    
+    <div class="code-wrapper bg-[#0d1117]">
+      <Code 
+        code={rawCode.trim()} 
+        lang={fileExt} 
+        theme="github-dark"
+      />
+    </div>
+  </details>
+</div>
+
+<style>
+  .preview-wrapper {
+    /* 确保不受 prose 样式影响 */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .preview-container {
+    background-image: 
+      radial-gradient(circle, #e5e7eb 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  :global(.dark) .preview-container {
+    background-image: 
+      radial-gradient(circle, #374151 1px, transparent 1px);
+  }
+
+  .code-wrapper :global(pre) {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding: 1rem !important;
+  }
+
+  /* 适配你的 Expressive Code 主题 */
+  .code-wrapper :global(pre) {
+    background: var(--codeblock-bg, #0d1117) !important;
+  }
+</style>
