@@ -21,23 +21,98 @@ draft: false
 > **来源：** [菜鸟教程](https://www.runoob.com)
 
 
-- [GitHub 仓库卡片](#github-仓库卡片)
-- [警告/提示框](#警告/提示框)
-  - [基本语法](#基本语法)
-  - [自定义标题](#自定义标题)
-  - [GitHub 语法](#github-语法)
-  - [隐藏内容](#隐藏内容)
-- [Mermaid 绘图示例](#mermaid-绘图示例)
-  - [流程图示例](#流程图示例)
-  - [时序图示例](#时序图示例)
-  - [甘特图示例](#甘特图示例)
-  - [类图示例](#类图示例)
-  - [状态图示例](#状态图示例)
-  - [饼图示例](#饼图示例)
-- [嵌入视频](#嵌入视频)
-  - [示例代码结构概览](#示例代码结构概览)
-  - [YouTube 嵌入代码解释](#youtube-嵌入代码解释)
-  - [Bilibili 嵌入代码解释](#bilibili-嵌入代码解释)
+<div class="not-prose w-full my-12 bg-[#0b0c15] border border-gray-800 rounded-lg overflow-hidden relative shadow-2xl group select-none">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 opacity-50"></div>
+<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay pointer-events-none"></div>
+<div class="flex items-center justify-between px-6 py-3 border-b border-gray-800 bg-[#121420]">
+<div class="flex items-center gap-3">
+<div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-red-500"></div><div class="w-1.5 h-1.5 rounded-full bg-yellow-500"></div><div class="w-1.5 h-1.5 rounded-full bg-green-500"></div></div>
+<span class="text-xs font-mono text-blue-400 tracking-[0.2em] font-bold">NAVIGATION_PROTOCOL</span>
+</div>
+<span class="text-[10px] text-gray-600 font-mono">SYS.READY</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-800">
+<div class="p-6 hover:bg-white/5 transition-colors duration-300 relative group/col">
+<div class="absolute top-0 left-0 w-1 h-0 bg-blue-500 transition-all duration-300 group-hover/col:h-full"></div>
+<a href="#github-仓库卡片" class="block mb-6 group/link">
+<h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2 group-hover/link:text-blue-400 transition-colors">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+GitHub 仓库
+</h3>
+<div class="text-xs text-gray-500">Repository & Source</div>
+</a>
+<div class="space-y-3">
+<a href="#警告/提示框" class="block text-sm font-bold text-gray-300 hover:text-white mb-2">⚠ 警告/提示框</a>
+<ul class="space-y-2 border-l border-gray-700 pl-4 ml-1">
+<li><a href="#基本语法" class="block text-xs text-gray-500 hover:text-blue-400 hover:translate-x-1 transition-all">基本语法</a></li>
+<li><a href="#自定义标题" class="block text-xs text-gray-500 hover:text-blue-400 hover:translate-x-1 transition-all">自定义标题</a></li>
+<li><a href="#github-语法" class="block text-xs text-gray-500 hover:text-blue-400 hover:translate-x-1 transition-all">GitHub 语法</a></li>
+<li><a href="#隐藏内容" class="block text-xs text-gray-500 hover:text-blue-400 hover:translate-x-1 transition-all">隐藏内容</a></li>
+</ul>
+</div>
+</div>
+<div class="p-6 hover:bg-white/5 transition-colors duration-300 relative group/col">
+<div class="absolute top-0 left-0 w-1 h-0 bg-purple-500 transition-all duration-300 group-hover/col:h-full"></div>
+<a href="#mermaid-绘图示例" class="block mb-4">
+<h3 class="text-lg font-bold text-white mb-1 group-hover/col:text-purple-400 transition-colors">Mermaid 绘图</h3>
+<div class="text-xs text-gray-500">Diagrams & Charts</div>
+</a>
+<div class="grid grid-cols-2 gap-2">
+<a href="#流程图示例" class="p-2 bg-[#1a1d2d] rounded border border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all group/item">
+<div class="text-xs font-bold text-gray-300 group-hover/item:text-white">流程图</div>
+<div class="text-[10px] text-gray-600 group-hover/item:text-purple-400">Flowchart</div>
+</a>
+<a href="#时序图示例" class="p-2 bg-[#1a1d2d] rounded border border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all group/item">
+<div class="text-xs font-bold text-gray-300 group-hover/item:text-white">时序图</div>
+<div class="text-[10px] text-gray-600 group-hover/item:text-purple-400">Sequence</div>
+</a>
+<a href="#甘特图示例" class="p-2 bg-[#1a1d2d] rounded border border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all group/item">
+<div class="text-xs font-bold text-gray-300 group-hover/item:text-white">甘特图</div>
+<div class="text-[10px] text-gray-600 group-hover/item:text-purple-400">Gantt</div>
+</a>
+<a href="#类图示例" class="p-2 bg-[#1a1d2d] rounded border border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all group/item">
+<div class="text-xs font-bold text-gray-300 group-hover/item:text-white">类图</div>
+<div class="text-[10px] text-gray-600 group-hover/item:text-purple-400">Class</div>
+</a>
+<a href="#状态图示例" class="p-2 bg-[#1a1d2d] rounded border border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all group/item">
+<div class="text-xs font-bold text-gray-300 group-hover/item:text-white">状态图</div>
+<div class="text-[10px] text-gray-600 group-hover/item:text-purple-400">State</div>
+</a>
+<a href="#饼图示例" class="p-2 bg-[#1a1d2d] rounded border border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all group/item">
+<div class="text-xs font-bold text-gray-300 group-hover/item:text-white">饼图</div>
+<div class="text-[10px] text-gray-600 group-hover/item:text-purple-400">Pie</div>
+</a>
+</div>
+</div>
+<div class="p-6 hover:bg-white/5 transition-colors duration-300 relative group/col">
+<div class="absolute top-0 left-0 w-1 h-0 bg-green-500 transition-all duration-300 group-hover/col:h-full"></div>
+<a href="#嵌入视频" class="block mb-4">
+<h3 class="text-lg font-bold text-white mb-1 group-hover/col:text-green-400 transition-colors">嵌入视频</h3>
+<div class="text-xs text-gray-500">Multimedia Integration</div>
+</a>
+<ul class="space-y-3">
+<li>
+<a href="#示例代码结构概览" class="flex items-center justify-between group/item">
+<span class="text-sm text-gray-400 group-hover/item:text-white transition-colors">代码结构</span>
+<span class="text-[10px] font-mono text-gray-600 border border-gray-700 px-1 rounded group-hover/item:border-green-500/50 group-hover/item:text-green-500">STRUCT</span>
+</a>
+</li>
+<li>
+<a href="#youtube-嵌入代码解释" class="flex items-center justify-between group/item">
+<span class="text-sm text-gray-400 group-hover/item:text-white transition-colors">YouTube</span>
+<span class="text-[10px] font-mono text-gray-600 border border-gray-700 px-1 rounded group-hover/item:border-red-500/50 group-hover/item:text-red-500">YT</span>
+</a>
+</li>
+<li>
+<a href="#bilibili-嵌入代码解释" class="flex items-center justify-between group/item">
+<span class="text-sm text-gray-400 group-hover/item:text-white transition-colors">Bilibili</span>
+<span class="text-[10px] font-mono text-gray-600 border border-gray-700 px-1 rounded group-hover/item:border-pink-500/50 group-hover/item:text-pink-400">BILI</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
 
 ---
 
