@@ -1343,97 +1343,68 @@ isConnected = false;
 我已经沉浸在自己的艺术里了，后面就是玩，不贴源代码了。
 :::
 
-
 <div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl relative">
-    <div class="px-4 py-3 border-b border-gray-800 flex justify-between items-center bg-[#161b22]">
-        <div class="flex items-center gap-2">
-            <span class="text-yellow-500 font-bold">ETH/USDT</span>
-            <span class="text-xs text-green-500 px-2 py-0.5 bg-green-500/10 rounded-full animate-pulse">● LIVE</span>
-        </div>
-        <div class="text-gray-500 font-mono text-sm">Perpetual</div>
-    </div>
-    <div id="tv-chart-final" style="width: 100%; height: 450px;"></div>
+<div class="px-4 py-3 border-b border-gray-800 flex justify-between items-center bg-[#161b22]">
+<div class="flex items-center gap-2"><span class="text-yellow-500 font-bold">ETH/USDT</span><span class="text-xs text-green-500 px-2 py-0.5 bg-green-500/10 rounded-full animate-pulse">● BINANCE REALTIME</span></div>
+<div class="text-gray-500 font-mono text-sm" id="live-price-header">--</div>
 </div>
-
+<div id="tv-chart-real" style="width: 100%; height: 450px;"></div>
+</div>
 <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 等待一下确保库加载完成
-        setTimeout(function() {
-            const container = document.getElementById('tv-chart-final');
-            
-            if (!container) {
-                console.error('容器未找到');
-                return;
-            }
-            
-            if (typeof LightweightCharts === 'undefined') {
-                console.error('LightweightCharts 库未加载');
-                return;
-            }
-            
-            const chart = LightweightCharts.createChart(container, {
-                layout: { 
-                    background: { type: 'solid', color: '#0d1117' }, 
-                    textColor: '#d1d5db' 
-                },
-                grid: { 
-                    vertLines: { color: 'rgba(42, 46, 57, 0.5)' }, 
-                    horzLines: { color: 'rgba(42, 46, 57, 0.5)' } 
-                },
-                width: container.clientWidth, 
-                height: 450,
-                timeScale: { 
-                    timeVisible: true, 
-                    secondsVisible: false, 
-                    borderColor: '#374151' 
-                },
-                rightPriceScale: { borderColor: '#374151' }
-            });
-            
-            const candlestickSeries = chart.addCandlestickSeries({
-                upColor: '#10b981',
-                downColor: '#ef4444',
-                borderVisible: false,
-                wickUpColor: '#10b981',
-                wickDownColor: '#ef4444'
-            });
-            
-            // 生成数据
-            const data = [];
-            let timestamp = Math.floor(Date.now() / 1000) - 150 * 60;
-            let price = 2000;
-            
-            for (let i = 0; i < 150; i++) {
-                timestamp += 60;
-                const close = price + (Math.random() - 0.5) * 10;
-                const high = Math.max(price, close) + Math.random() * 5;
-                const low = Math.min(price, close) - Math.random() * 5;
-                
-                data.push({
-                    time: timestamp,
-                    open: price,
-                    high: high,
-                    low: low,
-                    close: close
-                });
-                
-                price = close;
-            }
-            
-            candlestickSeries.setData(data);
-            chart.timeScale().fitContent();
-            
-            console.log('图表初始化成功！');
-            
-            // 响应式
-            window.addEventListener('resize', function() {
-                chart.applyOptions({ width: container.clientWidth });
-            });
-            
-        }, 500);
-    });
+(function(){
+// 等待库加载
+const checkLib = setInterval(() => {
+if (typeof LightweightCharts !== 'undefined') {
+clearInterval(checkLib);
+initRealChart();
+}
+}, 100);
+function initRealChart() {
+const container = document.getElementById('tv-chart-real');
+const priceHeader = document.getElementById('live-price-header');
+if (!container) return;
+const chart = LightweightCharts.createChart(container, {
+layout: { background: { type: 'solid', color: '#0d1117' }, textColor: '#d1d5db' },
+grid: { vertLines: { color: 'rgba(42, 46, 57, 0.5)' }, horzLines: { color: 'rgba(42, 46, 57, 0.5)' } },
+width: container.clientWidth, height: 450,
+timeScale: { timeVisible: true, secondsVisible: false, borderColor: '#374151' },
+rightPriceScale: { borderColor: '#374151', scaleMargins: { top: 0.1, bottom: 0.1 } }
+});
+const series = chart.addCandlestickSeries({ upColor: '#10b981', downColor: '#ef4444', borderVisible: false, wickUpColor: '#10b981', wickDownColor: '#ef4444' });
+// 1. 获取历史数据 (150根 1分钟K线)
+fetch('https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1m&limit=150')
+.then(res => res.json())
+.then(data => {
+const klines = data.map(d => ({
+time: d[0] / 1000,
+open: parseFloat(d[1]),
+high: parseFloat(d[2]),
+low: parseFloat(d[3]),
+close: parseFloat(d[4])
+}));
+series.setData(klines);
+chart.timeScale().fitContent(); // 适配视野
+// 2. 建立 WebSocket 实时更新
+const ws = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@kline_1m');
+ws.onmessage = (event) => {
+const msg = JSON.parse(event.data);
+const k = msg.k;
+const currentBar = {
+time: k.t / 1000,
+open: parseFloat(k.o),
+high: parseFloat(k.h),
+low: parseFloat(k.l),
+close: parseFloat(k.c)
+};
+series.update(currentBar);
+priceHeader.innerText = '$' + currentBar.close.toFixed(2);
+priceHeader.style.color = currentBar.close >= currentBar.open ? '#10b981' : '#ef4444';
+};
+});
+new ResizeObserver(entries => { if(entries[0]) chart.applyOptions({ width: entries[0].contentRect.width }); }).observe(container);
+}
+})();
 </script>
 
 
@@ -1445,451 +1416,266 @@ isConnected = false;
 
 
 <div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl">
-    <div class="px-4 py-3 border-b border-gray-800 bg-[#161b22]">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="text-yellow-500 font-bold">ORDER BOOK</span>
-                <span class="text-xs text-blue-500 px-2 py-0.5 bg-blue-500/10 rounded-full">DEPTH</span>
-            </div>
-            <span class="text-gray-400 text-sm">BTC/USDT</span>
-        </div>
-    </div>
-    <div class="grid grid-cols-2 gap-0">
-        <!-- 买单列表 -->
-        <div class="border-r border-gray-800">
-            <div class="px-4 py-2 bg-[#1a1f2e] grid grid-cols-3 gap-2 text-xs text-gray-400 font-mono">
-                <span>Price(USDT)</span>
-                <span class="text-right">Amount(BTC)</span>
-                <span class="text-right">Total</span>
-            </div>
-            <div id="buy-orders" class="relative" style="height: 300px; overflow: hidden;"></div>
-        </div>
-        <!-- 卖单列表 -->
-        <div>
-            <div class="px-4 py-2 bg-[#1a1f2e] grid grid-cols-3 gap-2 text-xs text-gray-400 font-mono">
-                <span>Price(USDT)</span>
-                <span class="text-right">Amount(BTC)</span>
-                <span class="text-right">Total</span>
-            </div>
-            <div id="sell-orders" class="relative" style="height: 300px; overflow: hidden;"></div>
-        </div>
-    </div>
-    <div class="px-4 py-3 border-t border-gray-800 bg-[#161b22] flex justify-between items-center">
-        <div>
-            <span class="text-xs text-gray-400">Spread: </span>
-            <span id="spread" class="text-yellow-500 font-mono font-bold">--</span>
-        </div>
-        <div class="text-xs text-gray-400">
-            <span id="update-time">--</span>
-        </div>
-    </div>
+<div class="px-4 py-3 border-b border-gray-800 bg-[#161b22] flex justify-between items-center">
+<div class="flex items-center gap-2"><span class="text-yellow-500 font-bold">BTC LIVE TRADES</span><span class="text-xs text-green-500 px-2 py-0.5 bg-green-500/10 rounded-full animate-pulse">● CONNECTED</span></div>
+<div class="text-sm text-gray-400 font-mono">Binance WS</div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const buyOrdersContainer = document.getElementById('buy-orders');
-        const sellOrdersContainer = document.getElementById('sell-orders');
-        const spreadElement = document.getElementById('spread');
-        const updateTimeElement = document.getElementById('update-time');
-        
-        let basePrice = 43250;
-        
-        function generateOrders(isBuy, count) {
-            const orders = [];
-            let price = basePrice;
-            let totalAmount = 0;
-            
-            for (let i = 0; i < count; i++) {
-                price += isBuy ? -Math.random() * 50 : Math.random() * 50;
-                const amount = Math.random() * 2 + 0.1;
-                totalAmount += amount;
-                
-                orders.push({
-                    price: price.toFixed(2),
-                    amount: amount.toFixed(4),
-                    total: totalAmount.toFixed(4)
-                });
-            }
-            
-            return isBuy ? orders : orders.reverse();
-        }
-        
-        function renderOrders(container, orders, isBuy) {
-            const maxTotal = Math.max(...orders.map(o => parseFloat(o.total)));
-            
-            container.innerHTML = orders.map(order => {
-                const percentage = (parseFloat(order.total) / maxTotal) * 100;
-                const bgColor = isBuy ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
-                const textColor = isBuy ? 'text-green-500' : 'text-red-500';
-                
-                return `
-                    <div class="relative px-4 py-1.5 hover:bg-gray-800/50 transition-colors cursor-pointer group">
-                        <div class="absolute inset-0 ${isBuy ? 'right-0' : 'left-0'}" 
-                             style="width: ${percentage}%; background: ${bgColor};"></div>
-                        <div class="relative grid grid-cols-3 gap-2 text-xs font-mono">
-                            <span class="${textColor} font-semibold">${order.price}</span>
-                            <span class="text-right text-gray-300">${order.amount}</span>
-                            <span class="text-right text-gray-400">${order.total}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        function updateOrderBook() {
-            basePrice += (Math.random() - 0.5) * 10;
-            
-            const buyOrders = generateOrders(true, 12);
-            const sellOrders = generateOrders(false, 12);
-            
-            renderOrders(buyOrdersContainer, buyOrders, true);
-            renderOrders(sellOrdersContainer, sellOrders, false);
-            
-            const spread = (parseFloat(sellOrders[0].price) - parseFloat(buyOrders[0].price)).toFixed(2);
-            spreadElement.textContent = `$${spread}`;
-            
-            const now = new Date();
-            updateTimeElement.textContent = now.toLocaleTimeString();
-        }
-        
-        updateOrderBook();
-        setInterval(updateOrderBook, 2000);
-    });
-</script>
-
-<div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl">
-    <div class="px-4 py-3 border-b border-gray-800 bg-[#161b22]">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="text-yellow-500 font-bold">CRYPTO HEATMAP</span>
-                <span class="text-xs text-purple-500 px-2 py-0.5 bg-purple-500/10 rounded-full animate-pulse">● 24H</span>
-            </div>
-            <div class="flex gap-2 text-xs">
-                <button class="px-3 py-1 bg-green-500/20 text-green-500 rounded hover:bg-green-500/30 transition-colors">Winners</button>
-                <button class="px-3 py-1 bg-red-500/20 text-red-500 rounded hover:bg-red-500/30 transition-colors">Losers</button>
-            </div>
-        </div>
-    </div>
-    <div id="heatmap" class="p-4" style="height: 400px;"></div>
+<div class="px-4 py-2 bg-[#1a1f2e] grid grid-cols-3 gap-2 text-xs text-gray-400 font-mono"><span>Price(USDT)</span><span class="text-right">Amount(BTC)</span><span class="text-right">Time</span></div>
+<div id="trade-feed-container" class="relative overflow-hidden bg-[#0d1117]" style="height: 300px;">
 </div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const heatmapContainer = document.getElementById('heatmap');
-        
-        const cryptos = [
-            { symbol: 'BTC', name: 'Bitcoin', change: 0 },
-            { symbol: 'ETH', name: 'Ethereum', change: 0 },
-            { symbol: 'BNB', name: 'BNB', change: 0 },
-            { symbol: 'SOL', name: 'Solana', change: 0 },
-            { symbol: 'XRP', name: 'Ripple', change: 0 },
-            { symbol: 'ADA', name: 'Cardano', change: 0 },
-            { symbol: 'DOGE', name: 'Dogecoin', change: 0 },
-            { symbol: 'AVAX', name: 'Avalanche', change: 0 },
-            { symbol: 'DOT', name: 'Polkadot', change: 0 },
-            { symbol: 'MATIC', name: 'Polygon', change: 0 },
-            { symbol: 'LINK', name: 'Chainlink', change: 0 },
-            { symbol: 'UNI', name: 'Uniswap', change: 0 }
-        ];
-        
-        function getColor(change) {
-            const intensity = Math.min(Math.abs(change) / 10, 1);
-            if (change > 0) {
-                return `rgba(16, 185, 129, ${intensity * 0.8})`;
-            } else {
-                return `rgba(239, 68, 68, ${intensity * 0.8})`;
-            }
-        }
-        
-        function renderHeatmap() {
-            heatmapContainer.innerHTML = `
-                <div class="grid grid-cols-4 gap-3 h-full">
-                    ${cryptos.map(crypto => `
-                        <div class="relative rounded-lg p-4 flex flex-col justify-between transition-all duration-500 hover:scale-105 cursor-pointer group"
-                             style="background: ${getColor(crypto.change)}; backdrop-filter: blur(10px);">
-                            <div>
-                                <div class="text-white font-bold text-lg">${crypto.symbol}</div>
-                                <div class="text-gray-300 text-xs">${crypto.name}</div>
-                            </div>
-                            <div class="mt-auto">
-                                <div class="text-2xl font-bold ${crypto.change >= 0 ? 'text-green-400' : 'text-red-400'}">
-                                    ${crypto.change >= 0 ? '+' : ''}${crypto.change.toFixed(2)}%
-                                </div>
-                            </div>
-                            <div class="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 rounded-lg transition-all"></div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function updateHeatmap() {
-            cryptos.forEach(crypto => {
-                crypto.change += (Math.random() - 0.5) * 2;
-                crypto.change = Math.max(-15, Math.min(15, crypto.change));
-            });
-            renderHeatmap();
-        }
-        
-        renderHeatmap();
-        setInterval(updateHeatmap, 3000);
-    });
+(function(){
+const container = document.getElementById('trade-feed-container');
+const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@aggTrade');
+const maxTrades = 15;
+ws.onmessage = (event) => {
+const d = JSON.parse(event.data);
+const price = parseFloat(d.p).toFixed(2);
+const amount = parseFloat(d.q).toFixed(5);
+const time = new Date(d.T).toLocaleTimeString();
+const isBuy = !d.m; // m=true 为做市商卖出（即主动买入为false? Binance定义有点反直觉，m=true意味着买单是Maker，所以是主动卖单吃掉买单，显示红色）
+// 修正：m=true -> 主动卖 (红), m=false -> 主动买 (绿)
+const colorClass = d.m ? 'text-red-500' : 'text-green-500';
+const row = document.createElement('div');
+row.className = 'px-4 py-1.5 border-b border-gray-800/30 grid grid-cols-3 gap-2 text-xs font-mono animate-fade-in';
+row.innerHTML = `<span class="${colorClass} font-bold">${price}</span><span class="text-right text-gray-300">${amount}</span><span class="text-right text-gray-500">${time}</span>`;
+container.prepend(row);
+if(container.children.length > maxTrades) container.lastElementChild.remove();
+};
+})();
 </script>
-
-<div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl">
-    <div class="px-4 py-3 border-b border-gray-800 bg-[#161b22]">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="text-yellow-500 font-bold">LIVE TRADES</span>
-                <span class="text-xs text-green-500 px-2 py-0.5 bg-green-500/10 rounded-full animate-pulse">● STREAMING</span>
-            </div>
-            <div class="text-sm text-gray-400 font-mono">BTC/USDT</div>
-        </div>
-    </div>
-    <div class="px-4 py-2 bg-[#1a1f2e] grid grid-cols-4 gap-2 text-xs text-gray-400 font-mono">
-        <span>Price(USDT)</span>
-        <span class="text-right">Amount(BTC)</span>
-        <span class="text-right">Time</span>
-        <span class="text-right">Type</span>
-    </div>
-    <div id="trade-feed" class="relative overflow-hidden" style="height: 350px;">
-        <div id="trades-container" class="absolute inset-0"></div>
-    </div>
-    <div class="px-4 py-3 border-t border-gray-800 bg-[#161b22] flex justify-between items-center">
-        <div class="text-xs text-gray-400">
-            <span>Total Trades: </span>
-            <span id="trade-count" class="text-white font-mono">0</span>
-        </div>
-        <div class="text-xs text-gray-400">
-            <span>Volume: </span>
-            <span id="volume" class="text-yellow-500 font-mono">0.0000 BTC</span>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const tradesContainer = document.getElementById('trades-container');
-        const tradeCountElement = document.getElementById('trade-count');
-        const volumeElement = document.getElementById('volume');
-        
-        let trades = [];
-        let tradeCount = 0;
-        let totalVolume = 0;
-        let basePrice = 43250;
-        
-        function generateTrade() {
-            const isBuy = Math.random() > 0.5;
-            basePrice += (Math.random() - 0.5) * 50;
-            const amount = (Math.random() * 0.5 + 0.01).toFixed(4);
-            const now = new Date();
-            
-            return {
-                id: Date.now() + Math.random(),
-                price: basePrice.toFixed(2),
-                amount: amount,
-                time: now.toLocaleTimeString(),
-                type: isBuy ? 'BUY' : 'SELL',
-                isBuy: isBuy
-            };
-        }
-        
-        function renderTrades() {
-            tradesContainer.innerHTML = trades.map((trade, index) => `
-                <div class="px-4 py-2 hover:bg-gray-800/50 transition-all cursor-pointer border-b border-gray-800/30 animate-slideIn"
-                     style="animation-delay: ${index * 0.05}s;">
-                    <div class="grid grid-cols-4 gap-2 text-xs font-mono">
-                        <span class="${trade.isBuy ? 'text-green-500' : 'text-red-500'} font-semibold">
-                            ${trade.price}
-                        </span>
-                        <span class="text-right text-gray-300">${trade.amount}</span>
-                        <span class="text-right text-gray-400">${trade.time}</span>
-                        <span class="text-right ${trade.isBuy ? 'text-green-500' : 'text-red-500'} text-[10px] font-bold">
-                            ${trade.type}
-                        </span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function addTrade() {
-            const trade = generateTrade();
-            trades.unshift(trade);
-            
-            if (trades.length > 15) {
-                trades.pop();
-            }
-            
-            tradeCount++;
-            totalVolume += parseFloat(trade.amount);
-            
-            renderTrades();
-            tradeCountElement.textContent = tradeCount.toLocaleString();
-            volumeElement.textContent = `${totalVolume.toFixed(4)} BTC`;
-        }
-        
-        addTrade();
-        setInterval(addTrade, 800);
-    });
-</script>
-
 <style>
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    .animate-slideIn {
-        animation: slideIn 0.3s ease-out forwards;
-    }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in { animation: fadeIn 0.2s ease-out; }
 </style>
+</div>
 
 
 
 <div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl relative select-none">
 <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
-
 <div class="px-4 py-3 border-b border-gray-800 bg-[#161b22] flex items-center justify-between">
-<div class="flex items-center gap-2"><span class="text-yellow-500 font-bold tracking-wider">MARKET OVERVIEW</span><span class="text-[10px] text-cyan-400 px-2 py-0.5 bg-cyan-900/30 border border-cyan-500/30 rounded-full animate-pulse">● LIVE DATA</span></div>
+<div class="flex items-center gap-2">
+<span class="text-yellow-500 font-bold tracking-wider">MARKET SENTIMENT</span>
+<span id="risk-badge" class="text-[10px] px-2 py-0.5 rounded uppercase font-semibold animate-pulse border bg-gray-800 border-gray-600 text-gray-400">LOADING...</span>
+</div>
+<span class="text-gray-500 text-xs font-mono">FEAR & GREED API</span>
+</div>
+<div class="p-8 relative z-10">
+<div class="flex justify-between items-end mb-3">
+<span class="text-gray-400 text-sm">Current Index</span>
+<span id="vol-text" class="text-2xl font-bold tracking-wider drop-shadow-md transition-colors duration-300 text-gray-500">...</span>
+</div>
+<div class="relative h-4 w-full rounded-full bg-[#1c2128] border border-gray-800/50">
+<div class="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 via-yellow-500 to-green-500 opacity-80"></div>
+<div class="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 via-yellow-500 to-green-500 blur-sm opacity-40"></div>
+<div id="vol-pointer" class="absolute top-1/2 -translate-y-1/2 w-1.5 h-7 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] z-20 rounded-full transition-all duration-1000 ease-out opacity-0" style="left: 0%;"></div>
+</div>
+<div class="flex justify-between mt-3 text-[10px] text-gray-500 font-mono uppercase tracking-wider font-bold">
+<span>Fear (0)</span>
+<span>Neutral (50)</span>
+<span>Greed (100)</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-0 border-t border-gray-800 bg-[#161b22]/50 relative z-10 divide-x divide-gray-800">
+<div class="p-4 text-center">
+<div class="text-gray-500 text-[10px] uppercase mb-1">Next Update</div>
+<div id="time-countdown" class="text-gray-200 font-mono font-bold text-sm">--:--:--</div>
+</div>
+<div class="p-4 text-center">
+<div class="text-gray-500 text-[10px] uppercase mb-1">Index Value</div>
+<div id="fear-val" class="text-yellow-500 font-mono font-bold text-lg">--</div>
+</div>
+<div class="p-4 text-center">
+<div class="text-gray-500 text-[10px] uppercase mb-1">Sentiment</div>
+<div id="sentiment-text" class="text-gray-200 font-mono font-bold text-sm">--</div>
+</div>
+</div>
+<script>
+(function(){
+var pointer = document.getElementById('vol-pointer');
+var indexText = document.getElementById('vol-text');
+var valDisplay = document.getElementById('fear-val');
+var sentText = document.getElementById('sentiment-text');
+var badge = document.getElementById('risk-badge');
+var countdown = document.getElementById('time-countdown');
+async function fetchRealData() {
+try {
+var response = await fetch('https://api.alternative.me/fng/');
+var result = await response.json();
+var data = result.data[0];
+var value = parseInt(data.value);
+var classification = data.value_classification;
+var secondsUntilUpdate = parseInt(data.time_until_update);
+updateUI(value, classification);
+startCountdown(secondsUntilUpdate);
+} catch (error) {
+if(indexText) indexText.innerText = "ERR";
+console.error(error);
+}
+}
+function updateUI(value, label) {
+if(!pointer) return;
+pointer.style.opacity = '1';
+pointer.style.left = value + '%';
+indexText.innerText = label.toUpperCase();
+valDisplay.innerText = value;
+sentText.innerText = label;
+var colorClass = 'text-gray-200';
+var badgeClass = 'bg-gray-800 border-gray-600 text-gray-400';
+if (value < 25) {
+colorClass = 'text-red-500';
+badgeClass = 'bg-red-900/20 border-red-500/30 text-red-400';
+} else if (value < 45) {
+colorClass = 'text-orange-500';
+badgeClass = 'bg-orange-900/20 border-orange-500/30 text-orange-400';
+} else if (value < 55) {
+colorClass = 'text-yellow-500';
+badgeClass = 'bg-yellow-900/20 border-yellow-500/30 text-yellow-400';
+} else {
+colorClass = 'text-green-500';
+badgeClass = 'bg-green-900/20 border-green-500/30 text-green-400';
+}
+indexText.className = 'text-2xl font-bold tracking-wider drop-shadow-md transition-colors duration-300 ' + colorClass;
+badge.className = 'text-[10px] px-2 py-0.5 rounded uppercase font-semibold border ' + badgeClass;
+badge.innerText = label;
+}
+function startCountdown(seconds) {
+var timeLeft = seconds;
+var interval = setInterval(function() {
+timeLeft--;
+if (timeLeft < 0) {
+clearInterval(interval);
+fetchRealData();
+return;
+}
+var h = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
+var m = Math.floor((timeLeft % 3600) / 60).toString().padStart(2, '0');
+var s = (timeLeft % 60).toString().padStart(2, '0');
+if(countdown) countdown.innerText = h + ':' + m + ':' + s;
+}, 1000);
+}
+fetchRealData();
+})();
+</script>
 </div>
 
+
+
+
+
+
+
+
+
+<div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl relative select-none">
+<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+<div class="px-4 py-3 border-b border-gray-800 bg-[#161b22] flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="text-yellow-500 font-bold tracking-wider">MARKET OVERVIEW</span><span id="live-indicator" class="text-[10px] text-cyan-400 px-2 py-0.5 bg-cyan-900/30 border border-cyan-500/30 rounded-full animate-pulse flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>LIVE DATA</span></div>
+</div>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 relative z-10">
 <div class="bg-[#141414] border border-orange-500/20 rounded-lg p-4 hover:-translate-y-1 transition-transform duration-300 group">
 <div class="flex justify-between mb-2"><span class="text-gray-500 text-xs">Bitcoin</span><span class="text-orange-500 font-bold">BTC</span></div>
-<div id="btc-price" class="text-xl font-bold text-gray-100">$43,250</div>
-<div id="btc-change" class="text-xs text-green-500 font-mono mb-2">+2.45%</div>
-<div id="btc-spark" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
+<div id="price-BTC" class="text-xl font-bold text-gray-100">Loading...</div>
+<div id="change-BTC" class="text-xs font-mono mb-2 text-gray-500">--%</div>
+<div id="spark-BTC" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
 </div>
 <div class="bg-[#141414] border border-blue-500/20 rounded-lg p-4 hover:-translate-y-1 transition-transform duration-300 group">
 <div class="flex justify-between mb-2"><span class="text-gray-500 text-xs">Ethereum</span><span class="text-blue-500 font-bold">ETH</span></div>
-<div id="eth-price" class="text-xl font-bold text-gray-100">$2,280</div>
-<div id="eth-change" class="text-xs text-green-500 font-mono mb-2">+1.82%</div>
-<div id="eth-spark" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
+<div id="price-ETH" class="text-xl font-bold text-gray-100">Loading...</div>
+<div id="change-ETH" class="text-xs font-mono mb-2 text-gray-500">--%</div>
+<div id="spark-ETH" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
 </div>
 <div class="bg-[#141414] border border-yellow-500/20 rounded-lg p-4 hover:-translate-y-1 transition-transform duration-300 group">
 <div class="flex justify-between mb-2"><span class="text-gray-500 text-xs">BNB</span><span class="text-yellow-500 font-bold">BNB</span></div>
-<div id="bnb-price" class="text-xl font-bold text-gray-100">$315</div>
-<div id="bnb-change" class="text-xs text-red-500 font-mono mb-2">-0.53%</div>
-<div id="bnb-spark" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
+<div id="price-BNB" class="text-xl font-bold text-gray-100">Loading...</div>
+<div id="change-BNB" class="text-xs font-mono mb-2 text-gray-500">--%</div>
+<div id="spark-BNB" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
 </div>
 <div class="bg-[#141414] border border-purple-500/20 rounded-lg p-4 hover:-translate-y-1 transition-transform duration-300 group">
 <div class="flex justify-between mb-2"><span class="text-gray-500 text-xs">Solana</span><span class="text-purple-500 font-bold">SOL</span></div>
-<div id="sol-price" class="text-xl font-bold text-gray-100">$98</div>
-<div id="sol-change" class="text-xs text-green-500 font-mono mb-2">+5.21%</div>
-<div id="sol-spark" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
+<div id="price-SOL" class="text-xl font-bold text-gray-100">Loading...</div>
+<div id="change-SOL" class="text-xs font-mono mb-2 text-gray-500">--%</div>
+<div id="spark-SOL" class="h-10 w-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
 </div>
 </div>
-
 <div class="grid grid-cols-3 gap-4 px-6 pb-6 pt-0 text-center relative z-10">
-<div class="bg-[#1c2128] rounded p-3 border border-white/5"><div class="text-gray-500 text-[10px] uppercase">Market Cap</div><div class="text-white font-mono font-bold">$1.68T</div></div>
-<div class="bg-[#1c2128] rounded p-3 border border-white/5"><div class="text-gray-500 text-[10px] uppercase">24h Vol</div><div class="text-white font-mono font-bold">$87.5B</div></div>
-<div class="bg-[#1c2128] rounded p-3 border border-white/5"><div class="text-gray-500 text-[10px] uppercase">Dominance</div><div class="text-white font-mono font-bold">51.2%</div></div>
+<div class="bg-[#1c2128] rounded p-3 border border-white/5"><div class="text-gray-500 text-[10px] uppercase">Market Cap</div><div id="global-cap" class="text-white font-mono font-bold text-sm">Loading...</div></div>
+<div class="bg-[#1c2128] rounded p-3 border border-white/5"><div class="text-gray-500 text-[10px] uppercase">24h Vol</div><div id="global-vol" class="text-white font-mono font-bold text-sm">Loading...</div></div>
+<div class="bg-[#1c2128] rounded p-3 border border-white/5"><div class="text-gray-500 text-[10px] uppercase">Dominance</div><div id="btc-dom" class="text-white font-mono font-bold text-sm">Loading...</div></div>
 </div>
-
 <script>
 (function(){
-// 核心修复：使用 SVG ViewBox 机制，不再依赖 JS 计算容器宽度
-function createSparkline(id, color, isUp) {
-var container = document.getElementById(id);
+var CONFIG = {
+'BTC': { color: '#f97316' },
+'ETH': { color: '#3b82f6' },
+'BNB': { color: '#eab308' },
+'SOL': { color: '#a855f7' }
+};
+function formatMoney(num){
+return '$' + parseFloat(num).toLocaleString('en-US', {maximumFractionDigits: 2});
+}
+function formatCompact(num) {
+if(num > 1e12) return '$' + (num/1e12).toFixed(2) + 'T';
+if(num > 1e9) return '$' + (num/1e9).toFixed(2) + 'B';
+return '$' + num.toLocaleString();
+}
+function createSparkline(symbol, color, isUp) {
+var container = document.getElementById('spark-'+symbol);
 if(!container) return;
 var points = [];
-var width = 100; var height = 30;
-var y = 15;
+var width = 100; var y = 15;
 for(var i=0; i<=width; i+=5) {
 y += (Math.random() - 0.5) * 10;
-y = Math.max(2, Math.min(28, y)); // 限制范围
+y = Math.max(2, Math.min(28, y));
 points.push(i + ',' + y);
 }
-// 确保最后一点的趋势符合涨跌
 if(isUp && y > 10) points[points.length-1] = width + ',5';
 if(!isUp && y < 20) points[points.length-1] = width + ',25';
-
-var svgHTML = `
-<svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full overflow-visible">
-<defs>
-<linearGradient id="grad-${id}" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:${color};stop-opacity:0.3" />
-<stop offset="100%" style="stop-color:${color};stop-opacity:0" />
-</linearGradient>
-</defs>
-<path d="M0,30 L${points.join(' L')} L100,30 Z" fill="url(#grad-${id})" stroke="none" />
-<polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" />
-</svg>`;
-container.innerHTML = svgHTML;
+var svg = `<svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full overflow-visible"><path d="M0,30 L${points.join(' L')} L100,30 Z" fill="${color}" fill-opacity="0.1" stroke="none" /><polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" /></svg>`;
+container.innerHTML = svg;
 }
-
-// 初始化图表
-createSparkline('btc-spark', '#f97316', true);
-createSparkline('eth-spark', '#3b82f6', true);
-createSparkline('bnb-spark', '#eab308', false);
-createSparkline('sol-spark', '#a855f7', true);
-
-// 模拟数值跳动
-setInterval(function(){
-['btc','eth','bnb','sol'].forEach(c => {
-var el = document.getElementById(c+'-price');
-if(el) {
-var current = parseFloat(el.innerText.replace(/[$,]/g,''));
-var change = (Math.random()-0.5) * (current*0.005);
-el.innerText = '$' + (current+change).toLocaleString('en-US', {maximumFractionDigits: 0});
-el.classList.add('text-white');
-setTimeout(()=>el.classList.remove('text-white'), 200);
+async function fetchCoinLore() {
+try {
+var tickersRes = await fetch('https://api.coinlore.net/api/tickers/?start=0&limit=20');
+var globalRes = await fetch('https://api.coinlore.net/api/global/');
+var tickersData = await tickersRes.json();
+var globalData = await globalRes.json();
+tickersData.data.forEach(function(coin) {
+if(CONFIG[coin.symbol]) {
+var priceEl = document.getElementById('price-'+coin.symbol);
+var changeEl = document.getElementById('change-'+coin.symbol);
+if(priceEl) priceEl.innerText = formatMoney(coin.price_usd);
+if(changeEl) {
+var change = parseFloat(coin.percent_change_24h);
+var isUp = change >= 0;
+changeEl.innerText = (isUp ? '+' : '') + change + '%';
+changeEl.className = 'text-xs font-mono mb-2 ' + (isUp ? 'text-green-500' : 'text-red-500');
+createSparkline(coin.symbol, CONFIG[coin.symbol].color, isUp);
+}
 }
 });
-}, 2000);
+if(globalData && globalData.length > 0) {
+var g = globalData[0];
+document.getElementById('global-cap').innerText = formatCompact(g.total_mcap);
+document.getElementById('global-vol').innerText = formatCompact(g.total_volume);
+document.getElementById('btc-dom').innerText = g.btc_d + '%';
+}
+} catch (e) {
+console.error("API Error:", e);
+var ind = document.getElementById('live-indicator');
+if(ind) ind.innerText = 'OFFLINE';
+}
+}
+fetchCoinLore();
+setInterval(fetchCoinLore, 10000);
 })();
 </script>
 </div>
 
 
 
-<div class="not-prose my-10 border border-gray-800 bg-[#0d1117] rounded-xl overflow-hidden shadow-2xl relative">
-<div class="px-4 py-3 border-b border-gray-800 bg-[#161b22] flex justify-between items-center">
-<div class="flex items-center gap-2"><span class="text-yellow-500 font-bold tracking-wider">VOLATILITY METER</span><span class="text-[10px] text-red-500 px-2 py-0.5 bg-red-900/20 border border-red-500/30 rounded-full">HIGH RISK</span></div>
-<span class="text-gray-500 text-xs font-mono">24H RANGE</span>
-</div>
-<div class="p-6">
-<div class="mb-8">
-<div class="flex justify-between items-end mb-3">
-<span class="text-gray-400 text-sm">Current Index</span>
-<span id="vol-text" class="text-3xl font-black text-red-500 tracking-tighter" style="text-shadow: 0 0 20px rgba(239,68,68,0.5);">EXTREME</span>
-</div>
-<div class="relative h-4 bg-gray-800 rounded-full overflow-visible">
-<div class="absolute inset-0 rounded-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-600 opacity-80"></div>
-<div id="vol-indicator" class="absolute top-1/2 -mt-3 w-1.5 h-6 bg-white shadow-[0_0_10px_white] transition-all duration-1000 ease-out z-10" style="left: 85%;"></div>
-</div>
-<div class="flex justify-between text-[10px] text-gray-500 mt-2 font-mono uppercase">
-<span>Low</span><span>Medium</span><span>High</span><span>Extreme</span>
-</div>
-</div>
-<div class="grid grid-cols-3 gap-4 border-t border-gray-800 pt-6">
-<div class="text-center"><div class="text-gray-500 text-[10px] mb-1">Std Dev</div><div class="text-gray-200 font-mono font-bold text-lg">4.2%</div></div>
-<div class="text-center border-l border-gray-800"><div class="text-gray-500 text-[10px] mb-1">Fear/Greed</div><div id="fear-val" class="text-yellow-500 font-mono font-bold text-lg">24</div></div>
-<div class="text-center border-l border-gray-800"><div class="text-gray-500 text-[10px] mb-1">Volume</div><div class="text-gray-200 font-mono font-bold text-lg">High</div></div>
-</div>
-</div>
-<script>
-(function(){
-var ind = document.getElementById('vol-indicator');
-var txt = document.getElementById('vol-text');
-var fear = document.getElementById('fear-val');
-setInterval(function(){
-var rand = 70 + Math.random() * 25; // 保持在高位波动
-ind.style.left = rand + '%';
-if(rand > 85) { txt.innerText = 'EXTREME'; txt.className = 'text-3xl font-black text-red-600 tracking-tighter'; }
-else if(rand > 60) { txt.innerText = 'HIGH'; txt.className = 'text-3xl font-black text-orange-500 tracking-tighter'; }
-else { txt.innerText = 'NORMAL'; txt.className = 'text-3xl font-black text-green-500 tracking-tighter'; }
-fear.innerText = Math.floor(20 + Math.random() * 10); // 恐慌指数
-}, 2000);
-})();
-</script>
-</div>
+
 
 
 
@@ -1897,129 +1683,69 @@ fear.innerText = Math.floor(20 + Math.random() * 10); // 恐慌指数
 
 <div class="not-prose my-10 w-full h-auto">
 <style>
-/* 强制注入必要的 3D CSS，不依赖 Tailwind */
-.crypto-flip-container { background-color: transparent; perspective: 1000px; height: 300px; }
-.crypto-flip-inner { position: relative; width: 100%; height: 100%; text-align: left; transition: transform 0.8s; transform-style: preserve-3d; }
-.crypto-flip-container:hover .crypto-flip-inner { transform: rotateY(180deg); }
-.crypto-flip-front, .crypto-flip-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 1rem; overflow: hidden; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5); }
-.crypto-flip-front { background: #111; color: white; }
-.crypto-flip-back { background: #0f0f10; color: white; transform: rotateY(180deg); border: 1px solid rgba(255,255,255,0.1); }
+.crypto-flip-container{background-color:transparent;perspective:1000px;height:300px}.crypto-flip-inner{position:relative;width:100%;height:100%;text-align:left;transition:transform .8s;transform-style:preserve-3d}.crypto-flip-container:hover .crypto-flip-inner{transform:rotateY(180deg)}.crypto-flip-front,.crypto-flip-back{position:absolute;width:100%;height:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:1rem;overflow:hidden;box-shadow:0 10px 30px -5px rgba(0,0,0,.5)}.crypto-flip-front{background:#111;color:#fff}.crypto-flip-back{background:#0f0f10;color:#fff;transform:rotateY(180deg);border:1px solid rgba(255,255,255,.1)}
 </style>
-
-<div class="text-center mb-8">
-<h3 class="text-2xl font-bold text-yellow-500 mb-2">MARKET ASSETS</h3>
-<p class="text-gray-400 text-xs uppercase tracking-widest animate-pulse">Hover cards to reveal details</p>
+<div class="text-center mb-8"><h3 class="text-2xl font-bold text-yellow-500 mb-2">LIVE MARKET ASSETS</h3><p class="text-gray-400 text-xs uppercase tracking-widest animate-pulse">Data from Binance API</p></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="crypto-cards-container">
 </div>
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-<div class="crypto-flip-container cursor-pointer">
+<script>
+(function(){
+const coins = [
+{id:'BTCUSDT', name:'Bitcoin', symbol:'BTC', color:'orange', icon:'₿', desc:'The King'},
+{id:'ETHUSDT', name:'Ethereum', symbol:'ETH', color:'blue', icon:'◆', desc:'Smart Contracts'},
+{id:'SOLUSDT', name:'Solana', symbol:'SOL', color:'purple', icon:'◎', desc:'High Speed'}
+];
+const container = document.getElementById('crypto-cards-container');
+// 初始化卡片结构
+coins.forEach(c => {
+container.innerHTML += `
+<div class="crypto-flip-container cursor-pointer group" id="card-${c.id}">
 <div class="crypto-flip-inner">
-<div class="crypto-flip-front border border-orange-500/30">
-<div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-[#2a1a0f]"></div>
-<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500 to-transparent"></div>
+<div class="crypto-flip-front border border-${c.color}-500/30">
+<div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-[#1a1a1a]"></div>
 <div class="relative h-full p-6 flex flex-col justify-between z-10">
-<div class="text-right text-6xl font-black text-white/5 select-none">BTC</div>
-<div>
-<div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-[0_0_20px_orange]">₿</div>
-<h4 class="text-2xl font-bold text-white">Bitcoin</h4>
-<p class="text-orange-400 font-mono text-sm">The King</p>
-</div>
-<div class="w-full bg-gray-800/50 h-1 rounded-full overflow-hidden backdrop-blur"><div class="bg-orange-500 h-full w-[75%] shadow-[0_0_10px_orange]"></div></div>
+<div class="text-right text-6xl font-black text-white/5 select-none">${c.symbol}</div>
+<div><div class="w-12 h-12 rounded-full bg-gradient-to-br from-${c.color}-400 to-${c.color}-600 flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-[0_0_20px_${c.color}]">${c.icon}</div><h4 class="text-2xl font-bold text-white">${c.name}</h4><p class="text-${c.color}-400 font-mono text-sm">${c.desc}</p></div>
+<div class="w-full bg-gray-800/50 h-1 rounded-full overflow-hidden backdrop-blur"><div class="bg-${c.color}-500 h-full w-[60%] shadow-[0_0_10px_${c.color}]"></div></div>
 </div>
 </div>
 <div class="crypto-flip-back p-6 flex flex-col justify-center">
 <div class="text-xs text-gray-500 uppercase mb-1 font-mono">Current Price</div>
-<div class="text-4xl font-bold text-white mb-6 tracking-tight">$43,250</div>
+<div class="text-3xl font-bold text-white mb-6 tracking-tight font-mono" id="price-${c.id}">Loading...</div>
 <div class="space-y-4">
-<div class="flex justify-between items-center border-b border-gray-800 pb-2">
-<span class="text-gray-400 text-sm">24h Change</span>
-<span class="text-green-400 font-mono font-bold flex items-center gap-1">▲ 2.45%</span>
-</div>
-<div class="flex justify-between items-center border-b border-gray-800 pb-2">
-<span class="text-gray-400 text-sm">Market Cap</span>
-<span class="text-gray-200 font-mono">$845 B</span>
-</div>
-<div class="flex justify-between items-center">
-<span class="text-gray-400 text-sm">Volume</span>
-<span class="text-gray-200 font-mono">$28 B</span>
+<div class="flex justify-between items-center border-b border-gray-800 pb-2"><span class="text-gray-400 text-sm">24h Change</span><span class="font-mono font-bold flex items-center gap-1" id="change-${c.id}">--</span></div>
+<div class="flex justify-between items-center border-b border-gray-800 pb-2"><span class="text-gray-400 text-sm">24h High</span><span class="text-gray-200 font-mono" id="high-${c.id}">--</span></div>
+<div class="flex justify-between items-center"><span class="text-gray-400 text-sm">24h Low</span><span class="text-gray-200 font-mono" id="low-${c.id}">--</span></div>
 </div>
 </div>
 </div>
-</div>
-</div>
-
-<div class="crypto-flip-container cursor-pointer">
-<div class="crypto-flip-inner">
-<div class="crypto-flip-front border border-blue-500/30">
-<div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-[#0f1520]"></div>
-<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500 to-transparent"></div>
-<div class="relative h-full p-6 flex flex-col justify-between z-10">
-<div class="text-right text-6xl font-black text-white/5 select-none">ETH</div>
-<div>
-<div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-[0_0_20px_blue]">◆</div>
-<h4 class="text-2xl font-bold text-white">Ethereum</h4>
-<p class="text-blue-400 font-mono text-sm">Smart Contracts</p>
-</div>
-<div class="w-full bg-gray-800/50 h-1 rounded-full overflow-hidden backdrop-blur"><div class="bg-blue-500 h-full w-[45%] shadow-[0_0_10px_blue]"></div></div>
-</div>
-</div>
-<div class="crypto-flip-back p-6 flex flex-col justify-center">
-<div class="text-xs text-gray-500 uppercase mb-1 font-mono">Current Price</div>
-<div class="text-4xl font-bold text-white mb-6 tracking-tight">$2,280</div>
-<div class="space-y-4">
-<div class="flex justify-between items-center border-b border-gray-800 pb-2">
-<span class="text-gray-400 text-sm">24h Change</span>
-<span class="text-green-400 font-mono font-bold flex items-center gap-1">▲ 1.82%</span>
-</div>
-<div class="flex justify-between items-center border-b border-gray-800 pb-2">
-<span class="text-gray-400 text-sm">Market Cap</span>
-<span class="text-gray-200 font-mono">$274 B</span>
-</div>
-<div class="flex justify-between items-center">
-<span class="text-gray-400 text-sm">Volume</span>
-<span class="text-gray-200 font-mono">$15 B</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<div class="crypto-flip-container cursor-pointer">
-<div class="crypto-flip-inner">
-<div class="crypto-flip-front border border-purple-500/30">
-<div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-[#150f20]"></div>
-<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-purple-500 to-transparent"></div>
-<div class="relative h-full p-6 flex flex-col justify-between z-10">
-<div class="text-right text-6xl font-black text-white/5 select-none">SOL</div>
-<div>
-<div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-[0_0_20px_purple]">◎</div>
-<h4 class="text-2xl font-bold text-white">Solana</h4>
-<p class="text-purple-400 font-mono text-sm">High Speed</p>
-</div>
-<div class="w-full bg-gray-800/50 h-1 rounded-full overflow-hidden backdrop-blur"><div class="bg-purple-500 h-full w-[85%] shadow-[0_0_10px_purple]"></div></div>
-</div>
-</div>
-<div class="crypto-flip-back p-6 flex flex-col justify-center">
-<div class="text-xs text-gray-500 uppercase mb-1 font-mono">Current Price</div>
-<div class="text-4xl font-bold text-white mb-6 tracking-tight">$98.50</div>
-<div class="space-y-4">
-<div class="flex justify-between items-center border-b border-gray-800 pb-2">
-<span class="text-gray-400 text-sm">24h Change</span>
-<span class="text-green-400 font-mono font-bold flex items-center gap-1">▲ 5.21%</span>
-</div>
-<div class="flex justify-between items-center border-b border-gray-800 pb-2">
-<span class="text-gray-400 text-sm">Market Cap</span>
-<span class="text-gray-200 font-mono">$42 B</span>
-</div>
-<div class="flex justify-between items-center">
-<span class="text-gray-400 text-sm">Volume</span>
-<span class="text-gray-200 font-mono">$3.8 B</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
+</div>`;
+});
+// 建立 WebSocket 连接
+const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker/solusdt@ticker');
+ws.onmessage = (event) => {
+const data = JSON.parse(event.data);
+const symbol = data.s;
+const priceEl = document.getElementById(`price-${symbol}`);
+const changeEl = document.getElementById(`change-${symbol}`);
+const highEl = document.getElementById(`high-${symbol}`);
+const lowEl = document.getElementById(`low-${symbol}`);
+if(priceEl) {
+const price = parseFloat(data.c);
+const prevPrice = parseFloat(priceEl.dataset.prev || price);
+priceEl.innerText = '$' + price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+priceEl.style.color = price > prevPrice ? '#10b981' : (price < prevPrice ? '#ef4444' : 'white');
+priceEl.dataset.prev = price;
+setTimeout(()=> priceEl.style.color = 'white', 300);
+}
+if(changeEl) {
+const change = parseFloat(data.P);
+changeEl.innerText = (change >= 0 ? '▲ ' : '▼ ') + change.toFixed(2) + '%';
+changeEl.className = `font-mono font-bold flex items-center gap-1 ${change >= 0 ? 'text-green-400' : 'text-red-400'}`;
+}
+if(highEl) highEl.innerText = '$' + parseFloat(data.h).toLocaleString();
+if(lowEl) lowEl.innerText = '$' + parseFloat(data.l).toLocaleString();
+};
+})();
+</script>
 </div>
