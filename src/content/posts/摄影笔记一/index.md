@@ -1,8 +1,8 @@
 ---
 title: 摄影基础词汇——从入门到放弃
-published: 2025-10-30
+published: 2025-10-30 19:44:04
 pinned: false
-updated: 2025-10-30
+updated: 2025-12-01 10:52:47
 description: 这篇文章可以让你对与摄影有关的词汇有更多的了解
 image: ""
 tags:

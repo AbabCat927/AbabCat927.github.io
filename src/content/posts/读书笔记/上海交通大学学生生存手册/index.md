@@ -1,8 +1,8 @@
 ---
 title: 上交生存手册分析与解读
-published: 2025-11-13
+published: 2025-11-13 15:50:40
 pinned: false
-updated: 2025-11-13
+updated: 2025-12-01 10:52:55
 description: 个人角度解读上海交通大学学生生存手册
 image: ""
 tags:

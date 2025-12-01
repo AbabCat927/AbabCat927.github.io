@@ -1,8 +1,8 @@
 ---
 title: 科研作图一：2D数据拟合与回归分析
-published: 2025-11-20
+published: 2025-11-20 18:37:46
 pinned: false
-updated: 2025-11-20
+updated: 2025-12-01 10:52:51
 description: 画一些简单的图像
 image: ""
 tags:

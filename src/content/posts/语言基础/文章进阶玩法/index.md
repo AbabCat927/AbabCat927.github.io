@@ -1,8 +1,8 @@
 ---
 title: 进阶写作与Tailwind CSS实践
-published: 2025-11-27
+published: 2025-11-27 18:41:46
 pinned: false
-updated: 2025-11-27
+updated: 2025-12-01 10:52:08
 description: 一个适用于本主题写作的教程
 image: ""
 tags:

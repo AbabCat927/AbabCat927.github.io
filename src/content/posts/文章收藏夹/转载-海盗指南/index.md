@@ -1,16 +1,16 @@
 ---
 title: 转载-海盗指南
-published: 2025-10-23
+published: 2025-10-23 19:51:01
 pinned: false
-updated: 2025-10-23
+updated: 2025-12-01 10:54:43
 description: 教你成为一名优秀的互联网海盗
 image: ""
 tags:
   - 教程
   - 网络
   - 转载
-encrypted: true
-password: cxzsjtu
+encrypted: false
+password:
 category: 资源
 licenseName: MIT
 sourceLink: ""

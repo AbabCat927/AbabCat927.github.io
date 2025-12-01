@@ -1,8 +1,8 @@
 ---
 title: 转载-庙门使用手册
-published: 2025-11-23
+published: 2025-11-23 00:02:32
 pinned: false
-updated: 2025-11-23
+updated: 2025-12-01 10:52:31
 description: 校友回忆录
 image: ""
 tags:

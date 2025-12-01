@@ -1,8 +1,8 @@
 ---
 title: 数理逻辑——命题逻辑基本概念
-published: 2025-11-10
+published: 2025-11-10 10:35:28
 pinned: false
-updated: 2025-11-10
+updated: 2025-12-01 10:52:45
 description: 这是我离散数学课程的笔记
 image: ""
 tags:

@@ -1,7 +1,7 @@
 ---
 title: 基础Markdown与HTML教程
-published: 2025-10-17
-updated: 2025-10-17
+published: 2025-10-17 15:02:36
+updated: 2025-12-01 10:52:13
 description: 一个适用于本主题写作的教程
 image: ""
 tags:
