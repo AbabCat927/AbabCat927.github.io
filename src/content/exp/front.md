@@ -1,15 +1,15 @@
 ---
 title:
-published:
+published: 2025-10-22 18:30:34
 pinned: false
-updated:
+updated: 2025-12-01 11:06:23
 description:
 image: ""
 tags:
-password: ''
+password: ""
 encrypted: true
 category:
-licenseName:
+licenseName: MIT
 sourceLink: ""
 draft: true
 ---
