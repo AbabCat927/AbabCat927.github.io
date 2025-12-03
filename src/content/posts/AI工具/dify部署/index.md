@@ -2,7 +2,7 @@
 title: dify的本地部署
 published: 2025-12-01 11:38:22
 pinned: false
-updated: 2025-12-01 17:23:09
+updated: 2025-12-01 22:00:59
 description: 在mac本地部署dify的尝试
 image: ""
 tags:
@@ -75,3 +75,5 @@ source ~/.zshrc
 
   * **启动**：打开终端输入 `dify-up`，去浏览器用。
   * **关闭**：打开终端输入 `dify-stop`。
+
+**如果你觉得这依然很麻烦的话，那就直接在 docker Desktop 里面一键启停吧。**

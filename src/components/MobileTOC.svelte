@@ -197,20 +197,21 @@ const init = () => {
 	}
 };
 
-onMount(() => {
-	// 延迟初始化，确保页面内容已加载
-	setTimeout(init, 100);
+	onMount(() => {
+		// 延迟初始化，确保页面内容已加载
+		setTimeout(init, 100);
 
-	// 监听滚动事件作为备用
-	window.addEventListener("scroll", updateActiveHeading);
+		// 监听滚动事件作为备用，使用 passive 提升滚动性能
+		const onScroll = () => updateActiveHeading();
+		window.addEventListener("scroll", onScroll, { passive: true });
 
-	return () => {
-		if (observer) {
-			observer.disconnect();
-		}
-		window.removeEventListener("scroll", updateActiveHeading);
-	};
-});
+		return () => {
+			if (observer) {
+				observer.disconnect();
+			}
+			window.removeEventListener("scroll", onScroll);
+		};
+	});
 
 // 导出初始化函数供外部调用
 if (typeof window !== "undefined") {

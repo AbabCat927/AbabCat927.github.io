@@ -17,10 +17,10 @@ const postsCollection = defineCollection({
 		licenseName: z.string().optional().default(""),
 		licenseUrl: z.string().optional().default(""),
 
-		// 【在这里添加这一行，以修复总字数为 0 的问题】
-		// 作用：正式声明 wordCount 字段的存在，
-		// 这样 Astro 在构建时就会保留由 remark 插件计算出的字数，
-		// 从而让侧边栏等组件可以通过 getCollection 获取到正确的字数值。
+		// 由 remark-reading-time 插件注入的字数与阅读时间字段
+		// words: 总字数；minutes: 预计阅读时间（分钟）
+		words: z.number().optional().default(0),
+		minutes: z.number().optional().default(0),
 
 		/* Page encryption fields */
 		encrypted: z.boolean().optional().default(false),

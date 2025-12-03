@@ -5,6 +5,7 @@ import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import PasswordProtection from "@components/PasswordProtection.astro";
 import Preview from "@components/Preview.astro"; // ← 新增
+import ReadingProgress from "@components/widget/ReadingProgress.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -364,3 +365,6 @@ const jsonLd = {
         </a>
     </div>
 </MainGridLayout>
+
+<!-- 阅读进度 + 回到顶部小组件（右下角固定） -->
+<ReadingProgress />

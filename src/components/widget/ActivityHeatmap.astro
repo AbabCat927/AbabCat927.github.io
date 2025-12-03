@@ -1,0 +1,219 @@
+---
+import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+import WidgetLayout from "./WidgetLayout.astro";
+
+const TOTAL_WEEKS = 16;
+const DAYS_PER_WEEK = 7;
+const TOTAL_DAYS = TOTAL_WEEKS * DAYS_PER_WEEK;
+
+const posts = await getCollection("posts", ({ data }) => data.draft !== true);
+
+const postCounts = posts.reduce((map, post) => {
+	if (!post.data?.published) return map;
+	const dateStr = dayjs(post.data.published).format("YYYY-MM-DD");
+	map.set(dateStr, (map.get(dateStr) ?? 0) + 1);
+	return map;
+}, new Map<string, number>());
+
+const today = dayjs().startOf("day");
+const startDate = today.subtract(TOTAL_DAYS - 1, "day");
+
+const days = Array.from({ length: TOTAL_DAYS }, (_, index) => {
+	const date = startDate.add(index, "day");
+	const iso = date.format("YYYY-MM-DD");
+	const count = postCounts.get(iso) ?? 0;
+	return {
+		iso,
+		display: date.format("M月D日"),
+		count,
+	};
+});
+
+function getLevel(count: number) {
+	if (count === 0) return 0;
+	if (count === 1) return 1;
+	if (count === 2) return 2;
+	if (count === 3) return 3;
+	return 4;
+}
+
+const weeks = Array.from({ length: TOTAL_WEEKS }, (_, weekIndex) => {
+	return days
+		.slice(weekIndex * DAYS_PER_WEEK, (weekIndex + 1) * DAYS_PER_WEEK)
+		.map((day) => ({
+			...day,
+			level: getLevel(day.count),
+			title:
+				day.count === 0
+					? `${day.display} · 暂无更新`
+					: `${day.display} · 更新 ${day.count} 篇`,
+		}));
+});
+
+const activeDays = days.filter((day) => day.count > 0).length;
+
+function calculateStreaks(entries: typeof days) {
+	let longest = 0;
+	let current = 0;
+	let trailing = 0;
+
+	for (const day of entries) {
+		if (day.count > 0) {
+			current += 1;
+			if (current > longest) longest = current;
+		} else {
+			current = 0;
+		}
+	}
+
+	for (let i = entries.length - 1; i >= 0; i--) {
+		if (entries[i].count > 0) {
+			trailing += 1;
+		} else {
+			break;
+		}
+	}
+
+	return { longestStreak: longest, currentStreak: trailing };
+}
+
+const { longestStreak, currentStreak } = calculateStreaks(days);
+const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
+---
+
+<WidgetLayout name="博客活跃热力图" id="activity-heatmap">
+	<div class="flex items-center justify-between text-[0.75rem] text-50 mb-2">
+		<span>最近 {TOTAL_WEEKS} 周</span>
+		<span>活跃 {activeDays} 天</span>
+	</div>
+
+	<div class="heatmap-wrapper">
+		<div class="weekday-labels">
+			{weekdayLabels.map((label) => (
+				<span>{label}</span>
+			))}
+		</div>
+
+		<div class="heatmap-grid">
+			{weeks.map((week) => (
+				<div class="heatmap-week">
+					{week.map((day) => (
+						<div
+							class:list={[
+								"heatmap-cell",
+								`level-${day.level}`,
+							]}
+							title={day.title}
+						></div>
+					))}
+				</div>
+			))}
+		</div>
+	</div>
+
+	<div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-[0.75rem] text-60">
+		<div class="flex items-center gap-1">
+			<span>Less</span>
+			<div class="legend">
+				<div class="heatmap-cell level-0"></div>
+				<div class="heatmap-cell level-1"></div>
+				<div class="heatmap-cell level-2"></div>
+				<div class="heatmap-cell level-3"></div>
+				<div class="heatmap-cell level-4"></div>
+			</div>
+			<span>More</span>
+		</div>
+
+		<div class="flex items-center gap-2 text-[0.8rem] text-75">
+			<span>当前连更</span>
+			<strong class="text-[var(--primary)]">{currentStreak}</strong>
+			<span>天 · 最长 {longestStreak} 天</span>
+		</div>
+	</div>
+</WidgetLayout>
+
+<style>
+	.heatmap-wrapper {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.5rem;
+	}
+
+	.weekday-labels {
+		display: grid;
+		grid-template-rows: repeat(7, 1fr);
+		gap: 0.25rem;
+		font-size: 0.7rem;
+		color: var(--text-tertiary, rgba(15, 23, 42, 0.45));
+		opacity: 0.8;
+	}
+
+	.heatmap-grid {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: min-content;
+		gap: 0.25rem;
+		overflow-x: auto;
+		padding-bottom: 0.25rem;
+	}
+
+	.heatmap-week {
+		display: grid;
+		grid-template-rows: repeat(7, 1fr);
+		gap: 0.25rem;
+	}
+
+	.heatmap-cell {
+		width: 12px;
+		height: 12px;
+		border-radius: 3px;
+		background: color-mix(in oklch, var(--card-bg) 85%, transparent);
+		box-shadow: inset 0 0 0 1px color-mix(in oklch, rgba(15, 23, 42, 0.08) 60%, transparent 40%);
+		transition: transform 0.15s ease, box-shadow 0.2s, background 0.2s;
+	}
+
+	.heatmap-cell:hover {
+		transform: scale(1.2);
+		box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary) 75%, transparent);
+	}
+
+	.heatmap-cell.level-0 {
+		background: color-mix(in oklch, var(--card-bg) 80%, transparent);
+	}
+
+	.heatmap-cell.level-1 {
+		background: color-mix(in oklch, var(--primary) 25%, transparent);
+	}
+
+	.heatmap-cell.level-2 {
+		background: color-mix(in oklch, var(--primary) 45%, transparent);
+	}
+
+	.heatmap-cell.level-3 {
+		background: color-mix(in oklch, var(--primary) 65%, transparent);
+	}
+
+	.heatmap-cell.level-4 {
+		background: var(--primary);
+	}
+
+	.legend {
+		display: flex;
+		align-items: center;
+		gap: 0.2rem;
+	}
+
+	@media (max-width: 768px) {
+		.weekday-labels {
+			font-size: 0.6rem;
+		}
+
+		.heatmap-cell {
+			width: 10px;
+			height: 10px;
+		}
+	}
+</style>
+
+

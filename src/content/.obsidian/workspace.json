@@ -34,23 +34,9 @@
               "icon": "lucide-file",
               "title": "draft"
             }
-          },
-          {
-            "id": "301e62333eb37373",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "posts/draft.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "draft"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -204,21 +190,28 @@
       "markdown-importer:打开 Markdown 格式转换器": false
     }
   },
-  "active": "301e62333eb37373",
+  "active": "0bb56a075d752e4f",
   "lastOpenFiles": [
-    "posts/AI工具/dify部署/index.md",
+    "spec/about.md",
+    "posts/币圈/笔记一/index.md",
     "posts/draft.md",
+    "posts/月记/2025-11/index.md",
+    "posts/月记/2025-11/1.png",
+    "posts/月记/2025-11/1.jpg",
+    "posts/语言基础/文章进阶玩法/index.md",
+    "posts/obsidian插件推荐/index.md",
+    "posts/AI工具/dify部署/index.md",
+    "exp/front.md",
+    "posts/月记/2025-11",
+    "posts/月记",
     "posts/AI工具/dify部署",
     "posts/AI工具/未命名.md",
     "posts/AI工具",
-    "exp/front.md",
     "exp/折叠-基础.md",
     "posts/文章收藏夹/转载-海盗指南/index.md",
     "posts/数理逻辑笔记/笔记一/index.md",
     "posts/文章收藏夹/转载-庙门使用手册/index.md",
     "posts/语言基础/图片排版专项/index.md",
-    "posts/语言基础/文章进阶玩法/index.md",
-    "posts/币圈/笔记一/index.md",
     "posts/读书笔记/上海交通大学学生生存手册/index.md",
     "posts/科研绘图指北/二维图像/index.md",
     "posts/摄影笔记一/index.md",
@@ -230,16 +223,12 @@
     "posts/语言基础/图片排版专项",
     "posts/语言基础/文章进阶玩法",
     "posts/语言基础",
-    "posts/obsidian插件推荐/index.md",
     "posts/文章收藏夹/转载-庙门使用手册/index.mdx",
     "posts/文章收藏夹/转载-庙门使用手册/Pasted image 20251123010003.png",
     "posts/文章收藏夹/转载-庙门使用手册",
     "posts/科研绘图指北/二维图像",
-    "posts/科研绘图指北",
-    "posts/币圈/笔记一",
     "posts/复习忏悔录/index.md",
     "spec/friends.md",
-    "spec/about.md",
     "posts/图论笔记/图论笔记一/正向表示例图.png",
     "未命名.md",
     "exp/折叠.md",
@@ -247,10 +236,6 @@
     "posts/obsidian插件推荐/test.png",
     "posts/obsidian插件推荐/不学了.png",
     "posts/obsidian插件推荐/8a57636e20e8ead8c5a7d2bb9f423ae7 1.png",
-    "spec/front.md",
-    "posts/未命名.md",
-    "posts/my-test/react-hooks-cover.jpeg",
-    "posts/markdown-extended/react-hooks-cover.jpeg",
-    "posts/guide/cover.jpeg"
+    "posts/my-test/react-hooks-cover.jpeg"
   ]
 }

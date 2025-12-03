@@ -1,0 +1,47 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface RandomPost {
+	title: string;
+	url: string;
+}
+
+interface Props {
+	posts: RandomPost[];
+}
+
+const { posts = [] } = Astro.props as Props;
+const hasPosts = posts.length > 0;
+---
+
+{hasPosts && (
+  <div class="onload-animation mb-4">
+    <div
+      class="card-base flex w-full flex-col items-center justify-between gap-3 rounded-[var(--radius-large)] px-5 py-4 md:flex-row md:px-6"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--primary-soft)] text-[var(--primary)]"
+        >
+          <Icon name="material-symbols:shuffle-rounded" class="text-2xl" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-60">
+            随便看看
+          </span>
+          <span class="text-base font-semibold text-90">
+            从所有文章中随机挑一篇来读一读～
+          </span>
+        </div>
+      </div>
+
+      <a
+        href="/random/"
+        class="btn-regular flex items-center justify-center gap-1 whitespace-nowrap rounded-xl bg-[var(--enter-btn-bg)] px-4 py-2 text-sm font-semibold hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95"
+      >
+        <Icon name="material-symbols:shuffle-rounded" class="text-lg" />
+        <span>现在就去</span>
+      </a>
+    </div>
+  </div>
+)}

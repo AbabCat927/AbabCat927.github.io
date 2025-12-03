@@ -355,12 +355,22 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 		},
 
 		{
-			type: "statistics", // <--- 修改这里
+			type: "statistics", // 站点统计信息
 			enable: true,
 			order: 3,
 			position: "top",
 			class: "onload-animation",
 			animationDelay: 50,
+		},
+
+		{
+			// 组件类型：博客活跃热力图
+			type: "activity-heatmap",
+			enable: true,
+			order: 4,
+			position: "top",
+			class: "onload-animation",
+			animationDelay: 80,
 		},
 
 		{

@@ -244,6 +244,42 @@ const {
             let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
             offset = offset - offset % 4;
             document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+
+            // 自动主题色渐变：以当前色相为基准，在 7 分钟内完成一次 0 → 360 → 0 的平滑循环
+            (function () {
+                const root = document.documentElement;
+                if (!root) return;
+
+                const baseHue = Number(hue);
+                const PERIOD = 420000; // 7 分钟（毫秒）
+                const HALF = PERIOD / 2;
+
+                function frame(startTime, now) {
+                    const elapsed = (now - startTime) % PERIOD;
+                    const phase = elapsed < HALF ? elapsed / HALF : (elapsed - HALF) / HALF;
+
+                    let delta;
+                    if (elapsed < HALF) {
+                        // 上半程：-180 → +180
+                        delta = -180 + 360 * phase;
+                    } else {
+                        // 下半程：+180 → -180
+                        delta = 180 - 360 * phase;
+                    }
+
+                    const currentHue = (baseHue + delta + 360) % 360;
+                    root.style.setProperty('--hue', String(currentHue));
+                }
+
+                if (typeof window !== 'undefined') {
+                    const startTime = performance.now();
+                    function loop(now) {
+                        frame(startTime, now);
+                        requestAnimationFrame(loop);
+                    }
+                    requestAnimationFrame(loop);
+                }
+            })();
         </script>
         <style define:vars={{
             configHue,

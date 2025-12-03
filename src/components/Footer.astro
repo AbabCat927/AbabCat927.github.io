@@ -14,23 +14,75 @@ const currentYear = new Date().getFullYear();
 <!-- 
   --- Footer HTML 模板区域 ---
 -->
-<footer class="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
-  
-  <!-- 
-    【关键修改】
-    只保留了最核心的版权信息行。
-    - `{currentYear}` 会动态显示当前年份。
-    - `{profileConfig.name}` 会动态显示您在 src/config.ts 中设置的名字。
-  -->
+<footer class="text-center text-sm text-gray-500 dark:text-gray-400 py-8 space-y-3">
+  <p class="flex items-center justify-center gap-2 text-base font-semibold text-75">
+    <button
+      id="dont-click-me"
+      class="transition hover:scale-110 active:scale-95 focus:outline-none"
+      aria-label="不要点我"
+      type="button"
+    >
+      ♡
+    </button>
+    <span class="text-75 text-[0.95rem] tracking-wide">不要点我</span>
+  </p>
+
   <p>
     &copy; {currentYear} {profileConfig.name}
   </p>
-
-  <!-- 
-    【已移除】
-    - "All Rights Reserved." 文字已被删除。
-    - RSS / Atom / Sitemap 链接已被删除。
-    - "Powered by Astro & Mizuki..." 这一整行都已被删除。
-  -->
-
 </footer>
+
+<script is:inline>
+  (function () {
+    function bindBarrelRoll() {
+      const btn = document.getElementById("dont-click-me");
+      if (!btn) return;
+
+      btn.addEventListener("click", function (event) {
+        event.preventDefault();
+        const body = document.body;
+        if (!body || body.classList.contains("rolling")) return;
+
+        body.classList.add("rolling");
+        setTimeout(() => {
+          body.classList.remove("rolling");
+        }, 2000);
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bindBarrelRoll, { once: true });
+    } else {
+      bindBarrelRoll();
+    }
+
+    document.addEventListener("swup:contentReplaced", bindBarrelRoll);
+  })();
+</script>
+
+<style is:global>
+  @keyframes barrelRoll {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    20% {
+      transform: rotate(60deg) scale(1.02);
+    }
+    50% {
+      transform: rotate(180deg) scale(1.04);
+    }
+    80% {
+      transform: rotate(300deg) scale(1.02);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  body.rolling {
+    animation: barrelRoll 2s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform-origin: center;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+</style>

@@ -1,0 +1,197 @@
+---
+---
+
+<div
+	id="reading-progress-widget"
+	class="reading-progress-widget"
+	role="button"
+	aria-label="回到文章顶部"
+	tabindex="0"
+>
+	<div class="reading-progress-inner">
+		<span class="reading-progress-arrow">↑</span>
+	</div>
+</div>
+
+<style is:global>
+	.reading-progress-widget {
+		position: fixed;
+		right: 1.5rem;
+		bottom: 1.5rem;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 1.25rem; /* 足够圆的正方形 */
+		--progress: 0;
+		background:
+			/* 中间内容背景 */ radial-gradient(circle at center, var(--page-bg, oklch(0.17 0.03 260)) 60%, transparent 61%),
+			/* 外圈进度条 */ conic-gradient(
+				var(--primary, oklch(0.70 0.14 var(--hue))) calc(var(--progress) * 1%),
+				rgba(148, 163, 184, 0.35) 0
+			);
+		box-shadow:
+			0 10px 25px rgba(15, 23, 42, 0.35),
+			0 0 0 1px rgba(148, 163, 184, 0.4);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		z-index: 60;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			opacity 0.2s ease;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.reading-progress-widget--visible {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.reading-progress-inner {
+		width: 70%;
+		height: 70%;
+		border-radius: inherit;
+		background: radial-gradient(
+			circle at 30% 20%,
+			rgba(255, 255, 255, 0.25),
+			transparent 55%
+		);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--deep-text, #020617);
+		backdrop-filter: blur(8px);
+	}
+
+	.reading-progress-arrow {
+		font-size: 0.9rem;
+		font-weight: 700;
+		transform: translateY(1px);
+	}
+
+	.reading-progress-widget:hover {
+		transform: translateY(-2px) scale(1.03);
+		box-shadow:
+			0 14px 30px rgba(15, 23, 42, 0.45),
+			0 0 0 1px rgba(148, 163, 184, 0.6);
+	}
+
+	.reading-progress-widget:active {
+		transform: translateY(0) scale(0.97);
+		box-shadow:
+			0 6px 16px rgba(15, 23, 42, 0.4),
+			0 0 0 1px rgba(148, 163, 184, 0.7);
+	}
+
+	@media (max-width: 768px) {
+		.reading-progress-widget {
+			right: 1rem;
+			bottom: 1.0rem;
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 1.1rem;
+		}
+	}
+</style>
+
+<script is:inline>
+	function setupReadingProgress() {
+		const widget = document.getElementById("reading-progress-widget");
+		if (!widget) return;
+
+		const MIN_SCROLL_TO_SHOW = 120; // 滚动超过一定距离再显示
+
+		// 使用 requestAnimationFrame 做平滑插值，避免滚动事件触发过快导致卡顿感
+		let currentProgress = 0; // 实际展示的进度（0-100，带小数）
+		let targetProgress = 0; // 根据滚动位置计算出的目标进度
+		let rafId = null;
+
+		function animate() {
+			// 指数平滑：每一帧向目标逼近一小步
+			const smoothing = 0.18; // 数值越大越跟手，越小越丝滑
+			currentProgress += (targetProgress - currentProgress) * smoothing;
+
+			widget.style.setProperty("--progress", String(currentProgress));
+
+			if (Math.abs(targetProgress - currentProgress) > 0.1) {
+				rafId = window.requestAnimationFrame(animate);
+			} else {
+				currentProgress = targetProgress;
+				widget.style.setProperty("--progress", String(currentProgress));
+				rafId = null;
+			}
+		}
+
+		function updateProgressImmediate() {
+			const scrollingElement =
+				document.scrollingElement || document.documentElement;
+			const scrollTop = scrollingElement.scrollTop || window.scrollY || 0;
+
+			const maxScrollable =
+				(scrollingElement.scrollHeight || document.body.scrollHeight) -
+				window.innerHeight;
+
+			if (maxScrollable <= 0) {
+				targetProgress = 0;
+				currentProgress = 0;
+				widget.style.setProperty("--progress", "0");
+				widget.classList.remove("reading-progress-widget--visible");
+				return;
+			}
+
+			const ratio = Math.min(1, Math.max(0, scrollTop / maxScrollable));
+			targetProgress = ratio * 100;
+
+			if (!rafId) {
+				rafId = window.requestAnimationFrame(animate);
+			}
+
+			if (scrollTop > MIN_SCROLL_TO_SHOW) {
+				widget.classList.add("reading-progress-widget--visible");
+			} else {
+				widget.classList.remove("reading-progress-widget--visible");
+			}
+		}
+
+		function scrollToTop() {
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			});
+		}
+
+		window.addEventListener("scroll", updateProgressImmediate, {
+			passive: true,
+		});
+		window.addEventListener("resize", updateProgressImmediate);
+
+		widget.addEventListener("click", scrollToTop);
+		widget.addEventListener("keydown", (event) => {
+			if (event.key === "Enter" || event.key === " ") {
+				event.preventDefault();
+				scrollToTop();
+			}
+		});
+
+		// 初次进入页面时计算一次
+		updateProgressImmediate();
+
+		// 考虑 Swup 页面切换：内容替换后重新计算一次
+		document.addEventListener("swup:contentReplaced", () => {
+			setTimeout(updateProgressImmediate, 50);
+		});
+	}
+
+	// 等 DOM 准备好再初始化，避免脚本执行时元素尚未插入
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", setupReadingProgress, {
+			once: true,
+		});
+	} else {
+		setupReadingProgress();
+	}
+</script>
+
+

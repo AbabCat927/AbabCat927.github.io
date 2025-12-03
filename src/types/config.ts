@@ -209,6 +209,7 @@ export type WidgetComponentType =
 	| "music-player"
 	| "pio" // 添加 pio 组件类型
 	| "statistics"
+	| "activity-heatmap"
 	| "custom"
 	| "visit-counter"; // 【本次修正】添加 "visit-counter" 组件类型，以解决类型不匹配的错误
 

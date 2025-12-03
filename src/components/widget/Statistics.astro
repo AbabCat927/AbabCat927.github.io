@@ -2,43 +2,24 @@
 import { getCollection } from "astro:content";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import getReadingTime from "reading-time";
 import WidgetLayout from "./WidgetLayout.astro";
 
 dayjs.extend(duration);
 
-// --- 实用函数：计算文章字数（为了提高准确度，修改了正则，保留代码块内容） ---
-function calculateWordCount(body: string): number {
-	if (!body) {
-		return 0;
-	}
-
-	let cleanedText = body;
-	cleanedText = cleanedText.replace(/<[^>]*>/g, "");
-	cleanedText = cleanedText
-		.replace(/[#*`~[\]()\-|>=<+!]/g, " ")
-		.replace(/\s+/g, " ")
-		.trim();
-
-	if (!cleanedText) {
-		return 0;
-	}
-
-	const chineseChars = cleanedText.match(/[\u4e00-\u9fa5]/g) || [];
-	const englishWords = cleanedText.match(/\b[a-zA-Z0-9]+\b/g) || [];
-	return chineseChars.length + englishWords.length;
-}
-
 // --- 数据计算部分 ---
-const posts = await getCollection("posts", ({ data }) => {
-	return data.draft !== true;
-});
+// 这里只统计「公开文章」（draft !== true）
+const posts = await getCollection("posts", ({ data }) => data.draft !== true);
 
 const totalPosts = posts.length;
 
-const totalWords = posts.reduce(
-	(sum, post) => sum + calculateWordCount(post.body),
-	0,
-);
+// 为了让侧边栏总字数与每篇文章头部显示的字数完全一致，
+// 这里直接使用和 remark-reading-time 插件相同的 reading-time 库，
+// 对每篇文章的 body 重新计算 words，然后求和。
+const totalWords = posts.reduce((sum, post) => {
+	const reading = getReadingTime(post.body ?? "");
+	return sum + (reading.words || 0);
+}, 0);
 
 const formattedTotalWords = (num: number) => {
 	if (num < 1000) return num.toString();

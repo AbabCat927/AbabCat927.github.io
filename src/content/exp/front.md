@@ -1,8 +1,8 @@
 ---
 title:
-published: 2025-10-22 18:30:34
+published: 
 pinned: false
-updated: 2025-12-01 11:06:23
+updated: 
 description:
 image: ""
 tags:

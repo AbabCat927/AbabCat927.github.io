@@ -1,0 +1,21 @@
+---
+import { getSortedPosts } from "../utils/content-utils";
+import { getPostUrlBySlug } from "../utils/url-utils";
+
+const posts = await getSortedPosts();
+
+if (!posts.length) {
+	return Astro.redirect("/");
+}
+
+const index = Math.floor(Math.random() * posts.length);
+const picked = posts[index];
+
+// Location 头部必须是 ASCII 字符，这里对包含中文等字符的路径做一次编码
+const targetUrl = getPostUrlBySlug(picked.slug);
+const encodedUrl = encodeURI(targetUrl);
+
+return Astro.redirect(encodedUrl);
+---
+
+

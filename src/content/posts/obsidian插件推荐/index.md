@@ -1,8 +1,8 @@
 ---
-title: 利其器（一）：obsidian插件推荐
-published: 2025-10-22
+title: Obsidian插件推荐
+published: 2025-10-22 18:23:34
 pinned: false
-updated: 2025-10-23
+updated: 2025-12-01 22:11:29
 description: 纯主观介绍几个能提升体验和效率的obsidian插件
 image: ""
 tags:
