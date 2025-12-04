@@ -165,9 +165,19 @@
               "icon": "lucide-list",
               "title": "index 的大纲"
             }
+          },
+          {
+            "id": "7b49db412a5bfdb6",
+            "type": "leaf",
+            "state": {
+              "type": "smtcmp-chat-view",
+              "state": {},
+              "icon": "wand-sparkles",
+              "title": "Yolo chat"
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -176,6 +186,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "yolo:打开聊天": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -185,21 +196,20 @@
       "bases:创建新数据库": false,
       "obsidian-git:Open Git source control": false,
       "obsidian-shellcommands:Shell commands: Custom variables": false,
-      "smart-composer:Open smart composer": false,
       "media-extended:Open external media": false,
       "markdown-importer:打开 Markdown 格式转换器": false
     }
   },
   "active": "0bb56a075d752e4f",
   "lastOpenFiles": [
+    "posts/obsidian插件推荐/index.md",
+    "posts/draft.md",
     "spec/about.md",
     "posts/币圈/笔记一/index.md",
-    "posts/draft.md",
     "posts/月记/2025-11/index.md",
     "posts/月记/2025-11/1.png",
     "posts/月记/2025-11/1.jpg",
     "posts/语言基础/文章进阶玩法/index.md",
-    "posts/obsidian插件推荐/index.md",
     "posts/AI工具/dify部署/index.md",
     "exp/front.md",
     "posts/月记/2025-11",

@@ -1,0 +1,66 @@
+{
+  "id": "6789de04-780a-4767-9d69-4a5498e70359",
+  "title": "新消息",
+  "messages": [
+    {
+      "role": "user",
+      "content": {
+        "root": {
+          "children": [
+            {
+              "children": [
+                {
+                  "detail": 0,
+                  "format": 0,
+                  "mode": "normal",
+                  "style": "",
+                  "text": "写一个总结",
+                  "type": "text",
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "format": "",
+              "indent": 0,
+              "type": "paragraph",
+              "version": 1,
+              "textFormat": 0,
+              "textStyle": ""
+            }
+          ],
+          "direction": "ltr",
+          "format": "",
+          "indent": 0,
+          "type": "root",
+          "version": 1
+        }
+      },
+      "promptContent": "写一个总结",
+      "id": "cef5686d-cb01-4e9b-8c2a-c973e3a33544",
+      "mentionables": []
+    },
+    {
+      "role": "assistant",
+      "content": "<think>**Clarifying summary request**\n\nThe user wrote \"写一个总结,\" which means \"write a summary.\" However, there's no context provided, so I'm not sure what they want me to summarize. I should respond concisely and ask for clarification about what I should summarize. It feels important to ensure I understand their request to provide the best help possible! Let’s see if I can get more details from them.</think>\n\n想总结什么内容呢？  \n比如：一篇文章、一个项目、一段经历，还是你今天学到的东西？  \n\n发给我原文或要点，我可以帮你写成简短版、详细版，或者条目式总结。",
+      "id": "e849dfe0-b8bd-43bc-9743-164911a93770",
+      "metadata": {
+        "model": {
+          "providerId": "gptgod",
+          "providerType": "openai-compatible",
+          "id": "gptgod/gpt-5.1",
+          "model": "gpt-5.1",
+          "name": "gpt-5.1",
+          "reasoning": {
+            "enabled": true,
+            "reasoning_effort": "medium"
+          },
+          "enable": true
+        }
+      }
+    }
+  ],
+  "createdAt": 1764818922685,
+  "updatedAt": 1764818922685,
+  "schemaVersion": 1,
+  "overrides": null
+}

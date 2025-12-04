@@ -1,0 +1,62 @@
+{
+  "id": "a617c2c8-a47d-4a16-90e2-18ffe8276c52",
+  "title": "新消息",
+  "messages": [
+    {
+      "role": "user",
+      "content": {
+        "root": {
+          "children": [
+            {
+              "children": [
+                {
+                  "detail": 0,
+                  "format": 0,
+                  "mode": "normal",
+                  "style": "",
+                  "text": "写个总结",
+                  "type": "text",
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "format": "",
+              "indent": 0,
+              "type": "paragraph",
+              "version": 1,
+              "textFormat": 0,
+              "textStyle": ""
+            }
+          ],
+          "direction": "ltr",
+          "format": "",
+          "indent": 0,
+          "type": "root",
+          "version": 1
+        }
+      },
+      "promptContent": "写个总结",
+      "id": "222874b7-6400-431b-8d4e-c682c0814941",
+      "mentionables": []
+    },
+    {
+      "role": "assistant",
+      "content": "<smtcmp_block filename=\"Obsidian插件推荐.md\" language=\"markdown\">\n# Obsidian插件推荐总结\n\nObsidian 通过其强大的插件生态系统，能够显著提升写作效率、增强功能体验。以下是我推荐的几个核心插件：\n\n## 🚀 效率提升类\n- **Latex Suite** - 快速输入数学公式，支持智能片段和便捷导航\n- **Smart Composer** - AI辅助写作，支持RAG检索和多种AI模型集成\n- **Completr** - 提供LaTeX等常用输入的自动补全功能\n\n## 🎨 视觉与编辑增强\n- **Excalidraw** - 强大的绘图工具，深度集成双向链接和内容嵌入\n- **Typewriter Scroll** - 打字时保持内容居中，提升专注度\n- **Editing Toolbar** - 类似Word的工具栏，方便格式调整\n- **Easy Typing** - 改善写作体验，自动格式化文本\n\n## 🔧 工具与优化\n- **Linter** - 自动规范Markdown格式，保持样式统一\n- **KaTeX to MathJax** - 方便粘贴AI生成的数学公式\n- **Media Extended** - 视频笔记工具，支持YouTube和Bilibili\n\n这些插件覆盖了从数学公式输入、AI辅助写作、绘图创作到格式规范等多个方面，可以根据个人需求选择性安装，将Obsidian打造成个性化的高效知识管理工具。\n</smtcmp_block>\n\n这份总结基于您文档中介绍的插件，按照功能类别进行了分类整理，并突出了每个插件的核心价值。您可以根据需要调整分类方式或添加更多个人使用体验。",
+      "id": "6408a8ab-08fe-457f-a51c-1bc66c58b791",
+      "metadata": {
+        "model": {
+          "providerId": "gptgod",
+          "providerType": "openai-compatible",
+          "id": "gptgod/deepseek-v3.1",
+          "model": "deepseek-v3.1",
+          "name": "deepseek-v3.1",
+          "enable": true
+        }
+      }
+    }
+  ],
+  "createdAt": 1764819071060,
+  "updatedAt": 1764819071060,
+  "schemaVersion": 1,
+  "overrides": null
+}

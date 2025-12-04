@@ -1,0 +1,71 @@
+{
+  "id": "356f3518-bc5e-47db-8378-009c6ab29c37",
+  "title": "新消息",
+  "messages": [
+    {
+      "role": "user",
+      "content": {
+        "root": {
+          "children": [
+            {
+              "children": [
+                {
+                  "detail": 0,
+                  "format": 0,
+                  "mode": "normal",
+                  "style": "",
+                  "text": "写个总结",
+                  "type": "text",
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "format": "",
+              "indent": 0,
+              "type": "paragraph",
+              "version": 1,
+              "textFormat": 0,
+              "textStyle": ""
+            }
+          ],
+          "direction": "ltr",
+          "format": "",
+          "indent": 0,
+          "type": "root",
+          "version": 1
+        }
+      },
+      "promptContent": "写个总结",
+      "id": "d3d874b9-02e1-45b7-8da4-c5c5a84dc5da",
+      "mentionables": []
+    },
+    {
+      "role": "assistant",
+      "content": "根据您提供的文章内容，这里为您撰写一个总结：\n\n<smtcmp_block language=\"markdown\">\n## 总结\n\n本文介绍了一系列能够显著提升 Obsidian 使用体验和编辑效率的插件。这些插件覆盖了从数学公式输入、AI 辅助、绘图、写作体验到笔记格式规范等多个核心场景。\n\n*   **公式与数学编辑**：通过 **Latex Suite** 和 **Completr**，用户可以快速、直观地输入复杂的 LaTeX 公式。\n*   **AI 智能辅助**：**Smart Composer** 提供了强大的 AI 对话、上下文引用和自动化编辑功能，类似于 Copilot，并能通过 RAG 和 MCP 连接外部知识。\n*   **可视化与绘图**：**Excalidraw** 将功能强大的绘图工具深度集成到 Obsidian 中，支持创建示意图、概念图，并能与笔记进行双向链接和内容嵌入。\n*   **专注写作体验**：**Typewriter Scroll** 让编辑行始终居中，**Easy Typing** 优化文本格式和符号编辑，共同营造流畅的写作环境。\n*   **编辑便利性**：**Editing Toolbar** 提供了类似 Word 的图形化工具栏，方便进行格式调整。\n*   **内容规范化**：**Linter** 可以自动格式化 Markdown 笔记，确保样式统一和整洁。\n*   **媒体与内容处理**：**KaTeX to MathJax** 方便粘贴 AI 生成的公式，**Media Extended** 则增强了视频笔记功能，支持对 YouTube 和 Bilibili 视频做笔记。\n\n总而言之，合理搭配这些插件，可以将 Obsidian 从一个优秀的笔记工具，进一步定制成高度个性化、功能全面且效率倍增的“个人知识管理系统”和“创作中心”。\n</smtcmp_block>",
+      "id": "97f07a59-b324-43fc-be5b-64394b523cce",
+      "metadata": {
+        "model": {
+          "providerType": "deepseek",
+          "providerId": "deepseek",
+          "id": "deepseek/deepseek-chat",
+          "model": "deepseek-chat",
+          "enable": true
+        },
+        "usage": {
+          "prompt_tokens": 2211,
+          "completion_tokens": 378,
+          "total_tokens": 2589,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2211
+        }
+      }
+    }
+  ],
+  "createdAt": 1764819194154,
+  "updatedAt": 1764819194154,
+  "schemaVersion": 1,
+  "overrides": null
+}

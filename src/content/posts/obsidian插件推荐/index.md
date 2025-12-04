@@ -2,7 +2,7 @@
 title: Obsidian插件推荐
 published: 2025-10-22 18:23:34
 pinned: false
-updated: 2025-12-01 22:11:29
+updated: 2025-12-04 11:36:05
 description: 纯主观介绍几个能提升体验和效率的obsidian插件
 image: ""
 tags:
@@ -199,3 +199,19 @@ obsidian 作为一个强大的双链笔记和知识管理工具，其真正的�
 
 :::
 
+
+## 总结
+
+本文介绍了一系列能够显著提升 Obsidian 使用体验和编辑效率的插件。这些插件覆盖了从数学公式输入、AI 辅助、绘图、写作体验到笔记格式规范等多个核心场景。
+
+*   **公式与数学编辑**：通过 **Latex Suite** 和 **Completr**，用户可以快速、直观地输入复杂的 LaTeX 公式。
+*   **AI 智能辅助**：**Smart Composer** 提供了强大的 AI 对话、上下文引用和自动化编辑功能，类似于 Copilot，并能通过 RAG 和 MCP 连接外部知识。
+*   **可视化与绘图**：**Excalidraw** 将功能强大的绘图工具深度集成到 Obsidian 中，支持创建示意图、概念图，并能与笔记进行双向链接和内容嵌入。
+*   **专注写作体验**：**Typewriter Scroll** 让编辑行始终居中，**Easy Typing** 优化文本格式和符号编辑，共同营造流畅的写作环境。
+*   **编辑便利性**：**Editing Toolbar** 提供了类似 Word 的图形化工具栏，方便进行格式调整。
+*   **内容规范化**：**Linter** 可以自动格式化 Markdown 笔记，确保样式统一和整洁。
+*   **媒体与内容处理**：**KaTeX to MathJax** 方便粘贴 AI 生成的公式，**Media Extended** 则增强了视频笔记功能，支持对 YouTube 和 Bilibili 视频做笔记。
+
+总而言之，合理搭配这些插件，可以将 Obsidian 从一个优秀的笔记工具，进一步定制成高度个性化、功能全面且效率倍增的“个人知识管理系统”和“创作中心”。
+
+以上总结是在测试 [YOLO](https://github.com/Lapis0x0/obsidian-yolo) 插件的基本能力，从使用上来说，这个插件比Smart Composer 更容易上手，但需要注意的是在 YOLO 插件会和Smart Composer 插件冲突，使用时需要先把Smart Composer 关掉。
