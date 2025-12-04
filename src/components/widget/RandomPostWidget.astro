@@ -35,13 +35,54 @@ const hasPosts = posts.length > 0;
         </div>
       </div>
 
-      <a
-        href="/random/"
+      <button
+        id="random-post-btn"
         class="btn-regular flex items-center justify-center gap-1 whitespace-nowrap rounded-xl bg-[var(--enter-btn-bg)] px-4 py-2 text-sm font-semibold hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95"
+        type="button"
+        data-posts={JSON.stringify(posts)}
       >
         <Icon name="material-symbols:shuffle-rounded" class="text-lg" />
         <span>现在就去</span>
-      </a>
+      </button>
     </div>
   </div>
 )}
+
+<script is:inline>
+  (function () {
+    function initRandomPost() {
+      const btn = document.getElementById("random-post-btn");
+      if (!btn) return;
+
+      const postsData = btn.getAttribute("data-posts");
+      if (!postsData) return;
+
+      let posts;
+      try {
+        posts = JSON.parse(postsData);
+      } catch (e) {
+        console.error("Failed to parse posts data", e);
+        return;
+      }
+
+      if (!Array.isArray(posts) || posts.length === 0) return;
+
+      btn.addEventListener("click", function (event) {
+        event.preventDefault();
+        const randomIndex = Math.floor(Math.random() * posts.length);
+        const randomPost = posts[randomIndex];
+        if (randomPost && randomPost.url) {
+          window.location.href = randomPost.url;
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initRandomPost, { once: true });
+    } else {
+      initRandomPost();
+    }
+
+    document.addEventListener("swup:contentReplaced", initRandomPost);
+  })();
+</script>
