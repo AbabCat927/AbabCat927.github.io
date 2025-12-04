@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自毁程序测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-content {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #self-destruct-trigger {
+            cursor: pointer;
+            user-select: none;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>自毁程序测试页面</h1>
+    
+    <div class="warning">
+        <strong>警告：</strong> 点击下方的"♡ 不要点我"将会触发页面自毁效果，页面将变得不可用，直到刷新页面。
+    </div>
+    
+    <div class="test-content">
+        <h2>测试内容 1</h2>
+        <p>这是一些测试内容，用于验证自毁程序的效果。当自毁程序触发时，这些内容将会被各种CSS效果所影响。</p>
+        <ul>
+            <li>列表项 1</li>
+            <li>列表项 2</li>
+            <li>列表项 3</li>
+        </ul>
+    </div>
+    
+    <div class="test-content">
+        <h2>测试内容 2</h2>
+        <p>这是更多的测试内容，包括一些图片和链接。</p>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Ctext x='50' y='50' text-anchor='middle' dy='.3em'%3E测试图片%3C/text%3E%3C/svg%3E" alt="测试图片">
+        <br><br>
+        <a href="#">这是一个测试链接</a>
+    </div>
+    
+    <div class="test-content">
+        <h2>测试内容 3</h2>
+        <p>这是最后的测试内容，包括一个表单。</p>
+        <form>
+            <label for="test-input">测试输入框：</label>
+            <input type="text" id="test-input" name="test-input">
+            <br><br>
+            <button type="button">测试按钮</button>
+        </form>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 测试页面</p>
+        <div class="mt-4">
+            <span id="self-destruct-trigger">♡ 不要点我</span>
+        </div>
+    </footer>
+
+    <script>
+        // 确保DOM已加载
+        document.addEventListener('DOMContentLoaded', function() {
+            const trigger = document.getElementById('self-destruct-trigger');
+            if (trigger) {
+                trigger.addEventListener('click', function() {
+                    // 触发自毁程序
+                    selfDestruct();
+                });
+            }
+        });
+
+        function selfDestruct() {
+            // 获取所有元素
+            const allElements = document.querySelectorAll('*');
+            
+            // 为每个元素应用随机故障效果
+            allElements.forEach(function(element, index) {
+                // 延迟应用效果，创建连锁反应
+                setTimeout(function() {
+                    // 随机transform效果
+                    const randomTranslateX = (Math.random() - 0.5) * 200;
+                    const randomTranslateY = (Math.random() - 0.5) * 200;
+                    const randomRotate = (Math.random() - 0.5) * 360;
+                    const randomSkewX = (Math.random() - 0.5) * 90;
+                    const randomSkewY = (Math.random() - 0.5) * 90;
+                    
+                    // 随机clip-path
+                    const clipPathValue = `polygon(${Math.random() * 100}% ${Math.random() * 100}%, ${Math.random() * 100}% ${Math.random() * 100}%, ${Math.random() * 100}% ${Math.random() * 100}%, ${Math.random() * 100}% ${Math.random() * 100}%)`;
+                    
+                    // 随机filter效果
+                    const hueRotate = Math.random() * 360;
+                    const blur = Math.random() * 5;
+                    const saturate = Math.random() * 2;
+                    
+                    // 应用样式
+                    const htmlElement = element;
+                    htmlElement.style.transition = 'all 0.5s ease-out';
+                    htmlElement.style.transform = `translateX(${randomTranslateX}px) translateY(${randomTranslateY}px) rotate(${randomRotate}deg) skewX(${randomSkewX}deg) skewY(${randomSkewY}deg)`;
+                    htmlElement.style.clipPath = clipPathValue;
+                    htmlElement.style.textShadow = `${Math.random() * 10}px ${Math.random() * 10}px 0 red, ${Math.random() * 10}px ${Math.random() * 10}px 0 cyan`;
+                    htmlElement.style.filter = `hue-rotate(${hueRotate}deg) blur(${blur}px) saturate(${saturate})`;
+                    
+                    // 逐渐降低透明度
+                    setTimeout(function() {
+                        htmlElement.style.opacity = '0';
+                    }, 500);
+                }, index * 10); // 每个元素延迟10ms，创建连锁反应
+            });
+            
+            // 添加额外的故障效果
+            setInterval(function() {
+                allElements.forEach(function(element) {
+                    const htmlElement = element;
+                    if (htmlElement.style.opacity !== '0') {
+                        const randomTranslateX = (Math.random() - 0.5) * 50;
+                        const randomTranslateY = (Math.random() - 0.5) * 50;
+                        htmlElement.style.transform = `translateX(${randomTranslateX}px) translateY(${randomTranslateY}px)`;
+                    }
+                });
+            }, 200);
+        }
+    </script>
+</body>
+</html>
