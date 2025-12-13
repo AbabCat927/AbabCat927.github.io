@@ -165,19 +165,9 @@
               "icon": "lucide-list",
               "title": "index 的大纲"
             }
-          },
-          {
-            "id": "7b49db412a5bfdb6",
-            "type": "leaf",
-            "state": {
-              "type": "smtcmp-chat-view",
-              "state": {},
-              "icon": "wand-sparkles",
-              "title": "Yolo chat"
-            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -186,7 +176,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "yolo:打开聊天": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -194,18 +183,22 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "bases:创建新数据库": false,
+      "markdown-importer:打开 Markdown 格式转换器": false,
       "obsidian-git:Open Git source control": false,
       "obsidian-shellcommands:Shell commands: Custom variables": false,
       "media-extended:Open external media": false,
-      "markdown-importer:打开 Markdown 格式转换器": false
+      "yolo:打开聊天": false
     }
   },
   "active": "0bb56a075d752e4f",
   "lastOpenFiles": [
+    "posts/杂谈/ababcat失掉自信力了吗/index.md",
+    "posts/draft.md",
+    "posts/杂谈/ababcat失掉自信力了吗",
+    "posts/杂谈",
     "exp/front.md",
     "exp/折叠.md",
     "exp/折叠-基础.md",
-    "posts/draft.md",
     "posts/obsidian插件推荐/index.md",
     "spec/about.md",
     "posts/币圈/笔记一/index.md",
@@ -236,8 +229,6 @@
     "posts/语言基础",
     "posts/文章收藏夹/转载-庙门使用手册/index.mdx",
     "posts/文章收藏夹/转载-庙门使用手册/Pasted image 20251123010003.png",
-    "posts/文章收藏夹/转载-庙门使用手册",
-    "posts/科研绘图指北/二维图像",
     "posts/复习忏悔录/index.md",
     "spec/friends.md",
     "posts/图论笔记/图论笔记一/正向表示例图.png",

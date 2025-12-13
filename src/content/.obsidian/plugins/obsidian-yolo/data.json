@@ -382,28 +382,28 @@
       }
     },
     {
-      "providerId": "gptgod",
       "providerType": "openai-compatible",
+      "providerId": "gptgod",
       "id": "gptgod/gpt-5.1",
       "model": "gpt-5.1",
       "name": "gpt-5.1",
+      "enable": true,
       "reasoning": {
         "enabled": true,
         "reasoning_effort": "medium"
-      },
-      "enable": true
+      }
     },
     {
-      "providerId": "gptgod",
       "providerType": "openai-compatible",
+      "providerId": "gptgod",
       "id": "gptgod/net-claude-haiku-4-5-20251001-thinking",
       "model": "net-claude-haiku-4-5-20251001-thinking",
       "name": "net-claude-haiku-4-5-20251001-thinking",
       "enable": true
     },
     {
-      "providerId": "gptgod",
       "providerType": "openai-compatible",
+      "providerId": "gptgod",
       "id": "gptgod/deepseek-v3.1",
       "model": "deepseek-v3.1",
       "name": "deepseek-v3.1",

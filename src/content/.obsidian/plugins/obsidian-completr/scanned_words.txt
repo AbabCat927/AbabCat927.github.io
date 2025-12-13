@@ -1251,6 +1251,7 @@ abk
 ayz
 aIeZ
 aTp
+ababcat
 host
 height
 hdU
@@ -2773,6 +2774,7 @@ gEbG
 gmVA
 gMr
 giq
+galgame
 mermaid
 media
 mathjax
@@ -6889,6 +6891,7 @@ RhK
 Rnde
 RoJ
 Rnc
+RPG
 Excalidraw
 Ed
 EQ

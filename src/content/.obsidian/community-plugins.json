@@ -1,15 +1,14 @@
 [
-  "obsidian-git",
+  "yolo",
   "buttons",
-  "obsidian-shellcommands",
+  "obsidian-completr",
+  "easy-typing-obsidian",
+  "editing-toolbar",
   "convert-katex-to-mathjax",
   "obsidian-latex-suite",
-  "cm-typewriter-scroll-obsidian",
-  "editing-toolbar",
-  "easy-typing-obsidian",
   "obsidian-linter",
-  "obsidian-completr",
-  "obsidian-paste-image-rename",
   "media-extended",
-  "yolo"
+  "obsidian-paste-image-rename",
+  "obsidian-shellcommands",
+  "cm-typewriter-scroll-obsidian"
 ]
