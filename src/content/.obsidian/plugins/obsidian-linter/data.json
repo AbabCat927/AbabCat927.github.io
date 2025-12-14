@@ -67,7 +67,7 @@
       "date-modified-source-of-truth": "file system",
       "format": "YYYY-MM-DD HH:mm:ss",
       "convert-to-utc": false,
-      "update-on-file-contents-updated": "never"
+      "update-on-file-contents-updated": "after 10 seconds"
     },
     "yaml-title": {
       "enabled": false,
