@@ -13,20 +13,6 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/读书笔记/上海交通大学学生生存手册/index.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "index"
-            }
-          },
-          {
-            "id": "0bb56a075d752e4f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
                 "file": "posts/draft.md",
                 "mode": "source",
                 "source": false
@@ -35,8 +21,7 @@
               "title": "draft"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -176,66 +161,64 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:新建数据库": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:创建新数据库": false,
       "markdown-importer:打开 Markdown 格式转换器": false,
       "obsidian-shellcommands:Shell commands: Custom variables": false,
-      "media-extended:Open external media": false,
-      "yolo:打开聊天": false
+      "media-extended:Open external media": false
     }
   },
-  "active": "0bb56a075d752e4f",
+  "active": "2b38895b4df4c0a7",
   "lastOpenFiles": [
+    "PID/PID调试.md",
+    "PID.zip",
+    "PID/70 60 0.png",
+    "posts/文章收藏夹/转载-庙门使用手册/index.md",
+    "draft/PID调试.md",
+    "PID/未调试.png",
+    "PID/微分项加入.png",
+    "PID/微分调试.png",
+    "PID/原始结果.png",
+    "PID/上课课件.png",
+    "PID/simulink仿真.png",
+    "PID/pid控制器.png",
+    "PID/d.png",
+    "PID/D调试1.png",
+    "PID",
+    "draft",
+    "posts/文章收藏夹/转载-我和家教女学生的故事/part1/index.md",
+    "posts/读书笔记/上海交通大学学生生存手册/index.md",
+    "new/AI.md",
+    "new/摘要.md",
+    "new/problemA.md",
+    "new/模型假设.md",
+    "new/模型评估.md",
+    "new.zip",
+    "posts/draft.md",
+    "new",
+    "未命名.md",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part6/index.md",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part5/index.md",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part4/index.md",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part3/index.md",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part2/index.md",
-    "posts/文章收藏夹/转载-我和家教女学生的故事/part1/index.md",
-    "posts/draft.md",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part6",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part5",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part4",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part3",
     "posts/文章收藏夹/转载-我和家教女学生的故事/part2",
-    "posts/文章收藏夹/转载-我和家教女学生的故事/part1",
-    "posts/文章收藏夹/转载-我和家教女学生的故事",
-    "posts/文章收藏夹/转载-庙门使用手册/index.md",
     "posts/文章收藏夹/转载-海盗指南/index.md",
     "posts/杂谈/ababcat失掉自信力了吗/index.md",
-    "posts/杂谈/ababcat失掉自信力了吗",
-    "posts/杂谈",
     "exp/front.md",
     "exp/折叠.md",
     "exp/折叠-基础.md",
     "posts/obsidian插件推荐/index.md",
     "spec/about.md",
-    "posts/币圈/笔记一/index.md",
-    "posts/月记/2025-11/index.md",
-    "posts/月记/2025-11/1.png",
-    "posts/月记/2025-11/1.jpg",
-    "posts/语言基础/文章进阶玩法/index.md",
-    "posts/AI工具/dify部署/index.md",
-    "posts/月记/2025-11",
-    "posts/AI工具/未命名.md",
-    "posts/数理逻辑笔记/笔记一/index.md",
-    "posts/语言基础/图片排版专项/index.md",
-    "posts/读书笔记/上海交通大学学生生存手册/index.md",
-    "posts/科研绘图指北/二维图像/index.md",
-    "posts/摄影笔记一/index.md",
-    "posts/图论笔记/图论笔记一/index.md",
-    "posts/语言基础/图片排版专项/test1.jpg",
-    "posts/文章收藏夹/转载-庙门使用手册/Pasted image 20251123010003.png",
-    "posts/图论笔记/图论笔记一/正向表示例图.png",
-    "posts/obsidian插件推荐/index.png",
-    "posts/obsidian插件推荐/test.png",
-    "posts/obsidian插件推荐/不学了.png",
-    "posts/obsidian插件推荐/8a57636e20e8ead8c5a7d2bb9f423ae7 1.png",
-    "posts/my-test/react-hooks-cover.jpeg"
+    "posts/币圈/笔记一/index.md"
   ]
 }
