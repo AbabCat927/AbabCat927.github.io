@@ -2,7 +2,7 @@
 title: 我和家教女学生的故事（二）
 published: 2026-01-17 15:04:41
 pinned: false
-updated: 2026-01-17 15:06:17
+updated: 2026-06-02 14:22:19
 description: 纯爱故事😋
 image: ""
 tags:
@@ -13,7 +13,7 @@ encrypted: false
 category: 文学
 licenseName: MIT
 sourceLink: https://treehole.space/thread/24891
-draft: false
+draft: true
 ---
 照片里的她穿的就是第一次见我时的裙子，化了很漂亮的妆，周围也有很多朋友给她庆祝。她说你知道吗，这家店特别适合拍照，我选了好久的，不过吃的只有一两样好吃的，下次我们一起去好不好。我心里想不好吃你还要去第二次，这是什么脑回路，嘴上还是说到时候看情况吧。
 

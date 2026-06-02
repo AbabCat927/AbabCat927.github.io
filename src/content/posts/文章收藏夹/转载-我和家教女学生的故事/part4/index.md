@@ -2,7 +2,7 @@
 title: 我和家教女学生的故事（四）
 published: 2026-01-17 15:07:19
 pinned: false
-updated: 2026-01-17 15:09:00
+updated: 2026-06-02 14:22:25
 description: 纯爱故事😋
 image: ""
 tags:
@@ -13,7 +13,7 @@ encrypted: false
 category: 文学
 licenseName: MIT
 sourceLink: https://treehole.space/thread/24891
-draft: false
+draft: true
 ---
 回去的路上，她和我说在学校的时候，大部分发呆都在想我，想我这个礼拜做了什么，吃了什么好吃的，去了哪里，然后又无比期待周末的到来。尽管一周只有那一点点时间和我聊天，她还是费尽心思地找各种话题。
 

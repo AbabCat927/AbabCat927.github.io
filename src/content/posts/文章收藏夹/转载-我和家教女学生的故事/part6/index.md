@@ -13,7 +13,7 @@ encrypted: false
 category: 文学
 licenseName: MIT
 sourceLink: https://treehole.space/thread/24891
-draft: false
+draft: true
 ---
 时隔多日，再次起笔。
 有艇友说想看直播，那就稍微写一点点吧。这几天我们去了武汉，夏季的江城可以说是骄阳似火，以至于我们俩出去一次之后都不怎么想在白天出门了（乐），毕竟哪里能比有空调还有npy在的酒店舒服呢。

@@ -13,7 +13,7 @@ encrypted: false
 category: 文学
 licenseName: MIT
 sourceLink: https://treehole.space/thread/24891
-draft: false
+draft: true
 ---
 很快就又到了开学的时候，但这次我们终于不用再体会分别的滋味了，而是一起乘车前往上海。以往我都是一个人来，这次身边有个女孩陪伴，感觉一点都不孤单。因为不仅仅是到上海的路上有人同行，此后人生的旅途也有她相伴，不用再是孤身一人。
 
