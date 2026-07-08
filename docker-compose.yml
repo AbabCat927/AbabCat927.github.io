@@ -9,15 +9,21 @@ services:
       - .:/workspace
       - /workspace/node_modules
       - vscode-server-data:/root/.vscode-server
-    
+      # 挂载宿主机的 Claude Code 配置目录，使容器内也能使用相同的 ccswitch 等配置
+      - ${HOME}/.claude:/root/.claude
+
+    # 确保容器能通过 host.docker.internal 访问宿主机（ccswitch 代理等）
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
     # 【关键补充】
     # `environment` 用于为容器设置环境变量。
     # 我们添加一个名为 `TZ` 的环境变量，并将其值设置为 "Asia/Shanghai"。
     # `TZ` 是 Linux 系统中用于定义时区的标准变量。
-    # 这条配置会告诉容器内的操作系统，它的“生物钟”应该按照上海时间来走。
+    # 这条配置会告诉容器内的操作系统，它的"生物钟"应该按照上海时间来走。
     environment:
       - TZ=Asia/Shanghai
-      
+
     command: sleep infinity
 volumes:
   vscode-server-data:

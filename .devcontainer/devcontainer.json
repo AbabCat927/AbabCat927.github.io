@@ -11,11 +11,12 @@
 	},
 
 	"containerEnv": {
-
-
-		// --- 我只修改了下面这一行 ---
 		"UMAMI_URL": "https://cloud.umami.is",
 
+		// --- 容器内访问宿主机 ccswitch 代理 ---
+		// 容器内不能使用 127.0.0.1，需通过 host.docker.internal 访问宿主机
+		"ANTHROPIC_BASE_URL": "http://host.docker.internal:8317"
+	},
 
 	"postCreateCommand": "apt-get update && apt-get install -y curl"
 }
