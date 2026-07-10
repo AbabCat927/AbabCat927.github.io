@@ -13,9 +13,12 @@
 	"containerEnv": {
 		"UMAMI_URL": "https://cloud.umami.is",
 
-		// --- 容器内访问宿主机 ccswitch 代理 ---
-		// 容器内不能使用 127.0.0.1，需通过 host.docker.internal 访问宿主机
-		"ANTHROPIC_BASE_URL": "http://host.docker.internal:8317"
+		// 1. 把这一行注释掉或者直接删掉！不要让它污染全局的 Anthropic 路由
+		// "ANTHROPIC_BASE_URL": "http://host.docker.internal:8317"
+
+		// 2. 加上下面这两行，彻底强制容器内的 Cline 跳过 VS Code 乱七八糟的代理，直接走 IPv4 直连官方
+		"NO_PROXY": "api.deepseek.com",
+		"NODE_OPTIONS": "--dns-result-order=ipv4first"
 	},
 
 	"postCreateCommand": "apt-get update && apt-get install -y curl"
